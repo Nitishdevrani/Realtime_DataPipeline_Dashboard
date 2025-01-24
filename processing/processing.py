@@ -12,4 +12,4 @@ if __name__ == "__main__":
     for row in row_generator:
         # TODO: Process the data
         processed_data = row.to_frame().T
-        upload_data(df)
+        upload_data(processed_data)

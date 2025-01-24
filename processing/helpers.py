@@ -2,6 +2,7 @@
 Some helper functions for the processing module.
 """
 
+import time
 from typing import Generator
 import pandas as pd
 from pyarrow.parquet import ParquetFile
@@ -19,6 +20,7 @@ def load_data(file_path: str, n: int) -> pd.DataFrame:
 def get_rows(df: pd.DataFrame) -> Generator[pd.Series, None, None]:
     """Get rows of a dataframe one by one."""
     for _, row in df.iterrows():
+        time.sleep(2)
         yield row
 
 
