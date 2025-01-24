@@ -25,5 +25,5 @@ def get_rows(df: pd.DataFrame) -> Generator[pd.Series, None, None]:
 def upload_data(processed_data: pd.DataFrame) -> None:
     """Upload data to the dashboard."""
     # TODO: Implement this function with real upload logic.
-    for processed_row in get_rows(processed_data):
-        print(processed_row.keys())
+    
+    print(processed_data.keys())
