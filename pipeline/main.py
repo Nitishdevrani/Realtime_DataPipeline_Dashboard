@@ -3,8 +3,8 @@ from consumer import KafkaConsumer
 import random
 import os
 
-kafka_host = "dep-eng-data-s-heimgarten.hosts.utn.de:9092"
-kafka_topic = "stream_dreamers_test"
+kafka_host = "localhost:9092"
+kafka_topic = "stream_dreamers_test_new"
 
 if __name__ == "__main__":
     # Kafka Producer

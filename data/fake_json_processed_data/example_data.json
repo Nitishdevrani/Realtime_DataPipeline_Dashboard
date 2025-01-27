@@ -1,0 +1,3875 @@
+{
+    "0": {
+        "query_count": 10,
+        "total_execution_time": 3285.9149469923914,
+        "scanned": 242.77525604127808,
+        "spilled": 10.645078120163976,
+        "avg_spill": 0.8242957632913583,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 0,
+            "update": 5
+        },
+        "total_joins": 1,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "7",
+            "6",
+            "10",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2607.588848936033
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 4526.362879371179
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 4339.765919156567
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 1542.0633911774132
+            },
+            "4": {
+                "query_count": 1,
+                "total_duration": 3388.5475314855885
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1134.1618972305178,
+        "queue_time_percentage": 0.5866037584146035,
+        "compile_overhead_ratio": 1.4165592620995615,
+        "read_write_ratio": 0.9531677865870547,
+        "abort_rate": 0.056355200120914585
+    },
+    "1": {
+        "query_count": 1,
+        "total_execution_time": 7717.607192143695,
+        "scanned": 65.86068963050894,
+        "spilled": 78.37582263411689,
+        "avg_spill": 7.672656860284205,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 1,
+            "update": 5
+        },
+        "total_joins": 1,
+        "total_aggregations": 9,
+        "unique_tables": [
+            "5",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 175.74462985642583
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 2153.2580892978185
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 2284.701223070162
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 2134.445899924479,
+        "queue_time_percentage": 0.1586225020399049,
+        "compile_overhead_ratio": 0.8026823870518397,
+        "read_write_ratio": 1.6687378964575021,
+        "abort_rate": 0.01675831725673549
+    },
+    "2": {
+        "query_count": 4,
+        "total_execution_time": 1767.0631690887506,
+        "scanned": 171.24218564912408,
+        "spilled": 30.77523914042697,
+        "avg_spill": 0.556188438137234,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 5,
+            "update": 2
+        },
+        "total_joins": 1,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "7",
+            "5",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 2580.944557334505
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 3309.454257540994
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 3870.9949764485204
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 1525.5367865642465
+            },
+            "4": {
+                "query_count": 2,
+                "total_duration": 3697.516067042558
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1102.958096076963,
+        "queue_time_percentage": 0.767437496188392,
+        "compile_overhead_ratio": 1.0794303844366198,
+        "read_write_ratio": 1.3501852731701334,
+        "abort_rate": 0.015083558082566985
+    },
+    "3": {
+        "query_count": 8,
+        "total_execution_time": 3439.4370236327495,
+        "scanned": 401.52366445038166,
+        "spilled": 18.861271211386033,
+        "avg_spill": 7.383604871176479,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 4,
+            "update": 1
+        },
+        "total_joins": 3,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "7",
+            "1"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 3451.6195535533607
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4976.82184120536
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2860.7622175212323,
+        "queue_time_percentage": 0.3601256520408521,
+        "compile_overhead_ratio": 1.40851913045648,
+        "read_write_ratio": 1.4052753792686354,
+        "abort_rate": 0.08762498956132554
+    },
+    "4": {
+        "query_count": 4,
+        "total_execution_time": 2742.71653002277,
+        "scanned": 173.15768470802672,
+        "spilled": 62.67260288164051,
+        "avg_spill": 4.999509463283379,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 0,
+            "update": 3
+        },
+        "total_joins": 2,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "8",
+            "1",
+            "10",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4598.5187922661335
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 1472.155221917132
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1456.5294838192758,
+        "queue_time_percentage": 0.5156819156377429,
+        "compile_overhead_ratio": 1.397339493932051,
+        "read_write_ratio": 1.8573968033447465,
+        "abort_rate": 0.0689427352005507
+    },
+    "5": {
+        "query_count": 1,
+        "total_execution_time": 5152.482835749924,
+        "scanned": 357.6122959988752,
+        "spilled": 82.24587963025645,
+        "avg_spill": 3.038609833046211,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 0,
+            "update": 4
+        },
+        "total_joins": 5,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "3",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2676.87219031624
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 650.9942225707284
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 885.0738125887726
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 4891.410011453656
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1501.0389032536568,
+        "queue_time_percentage": 0.8185531438342913,
+        "compile_overhead_ratio": 1.2214969668243834,
+        "read_write_ratio": 0.9596086352219971,
+        "abort_rate": 0.07127796681043269
+    },
+    "6": {
+        "query_count": 8,
+        "total_execution_time": 3670.673908899005,
+        "scanned": 39.90992262432197,
+        "spilled": 73.01500343167244,
+        "avg_spill": 5.33710800339406,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 1,
+            "update": 0
+        },
+        "total_joins": 3,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "3",
+            "10",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3037.3505561248303
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4042.311044587423
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 4539.409552960989
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 964.5844626510133
+            },
+            "4": {
+                "query_count": 1,
+                "total_duration": 2720.7983319897776
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1839.750427525722,
+        "queue_time_percentage": 0.38953081204122797,
+        "compile_overhead_ratio": 1.2932245321345812,
+        "read_write_ratio": 0.9983951452513742,
+        "abort_rate": 0.05938363142056757
+    },
+    "7": {
+        "query_count": 1,
+        "total_execution_time": 3732.361747287749,
+        "scanned": 479.2707914189507,
+        "spilled": 22.522150810300946,
+        "avg_spill": 0.7337969267799194,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 0,
+            "update": 3
+        },
+        "total_joins": 1,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "4",
+            "8"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 4452.939253577684
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 3397.4203243926495
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 96.61619190804944
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1835.3590428404398,
+        "queue_time_percentage": 0.8583736748502586,
+        "compile_overhead_ratio": 1.3264275883838264,
+        "read_write_ratio": 1.2841781819081495,
+        "abort_rate": 0.07192968047006176
+    },
+    "8": {
+        "query_count": 1,
+        "total_execution_time": 1283.2637559452419,
+        "scanned": 187.14872125202314,
+        "spilled": 80.53815489338844,
+        "avg_spill": 3.594135727368142,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 1,
+            "update": 4
+        },
+        "total_joins": 5,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "9"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4552.677815168802
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 2653.815398374036
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 3804.8686397281936
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1372.08729952256,
+        "queue_time_percentage": 0.035379121901028765,
+        "compile_overhead_ratio": 0.7097262126312235,
+        "read_write_ratio": 0.5675932628923351,
+        "abort_rate": 0.008710053722957611
+    },
+    "9": {
+        "query_count": 1,
+        "total_execution_time": 9800.843931916936,
+        "scanned": 274.4517491315243,
+        "spilled": 73.39789537467819,
+        "avg_spill": 2.0569095047000463,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 2,
+            "update": 5
+        },
+        "total_joins": 0,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "3",
+            "1"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 995.363844624385
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1372.9573102055183,
+        "queue_time_percentage": 0.08426467550035377,
+        "compile_overhead_ratio": 0.8318411025448019,
+        "read_write_ratio": 0.816957611841648,
+        "abort_rate": 0.0026690909869050874
+    },
+    "10": {
+        "query_count": 3,
+        "total_execution_time": 6366.445111434159,
+        "scanned": 124.0398311962107,
+        "spilled": 50.18326815716032,
+        "avg_spill": 1.0063133494776744,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 2,
+            "update": 3
+        },
+        "total_joins": 5,
+        "total_aggregations": 8,
+        "unique_tables": [
+            "3",
+            "1",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1150.3209839093995
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 1626.538486643441
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 2772.143404011675
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 546.1044813701567,
+        "queue_time_percentage": 0.571187048152706,
+        "compile_overhead_ratio": 1.214462195020912,
+        "read_write_ratio": 1.055573500049396,
+        "abort_rate": 0.06952816896853233
+    },
+    "11": {
+        "query_count": 5,
+        "total_execution_time": 1704.368470216872,
+        "scanned": 220.39162856157213,
+        "spilled": 2.5620039700952613,
+        "avg_spill": 9.3232007198261,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 0,
+            "update": 1
+        },
+        "total_joins": 0,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "7",
+            "4",
+            "10",
+            "8"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 1483.337514438366
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 2773.448725171882
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 393.54709071103713
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1171.980355038168,
+        "queue_time_percentage": 0.08714527391281424,
+        "compile_overhead_ratio": 1.3895080867745127,
+        "read_write_ratio": 1.9342168410306912,
+        "abort_rate": 0.018006402030740064
+    },
+    "12": {
+        "query_count": 5,
+        "total_execution_time": 6734.984514293188,
+        "scanned": 467.47625799607675,
+        "spilled": 44.411399773353466,
+        "avg_spill": 8.091818213474525,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 3,
+            "update": 4
+        },
+        "total_joins": 4,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "5",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 3295.1181162877797
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1842.1104693879752,
+        "queue_time_percentage": 0.1398166997452316,
+        "compile_overhead_ratio": 0.6734206436784761,
+        "read_write_ratio": 1.4521803219810026,
+        "abort_rate": 0.07817427618733463
+    },
+    "13": {
+        "query_count": 3,
+        "total_execution_time": 9932.240639017762,
+        "scanned": 27.189465816218227,
+        "spilled": 96.35236488537173,
+        "avg_spill": 1.361220616602472,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 0,
+            "update": 1
+        },
+        "total_joins": 0,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "8",
+            "3",
+            "4",
+            "1"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3396.3340779126543
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 1723.3968489757274
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 3263.1170715652283
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 311.07941289911236
+            },
+            "4": {
+                "query_count": 1,
+                "total_duration": 4869.077526346913
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1020.4130141470608,
+        "queue_time_percentage": 0.8087186124362965,
+        "compile_overhead_ratio": 0.5994080528824326,
+        "read_write_ratio": 1.19042582043621,
+        "abort_rate": 0.026178883124845134
+    },
+    "14": {
+        "query_count": 8,
+        "total_execution_time": 1965.4907341829717,
+        "scanned": 88.19562611888394,
+        "spilled": 12.283454249864633,
+        "avg_spill": 5.726420932278287,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 0,
+            "update": 0
+        },
+        "total_joins": 2,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "7",
+            "10",
+            "8",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1231.092793897582
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 420.83871215381873
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 2863.7071922111063,
+        "queue_time_percentage": 0.6489377809939011,
+        "compile_overhead_ratio": 1.3369346589091031,
+        "read_write_ratio": 1.7873635610225418,
+        "abort_rate": 0.08863948578417666
+    },
+    "15": {
+        "query_count": 1,
+        "total_execution_time": 3251.6334335178976,
+        "scanned": 263.2139875801129,
+        "spilled": 11.062276745919386,
+        "avg_spill": 4.6796797478358,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 4,
+            "update": 2
+        },
+        "total_joins": 5,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 389.6730808349617
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 3211.4509466506056
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 4344.218276828203
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1764.5451407917635,
+        "queue_time_percentage": 0.08534635159597082,
+        "compile_overhead_ratio": 0.5915472344709153,
+        "read_write_ratio": 0.9025947621215111,
+        "abort_rate": 0.048949708797547335
+    },
+    "16": {
+        "query_count": 5,
+        "total_execution_time": 7067.356446044356,
+        "scanned": 150.5418490790974,
+        "spilled": 32.651655590056514,
+        "avg_spill": 5.810271513289838,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 3,
+            "update": 5
+        },
+        "total_joins": 2,
+        "total_aggregations": 7,
+        "unique_tables": [
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 1920.3160495660932
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1500.8173439757375,
+        "queue_time_percentage": 0.5079701607966307,
+        "compile_overhead_ratio": 0.7864387731786452,
+        "read_write_ratio": 1.764094551991457,
+        "abort_rate": 0.033972623748235835
+    },
+    "17": {
+        "query_count": 1,
+        "total_execution_time": 6227.596636896404,
+        "scanned": 39.813467254570966,
+        "spilled": 54.744118543087424,
+        "avg_spill": 0.6003068941708156,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 3,
+            "update": 2
+        },
+        "total_joins": 1,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "5",
+            "8"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 4441.556872193846
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 2395.1282444766134
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1556.876780564642,
+        "queue_time_percentage": 0.3602697300056953,
+        "compile_overhead_ratio": 0.5092204573717556,
+        "read_write_ratio": 1.574393511116899,
+        "abort_rate": 0.0359231880237937
+    },
+    "18": {
+        "query_count": 1,
+        "total_execution_time": 9729.029695778501,
+        "scanned": 11.733095924707337,
+        "spilled": 4.105845802440344,
+        "avg_spill": 1.7822934028092152,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 0,
+            "update": 4
+        },
+        "total_joins": 0,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "3",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 747.2650463692756
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 650.8198940048065
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 708.6834407114242
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2621.235939875609,
+        "queue_time_percentage": 0.15852382020188704,
+        "compile_overhead_ratio": 1.3044518881645968,
+        "read_write_ratio": 1.1267253749969621,
+        "abort_rate": 0.0172798025055646
+    },
+    "19": {
+        "query_count": 1,
+        "total_execution_time": 5596.663336409549,
+        "scanned": 99.75040892527399,
+        "spilled": 42.59914806558539,
+        "avg_spill": 5.868387541276329,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 2,
+            "update": 1
+        },
+        "total_joins": 0,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2165.400432079617
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 2559.2876409862597
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 151.5435234135462
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 499.72506264818463
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1313.9664195894002,
+        "queue_time_percentage": 0.7025641115473104,
+        "compile_overhead_ratio": 1.3187223828709893,
+        "read_write_ratio": 0.7977383478039205,
+        "abort_rate": 0.09458082345282096
+    },
+    "20": {
+        "query_count": 7,
+        "total_execution_time": 7686.828127837194,
+        "scanned": 139.57803996114188,
+        "spilled": 75.27318578450982,
+        "avg_spill": 1.0034293587047494,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 3,
+            "update": 2
+        },
+        "total_joins": 4,
+        "total_aggregations": 8,
+        "unique_tables": [
+            "3",
+            "8",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3193.338627409806
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 332.7587812086352
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 2544.035924987899
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 1546.5240971461237
+            },
+            "4": {
+                "query_count": 2,
+                "total_duration": 60.06759853006984
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 2604.1103113532645,
+        "queue_time_percentage": 0.5564700221270528,
+        "compile_overhead_ratio": 1.1554032281647912,
+        "read_write_ratio": 1.8860290979843595,
+        "abort_rate": 0.020890687485395933
+    },
+    "21": {
+        "query_count": 1,
+        "total_execution_time": 7795.459727785498,
+        "scanned": 58.74498414760515,
+        "spilled": 39.063001204243406,
+        "avg_spill": 3.9337439164061294,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 3,
+            "update": 2
+        },
+        "total_joins": 2,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "9",
+            "10",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3754.1724073901764
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 3791.019288850784
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 958.5868799444814,
+        "queue_time_percentage": 0.8185798991303341,
+        "compile_overhead_ratio": 0.6852403512555537,
+        "read_write_ratio": 1.7806045001201078,
+        "abort_rate": 0.008505566295937905
+    },
+    "22": {
+        "query_count": 8,
+        "total_execution_time": 4662.501012993266,
+        "scanned": 423.30657705812945,
+        "spilled": 49.76968327008473,
+        "avg_spill": 8.365395607854708,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 0,
+            "update": 0
+        },
+        "total_joins": 4,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "7",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1157.2095328618057
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 3944.897874600835
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1065.6665775183073,
+        "queue_time_percentage": 0.49060598440050474,
+        "compile_overhead_ratio": 1.294014617441893,
+        "read_write_ratio": 0.728046230969571,
+        "abort_rate": 0.0972803724175228
+    },
+    "23": {
+        "query_count": 2,
+        "total_execution_time": 7277.31967583611,
+        "scanned": 429.988891430693,
+        "spilled": 55.97878594032588,
+        "avg_spill": 5.293544737203475,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 3,
+            "update": 4
+        },
+        "total_joins": 1,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "7",
+            "5",
+            "1",
+            "3",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2693.4362037702317
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 4235.344789548048
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 4651.455273557488
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 3313.9647993281014
+            },
+            "4": {
+                "query_count": 1,
+                "total_duration": 884.2712687575518
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1408.3139925005307,
+        "queue_time_percentage": 0.22727989979187624,
+        "compile_overhead_ratio": 0.6505309090051743,
+        "read_write_ratio": 1.0256824747818494,
+        "abort_rate": 0.09389083190618634
+    },
+    "24": {
+        "query_count": 1,
+        "total_execution_time": 3372.686288296052,
+        "scanned": 143.83591380356557,
+        "spilled": 36.19443222916604,
+        "avg_spill": 1.2846093091773003,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 0,
+            "update": 0
+        },
+        "total_joins": 0,
+        "total_aggregations": 7,
+        "unique_tables": [
+            "7",
+            "1",
+            "8",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 4697.774136298135
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 3303.805562263026
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 4264.191288708643
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1012.316859769886,
+        "queue_time_percentage": 0.6358776172680508,
+        "compile_overhead_ratio": 1.1170047236136076,
+        "read_write_ratio": 1.2950945554760889,
+        "abort_rate": 0.09377875498966247
+    },
+    "25": {
+        "query_count": 9,
+        "total_execution_time": 2693.26010008733,
+        "scanned": 176.6120550534202,
+        "spilled": 99.65639688110235,
+        "avg_spill": 7.794960126442372,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 0,
+            "update": 4
+        },
+        "total_joins": 4,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "7"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3003.2487182580003
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 4785.291232568754
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 698.438806388574
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 51.439683388395146
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 2200.863495733879,
+        "queue_time_percentage": 0.9412801016356555,
+        "compile_overhead_ratio": 1.015600321579837,
+        "read_write_ratio": 1.0395696114652788,
+        "abort_rate": 0.026339633371999807
+    },
+    "26": {
+        "query_count": 10,
+        "total_execution_time": 6631.7294297704775,
+        "scanned": 262.9580529074711,
+        "spilled": 80.21702041535438,
+        "avg_spill": 0.9482936070320258,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 3,
+            "update": 2
+        },
+        "total_joins": 1,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "7",
+            "4",
+            "9",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1572.5238352414578
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 468.0343342559049
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 4072.3456908459248
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 4741.387643243061
+            },
+            "4": {
+                "query_count": 1,
+                "total_duration": 4120.341237199573
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 760.4210647240157,
+        "queue_time_percentage": 0.7968673655176829,
+        "compile_overhead_ratio": 0.5287872240704842,
+        "read_write_ratio": 1.4763957703513433,
+        "abort_rate": 0.0723254411389439
+    },
+    "27": {
+        "query_count": 3,
+        "total_execution_time": 3821.9981352530276,
+        "scanned": 352.8560739321777,
+        "spilled": 21.901150578629046,
+        "avg_spill": 2.2073066765089164,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 3,
+            "update": 0
+        },
+        "total_joins": 2,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "3",
+            "9",
+            "1",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 3786.523252434911
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 2803.021355016716
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 343.98967376385554
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 4489.104255000818
+            },
+            "4": {
+                "query_count": 3,
+                "total_duration": 2613.4823764654016
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1960.3955220703688,
+        "queue_time_percentage": 0.323950450219887,
+        "compile_overhead_ratio": 0.891215533384248,
+        "read_write_ratio": 1.34911443634169,
+        "abort_rate": 0.0061101981220991865
+    },
+    "28": {
+        "query_count": 7,
+        "total_execution_time": 1214.6677466882873,
+        "scanned": 226.27699295575937,
+        "spilled": 85.19471143921041,
+        "avg_spill": 7.357553072347506,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 4,
+            "update": 1
+        },
+        "total_joins": 5,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "7",
+            "4",
+            "8",
+            "1",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 1475.6411713688433
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 562.1287884595287
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 4552.952171706481
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 2520.959213909531,
+        "queue_time_percentage": 0.9180791206451936,
+        "compile_overhead_ratio": 0.9150281351144058,
+        "read_write_ratio": 0.9580656893743326,
+        "abort_rate": 0.019621019202894708
+    },
+    "29": {
+        "query_count": 3,
+        "total_execution_time": 1295.2541321790097,
+        "scanned": 63.58079213576245,
+        "spilled": 1.4662633416674953,
+        "avg_spill": 0.44487876176761976,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 4,
+            "update": 3
+        },
+        "total_joins": 5,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "7",
+            "5",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4120.6411396559215
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4375.383507279209
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2695.76095766042,
+        "queue_time_percentage": 0.5944081092820956,
+        "compile_overhead_ratio": 1.003984595845051,
+        "read_write_ratio": 1.032735020020453,
+        "abort_rate": 0.013342691920884941
+    },
+    "30": {
+        "query_count": 10,
+        "total_execution_time": 2397.3225759278257,
+        "scanned": 304.31807807088114,
+        "spilled": 83.62397475999876,
+        "avg_spill": 9.84968791542323,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 0,
+            "update": 4
+        },
+        "total_joins": 1,
+        "total_aggregations": 6,
+        "unique_tables": [
+            "9",
+            "10",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2664.939700222628
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 486.4423746641939
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1952.070536452912,
+        "queue_time_percentage": 0.19718112968357426,
+        "compile_overhead_ratio": 0.6871245748491629,
+        "read_write_ratio": 0.8407813107920202,
+        "abort_rate": 0.006392951053065088
+    },
+    "31": {
+        "query_count": 9,
+        "total_execution_time": 5287.853034339497,
+        "scanned": 41.92230983654399,
+        "spilled": 15.991766284281162,
+        "avg_spill": 6.181373639638089,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 3,
+            "update": 4
+        },
+        "total_joins": 1,
+        "total_aggregations": 7,
+        "unique_tables": [
+            "4",
+            "1",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1146.5935991723932
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 2192.928746373322
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 880.3955464584255,
+        "queue_time_percentage": 0.05374569276682384,
+        "compile_overhead_ratio": 0.7941389803650236,
+        "read_write_ratio": 1.8176769265136328,
+        "abort_rate": 0.06007605621566356
+    },
+    "32": {
+        "query_count": 3,
+        "total_execution_time": 5323.71991449807,
+        "scanned": 200.55034561754138,
+        "spilled": 13.11887136174369,
+        "avg_spill": 4.3454133955025895,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 4,
+            "update": 0
+        },
+        "total_joins": 0,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "5",
+            "1",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 4316.566241744774
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2231.346207587469,
+        "queue_time_percentage": 0.32986550502864165,
+        "compile_overhead_ratio": 1.3450649639139405,
+        "read_write_ratio": 1.1332890907495157,
+        "abort_rate": 0.07921138215660678
+    },
+    "33": {
+        "query_count": 9,
+        "total_execution_time": 4543.599867809922,
+        "scanned": 6.750755490905869,
+        "spilled": 80.7725083122832,
+        "avg_spill": 7.637087719210869,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 3,
+            "update": 0
+        },
+        "total_joins": 5,
+        "total_aggregations": 7,
+        "unique_tables": [
+            "9"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2844.350736045537
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2183.1671375031915,
+        "queue_time_percentage": 0.9835196311702061,
+        "compile_overhead_ratio": 0.8154864890810201,
+        "read_write_ratio": 1.3223059417842664,
+        "abort_rate": 0.05419326878806803
+    },
+    "34": {
+        "query_count": 1,
+        "total_execution_time": 1921.583764201419,
+        "scanned": 351.007673655152,
+        "spilled": 36.691439421148374,
+        "avg_spill": 8.349680639346275,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 4,
+            "update": 0
+        },
+        "total_joins": 0,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "3",
+            "9",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1310.4985061559923
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 2561.97543966073
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 1624.0934923377438
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 2854.899031200652
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1937.9529990075232,
+        "queue_time_percentage": 0.01079563715129861,
+        "compile_overhead_ratio": 0.8299587992978328,
+        "read_write_ratio": 0.8307033415261111,
+        "abort_rate": 0.09485344564806142
+    },
+    "35": {
+        "query_count": 4,
+        "total_execution_time": 6550.171034747817,
+        "scanned": 182.9426931905741,
+        "spilled": 91.66465016911536,
+        "avg_spill": 5.342938663041298,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 4,
+            "update": 0
+        },
+        "total_joins": 2,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "3"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 1270.9795734007748
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 690.2746373637598
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 4476.656408721223
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 3910.7999960119037
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1359.0415385326778,
+        "queue_time_percentage": 0.2943210996391876,
+        "compile_overhead_ratio": 1.3507575594306958,
+        "read_write_ratio": 0.5256127309104037,
+        "abort_rate": 0.010113256281237793
+    },
+    "36": {
+        "query_count": 10,
+        "total_execution_time": 8969.466920514169,
+        "scanned": 392.09748815187663,
+        "spilled": 58.585292160068455,
+        "avg_spill": 0.8733728926967044,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 1,
+            "update": 1
+        },
+        "total_joins": 4,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "9"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 2254.444626928358
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 2836.7127246584573
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 715.0605570960024
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 4678.862671491438
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 2302.03687493122,
+        "queue_time_percentage": 0.62530259860701,
+        "compile_overhead_ratio": 1.2847203954061066,
+        "read_write_ratio": 1.4042230463860594,
+        "abort_rate": 0.09699044565837685
+    },
+    "37": {
+        "query_count": 5,
+        "total_execution_time": 5310.701638449908,
+        "scanned": 164.05210302473554,
+        "spilled": 19.13481951468733,
+        "avg_spill": 5.1518020987290845,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 4,
+            "update": 5
+        },
+        "total_joins": 3,
+        "total_aggregations": 9,
+        "unique_tables": [
+            "8",
+            "7",
+            "10",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4881.404897108098
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 4402.526888150555
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1771.451087775677,
+        "queue_time_percentage": 0.9119665947172527,
+        "compile_overhead_ratio": 1.0202134516439707,
+        "read_write_ratio": 1.5653661307734357,
+        "abort_rate": 0.038055584081773466
+    },
+    "38": {
+        "query_count": 3,
+        "total_execution_time": 6666.751507138086,
+        "scanned": 201.17742341545957,
+        "spilled": 65.83042203832859,
+        "avg_spill": 8.662494247665048,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 0,
+            "update": 1
+        },
+        "total_joins": 1,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "7",
+            "10",
+            "1",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 635.2422753567754
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 2306.661226035165,
+        "queue_time_percentage": 0.6534113264506682,
+        "compile_overhead_ratio": 1.1104976072694202,
+        "read_write_ratio": 0.5382851144664715,
+        "abort_rate": 0.07577602765172278
+    },
+    "39": {
+        "query_count": 2,
+        "total_execution_time": 3411.406698626454,
+        "scanned": 132.0080477189487,
+        "spilled": 54.71032139109835,
+        "avg_spill": 1.8253764463153355,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 1,
+            "update": 0
+        },
+        "total_joins": 5,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "5",
+            "8"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3391.973659750147
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 1069.154417890739
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 3811.981923810585
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2884.5378931090854,
+        "queue_time_percentage": 0.921456393817824,
+        "compile_overhead_ratio": 0.6080933932163662,
+        "read_write_ratio": 0.5793763225570536,
+        "abort_rate": 0.0007951885078913645
+    },
+    "40": {
+        "query_count": 3,
+        "total_execution_time": 3683.0413045032615,
+        "scanned": 429.0946578204959,
+        "spilled": 30.65804868528177,
+        "avg_spill": 9.440219237094821,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 5,
+            "update": 2
+        },
+        "total_joins": 3,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "9",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2924.1541451842313
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 4626.068684385004
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 1424.5594784208954
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1491.9878416823824,
+        "queue_time_percentage": 0.7015916405098942,
+        "compile_overhead_ratio": 1.0035080402314245,
+        "read_write_ratio": 1.3800511274764582,
+        "abort_rate": 0.021708469938024656
+    },
+    "41": {
+        "query_count": 2,
+        "total_execution_time": 8926.474332053116,
+        "scanned": 202.9680965037252,
+        "spilled": 89.83113011289375,
+        "avg_spill": 2.4096522628413117,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 1,
+            "update": 0
+        },
+        "total_joins": 4,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "7",
+            "1",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3373.7283488510843
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 1274.1839638409294
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1384.181334192244,
+        "queue_time_percentage": 0.1563227270062002,
+        "compile_overhead_ratio": 0.7370186711992025,
+        "read_write_ratio": 0.8836747104334824,
+        "abort_rate": 0.048049155549532575
+    },
+    "42": {
+        "query_count": 2,
+        "total_execution_time": 9696.611614922564,
+        "scanned": 213.78891502692554,
+        "spilled": 69.62734351231519,
+        "avg_spill": 6.1961269980072835,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 4,
+            "update": 3
+        },
+        "total_joins": 2,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "3"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2100.932861796155
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 3078.0504202955517
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2432.760449501021,
+        "queue_time_percentage": 0.43211708321440945,
+        "compile_overhead_ratio": 0.5088527715316713,
+        "read_write_ratio": 0.7252336772470698,
+        "abort_rate": 0.055028546914265654
+    },
+    "43": {
+        "query_count": 1,
+        "total_execution_time": 8656.93541095161,
+        "scanned": 15.504762531060589,
+        "spilled": 23.562134680204327,
+        "avg_spill": 2.060964976870058,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 5,
+            "update": 0
+        },
+        "total_joins": 5,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "9",
+            "6",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 58.54938511568168
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 2794.594070901412
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 4042.2530423364246
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 4973.963118298558
+            },
+            "4": {
+                "query_count": 3,
+                "total_duration": 4671.794171000273
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 691.675603446606,
+        "queue_time_percentage": 0.2455688877015575,
+        "compile_overhead_ratio": 0.7787437184438215,
+        "read_write_ratio": 1.4378891705933625,
+        "abort_rate": 0.009187844758917374
+    },
+    "44": {
+        "query_count": 1,
+        "total_execution_time": 1184.7366809203882,
+        "scanned": 323.7868584721059,
+        "spilled": 17.5338050084349,
+        "avg_spill": 3.3337888436209373,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 4,
+            "update": 1
+        },
+        "total_joins": 4,
+        "total_aggregations": 6,
+        "unique_tables": [
+            "3"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 4636.291202387257
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 4081.6214989670802
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 4678.971796657909
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1409.7402505154712,
+        "queue_time_percentage": 0.09748603064876593,
+        "compile_overhead_ratio": 1.2347445800190615,
+        "read_write_ratio": 1.6794256322851042,
+        "abort_rate": 0.09426308003983318
+    },
+    "45": {
+        "query_count": 1,
+        "total_execution_time": 9268.479261209997,
+        "scanned": 125.34390934035345,
+        "spilled": 27.06176462111086,
+        "avg_spill": 4.601360272197159,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 3,
+            "update": 3
+        },
+        "total_joins": 2,
+        "total_aggregations": 6,
+        "unique_tables": [
+            "9",
+            "1",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 3275.2212075358007
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 4480.841226696999
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 3405.222521219631
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 2605.5819556016236,
+        "queue_time_percentage": 0.863377736576944,
+        "compile_overhead_ratio": 1.1387291017047163,
+        "read_write_ratio": 1.676726823719556,
+        "abort_rate": 0.006142867312138179
+    },
+    "46": {
+        "query_count": 8,
+        "total_execution_time": 5575.738386857187,
+        "scanned": 440.8751565608393,
+        "spilled": 86.20405496230408,
+        "avg_spill": 9.099422718695813,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 0,
+            "update": 4
+        },
+        "total_joins": 2,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "9",
+            "5",
+            "8",
+            "1",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4961.157137673512
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 1136.7415656859393
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 1962.2244395482314
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 3133.5277023878557
+            },
+            "4": {
+                "query_count": 1,
+                "total_duration": 1705.9806858302686
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1523.0772045243064,
+        "queue_time_percentage": 0.9771744534335882,
+        "compile_overhead_ratio": 0.9452699044602557,
+        "read_write_ratio": 0.8896997199822154,
+        "abort_rate": 0.04499354852846976
+    },
+    "47": {
+        "query_count": 1,
+        "total_execution_time": 9365.78941253694,
+        "scanned": 215.48233433609022,
+        "spilled": 8.95357371428711,
+        "avg_spill": 8.846517351026085,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 4,
+            "update": 5
+        },
+        "total_joins": 1,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "3",
+            "8"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3900.680918818484
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 2920.6816150552895
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 1028.355841806349
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 860.2020791809871,
+        "queue_time_percentage": 0.4108219487551491,
+        "compile_overhead_ratio": 1.1388697164433887,
+        "read_write_ratio": 0.9271685661572986,
+        "abort_rate": 0.03077275458423641
+    },
+    "48": {
+        "query_count": 2,
+        "total_execution_time": 2812.8521860917094,
+        "scanned": 351.0468916828978,
+        "spilled": 58.28138121788014,
+        "avg_spill": 7.497979427158396,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 4,
+            "update": 2
+        },
+        "total_joins": 3,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "5",
+            "1",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 3177.4069242766814
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 893.5504816015239,
+        "queue_time_percentage": 0.054207066215694044,
+        "compile_overhead_ratio": 1.4036379458983292,
+        "read_write_ratio": 1.0473845762552592,
+        "abort_rate": 0.0647579901134613
+    },
+    "49": {
+        "query_count": 5,
+        "total_execution_time": 8175.222214154356,
+        "scanned": 111.69437082329186,
+        "spilled": 87.32477658028546,
+        "avg_spill": 0.30320174764517094,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 1,
+            "update": 4
+        },
+        "total_joins": 1,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "5",
+            "4",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 2439.8752549334713
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 1524.3180786924504
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1628.331340741482,
+        "queue_time_percentage": 0.26065832404494216,
+        "compile_overhead_ratio": 1.461035871230664,
+        "read_write_ratio": 1.9146427397331922,
+        "abort_rate": 0.038368064244320446
+    },
+    "50": {
+        "query_count": 9,
+        "total_execution_time": 2893.700187632222,
+        "scanned": 149.5728388000736,
+        "spilled": 95.83948771144571,
+        "avg_spill": 8.634905944817973,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 1,
+            "update": 3
+        },
+        "total_joins": 2,
+        "total_aggregations": 7,
+        "unique_tables": [
+            "4",
+            "1"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 4873.684507707448
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 2516.0918028457004
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 4911.344720203554
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 33.26357294728677
+            },
+            "4": {
+                "query_count": 3,
+                "total_duration": 4233.738067398801
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1351.145147164639,
+        "queue_time_percentage": 0.7624388572249897,
+        "compile_overhead_ratio": 0.8321270518885922,
+        "read_write_ratio": 1.738713514576207,
+        "abort_rate": 0.015903038057291652
+    },
+    "51": {
+        "query_count": 10,
+        "total_execution_time": 7085.542900436528,
+        "scanned": 218.44023609866596,
+        "spilled": 35.268956022440925,
+        "avg_spill": 3.6406266259659192,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 5,
+            "update": 3
+        },
+        "total_joins": 3,
+        "total_aggregations": 8,
+        "unique_tables": [
+            "7",
+            "4",
+            "5",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2379.9170927072987
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 2668.1236795837526
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 1156.0701270581549
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 1580.9110654960555
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1841.7588934222445,
+        "queue_time_percentage": 0.956901782960978,
+        "compile_overhead_ratio": 0.6943794562093508,
+        "read_write_ratio": 1.0082370291783387,
+        "abort_rate": 0.08778274316879951
+    },
+    "52": {
+        "query_count": 9,
+        "total_execution_time": 3933.774067994945,
+        "scanned": 432.9942758509137,
+        "spilled": 37.45180716457129,
+        "avg_spill": 7.920100819916644,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 0,
+            "update": 0
+        },
+        "total_joins": 5,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "9",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4403.061526059351
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 30.62713974080885
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 2755.4961775097518
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 239.70192022450723
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1803.2779196627923,
+        "queue_time_percentage": 0.9999697766264507,
+        "compile_overhead_ratio": 0.9798927238206012,
+        "read_write_ratio": 0.9288113405978069,
+        "abort_rate": 0.06538598284064272
+    },
+    "53": {
+        "query_count": 4,
+        "total_execution_time": 5326.351517926308,
+        "scanned": 191.50316562895765,
+        "spilled": 53.769419615656545,
+        "avg_spill": 2.1948367355302087,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 1,
+            "update": 2
+        },
+        "total_joins": 1,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "5"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 2570.846126616453
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 1663.5521418757314
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 4214.105728888036
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 1662.4358690589663
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2136.374343872103,
+        "queue_time_percentage": 0.39918045638220545,
+        "compile_overhead_ratio": 1.034818467814576,
+        "read_write_ratio": 0.574306171520201,
+        "abort_rate": 0.026760861108959057
+    },
+    "54": {
+        "query_count": 4,
+        "total_execution_time": 4918.780942683341,
+        "scanned": 448.8389302273372,
+        "spilled": 11.596773538582173,
+        "avg_spill": 4.865024330803809,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 5,
+            "update": 4
+        },
+        "total_joins": 2,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "3",
+            "5",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3438.7842714912363
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1418.1420009391904,
+        "queue_time_percentage": 0.9367798902439989,
+        "compile_overhead_ratio": 1.3212955126628798,
+        "read_write_ratio": 0.9410592290549682,
+        "abort_rate": 0.000543438435876964
+    },
+    "55": {
+        "query_count": 6,
+        "total_execution_time": 5869.144435371689,
+        "scanned": 264.9149566763099,
+        "spilled": 16.319738090568205,
+        "avg_spill": 0.9198727231886739,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 1,
+            "update": 5
+        },
+        "total_joins": 1,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "4",
+            "10",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4163.8757203484165
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1339.937487171599,
+        "queue_time_percentage": 0.030333479407272046,
+        "compile_overhead_ratio": 1.053743832345249,
+        "read_write_ratio": 0.7943744890283874,
+        "abort_rate": 0.017368097883248057
+    },
+    "56": {
+        "query_count": 9,
+        "total_execution_time": 1720.1531645643931,
+        "scanned": 441.9393057224631,
+        "spilled": 90.90136879489313,
+        "avg_spill": 1.064399633448595,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 3,
+            "update": 2
+        },
+        "total_joins": 4,
+        "total_aggregations": 9,
+        "unique_tables": [
+            "3",
+            "1",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3145.5691101573507
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1569.84223004502,
+        "queue_time_percentage": 0.6491746075478678,
+        "compile_overhead_ratio": 0.6171788582624181,
+        "read_write_ratio": 1.2309812472658583,
+        "abort_rate": 0.0317463134540274
+    },
+    "57": {
+        "query_count": 10,
+        "total_execution_time": 8423.788226186658,
+        "scanned": 479.9927036680164,
+        "spilled": 77.28296446754935,
+        "avg_spill": 7.499585687156008,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 1,
+            "update": 5
+        },
+        "total_joins": 4,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "8",
+            "3",
+            "6",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 498.80939533801086
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4596.727618781799
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 320.19863775334346
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 3518.0255443591045
+            },
+            "4": {
+                "query_count": 2,
+                "total_duration": 845.538125872865
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1696.7721090105451,
+        "queue_time_percentage": 0.6951110796450508,
+        "compile_overhead_ratio": 1.1980746523255181,
+        "read_write_ratio": 1.8139594485539157,
+        "abort_rate": 0.021806710091569884
+    },
+    "58": {
+        "query_count": 9,
+        "total_execution_time": 5143.273598244772,
+        "scanned": 426.91510416170485,
+        "spilled": 46.623928881869844,
+        "avg_spill": 6.56494079013621,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 1,
+            "update": 5
+        },
+        "total_joins": 0,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "7",
+            "4",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3855.862520175245
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4533.1292622921455
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 900.6247866135453
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 4128.230689279479
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 919.9071314661812,
+        "queue_time_percentage": 0.3354009301743054,
+        "compile_overhead_ratio": 1.0264228408816205,
+        "read_write_ratio": 1.7150733999137884,
+        "abort_rate": 0.08621319343282591
+    },
+    "59": {
+        "query_count": 5,
+        "total_execution_time": 9932.863372214617,
+        "scanned": 450.0797454394578,
+        "spilled": 27.485856933240193,
+        "avg_spill": 0.5379349489167007,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 3,
+            "update": 1
+        },
+        "total_joins": 4,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "8",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3613.878635821067
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2050.48587848646,
+        "queue_time_percentage": 0.126707025068039,
+        "compile_overhead_ratio": 0.6460591577117558,
+        "read_write_ratio": 0.6588851585358532,
+        "abort_rate": 0.02772512697108359
+    },
+    "60": {
+        "query_count": 7,
+        "total_execution_time": 1104.1816470987803,
+        "scanned": 303.0671218272413,
+        "spilled": 0.5766642695332003,
+        "avg_spill": 1.2867531428167855,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 5,
+            "update": 1
+        },
+        "total_joins": 3,
+        "total_aggregations": 9,
+        "unique_tables": [
+            "3",
+            "4",
+            "1"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2665.9685483503818
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4946.887992587411
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 1256.8250007665115
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 495.38964907473127
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 2587.397969271285,
+        "queue_time_percentage": 0.20101805837026498,
+        "compile_overhead_ratio": 0.9530686036653757,
+        "read_write_ratio": 0.9171776444284403,
+        "abort_rate": 0.057045379964538324
+    },
+    "61": {
+        "query_count": 1,
+        "total_execution_time": 1246.844140295125,
+        "scanned": 22.550684726982016,
+        "spilled": 96.5770288001897,
+        "avg_spill": 8.022097011876102,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 2,
+            "update": 0
+        },
+        "total_joins": 0,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "7",
+            "4",
+            "1",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 2354.2222711377913
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 2657.7514570649455
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 3310.2160090769794
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 3313.7958414242676
+            },
+            "4": {
+                "query_count": 3,
+                "total_duration": 39.620153985010155
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 882.8247719010667,
+        "queue_time_percentage": 0.24712888873913275,
+        "compile_overhead_ratio": 0.9404130705706778,
+        "read_write_ratio": 0.5080574221132956,
+        "abort_rate": 0.0661829316431293
+    },
+    "62": {
+        "query_count": 6,
+        "total_execution_time": 8705.756205613956,
+        "scanned": 86.39710108213694,
+        "spilled": 81.11223456738794,
+        "avg_spill": 4.94942855145565,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 1,
+            "update": 4
+        },
+        "total_joins": 5,
+        "total_aggregations": 8,
+        "unique_tables": [
+            "4",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 2195.3279081080545
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 3167.294218687535
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 4077.6326583549367
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1193.7425237947282,
+        "queue_time_percentage": 0.2305063441075973,
+        "compile_overhead_ratio": 0.6291247796603486,
+        "read_write_ratio": 0.5550344705894931,
+        "abort_rate": 0.028056442533182426
+    },
+    "63": {
+        "query_count": 5,
+        "total_execution_time": 4740.722645256568,
+        "scanned": 250.9843903907356,
+        "spilled": 88.87909267176607,
+        "avg_spill": 4.048333372926907,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 4,
+            "update": 3
+        },
+        "total_joins": 3,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2572.538447439804
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4055.494870332769
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 422.3440613284605
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 4790.394200578868
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1975.7946594166563,
+        "queue_time_percentage": 0.17977796341423768,
+        "compile_overhead_ratio": 1.4598355740045084,
+        "read_write_ratio": 0.886235241799811,
+        "abort_rate": 0.09344179692110469
+    },
+    "64": {
+        "query_count": 7,
+        "total_execution_time": 9155.741861823615,
+        "scanned": 104.54274949964237,
+        "spilled": 25.14863664310877,
+        "avg_spill": 2.464448279654264,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 5,
+            "update": 2
+        },
+        "total_joins": 4,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 4879.202978788228
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 4111.6933834728225
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 3962.4559478246674
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 1582.1176879349377
+            },
+            "4": {
+                "query_count": 3,
+                "total_duration": 621.3139532135338
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2908.185562370105,
+        "queue_time_percentage": 0.0541038839013811,
+        "compile_overhead_ratio": 1.2786426085985716,
+        "read_write_ratio": 1.5237490779283442,
+        "abort_rate": 0.07335760537908147
+    },
+    "65": {
+        "query_count": 7,
+        "total_execution_time": 6340.1689972160175,
+        "scanned": 31.957890674657484,
+        "spilled": 57.26110308910547,
+        "avg_spill": 1.431856884545577,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 3,
+            "update": 4
+        },
+        "total_joins": 1,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "8",
+            "7",
+            "4",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2261.5401285466382
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1297.087252116578,
+        "queue_time_percentage": 0.21867574117117283,
+        "compile_overhead_ratio": 0.9874651909635662,
+        "read_write_ratio": 1.9373834848962386,
+        "abort_rate": 0.07345487099961072
+    },
+    "66": {
+        "query_count": 8,
+        "total_execution_time": 7026.23620254024,
+        "scanned": 28.074716931591524,
+        "spilled": 29.971806177197514,
+        "avg_spill": 6.875055744676675,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 4,
+            "update": 3
+        },
+        "total_joins": 5,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "3",
+            "10",
+            "1",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2543.4183506555414
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 2666.732958526045,
+        "queue_time_percentage": 0.6752470202239319,
+        "compile_overhead_ratio": 0.7403699472652969,
+        "read_write_ratio": 1.3199082301067466,
+        "abort_rate": 0.024052705089526883
+    },
+    "67": {
+        "query_count": 2,
+        "total_execution_time": 6362.768106048937,
+        "scanned": 294.2718553146003,
+        "spilled": 20.532485558588085,
+        "avg_spill": 7.023739249112763,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 3,
+            "update": 3
+        },
+        "total_joins": 2,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "3",
+            "5",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 4334.104161645577
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 3598.081330954267
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2109.5871623217245,
+        "queue_time_percentage": 0.8561970013915997,
+        "compile_overhead_ratio": 1.051020660213966,
+        "read_write_ratio": 1.0741203241127455,
+        "abort_rate": 0.09918739263704619
+    },
+    "68": {
+        "query_count": 8,
+        "total_execution_time": 8765.13140136575,
+        "scanned": 310.2768528658475,
+        "spilled": 89.40273053085129,
+        "avg_spill": 6.850422756627403,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 4,
+            "update": 2
+        },
+        "total_joins": 3,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "7",
+            "6",
+            "8",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3475.958006125074
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2423.9895299004284,
+        "queue_time_percentage": 0.5591741290334096,
+        "compile_overhead_ratio": 1.0471791742392833,
+        "read_write_ratio": 1.3772759731802418,
+        "abort_rate": 0.08932380581701814
+    },
+    "69": {
+        "query_count": 4,
+        "total_execution_time": 9821.194627659012,
+        "scanned": 117.20743756340774,
+        "spilled": 35.61193540419202,
+        "avg_spill": 1.8286213417360297,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 1,
+            "update": 4
+        },
+        "total_joins": 4,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "9",
+            "6",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3624.772491197524
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 3220.411086192483
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 854.5009083382081
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 11.512981369287935
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1816.7752969845578,
+        "queue_time_percentage": 0.9908343707533056,
+        "compile_overhead_ratio": 1.2439311428483961,
+        "read_write_ratio": 1.898495927539093,
+        "abort_rate": 0.07403430411238564
+    },
+    "70": {
+        "query_count": 3,
+        "total_execution_time": 7052.151952735172,
+        "scanned": 310.7787400050834,
+        "spilled": 68.17321092335526,
+        "avg_spill": 6.2155786547515355,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 1,
+            "update": 2
+        },
+        "total_joins": 2,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "1",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 4605.77876081418
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 1240.3481373843883
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2649.1051913412866,
+        "queue_time_percentage": 0.998822200313964,
+        "compile_overhead_ratio": 0.8458274430799627,
+        "read_write_ratio": 1.017923271364686,
+        "abort_rate": 0.013835336493004247
+    },
+    "71": {
+        "query_count": 5,
+        "total_execution_time": 9926.242738143412,
+        "scanned": 496.8794669315626,
+        "spilled": 89.4630419411741,
+        "avg_spill": 3.071572089183169,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 0,
+            "update": 3
+        },
+        "total_joins": 2,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "5",
+            "9",
+            "10",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3055.357725978543
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4945.101898158414
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 577.8814104232542
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1397.4286790139413,
+        "queue_time_percentage": 0.87516347860593,
+        "compile_overhead_ratio": 0.6214755091596665,
+        "read_write_ratio": 1.758730912620384,
+        "abort_rate": 0.08169956895324802
+    },
+    "72": {
+        "query_count": 10,
+        "total_execution_time": 7508.618130284255,
+        "scanned": 103.08173970500806,
+        "spilled": 81.55854208808152,
+        "avg_spill": 7.553233485730704,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 0,
+            "update": 3
+        },
+        "total_joins": 5,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "3",
+            "5",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 330.71731906189297
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 4853.816873026108
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 304.12339781489874
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2093.6368459491937,
+        "queue_time_percentage": 0.13454516537355632,
+        "compile_overhead_ratio": 1.2535845163850974,
+        "read_write_ratio": 0.7715538370841186,
+        "abort_rate": 0.056807236984953616
+    },
+    "73": {
+        "query_count": 10,
+        "total_execution_time": 9933.727882112053,
+        "scanned": 193.42825489721764,
+        "spilled": 84.87566343306288,
+        "avg_spill": 6.051194957323124,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 0,
+            "update": 0
+        },
+        "total_joins": 1,
+        "total_aggregations": 6,
+        "unique_tables": [
+            "3",
+            "5",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3509.2310287729074
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4490.832035091581
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 2459.571745738624
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 862.5713083792923,
+        "queue_time_percentage": 0.44072192973523316,
+        "compile_overhead_ratio": 1.053597509245055,
+        "read_write_ratio": 1.3474955573700746,
+        "abort_rate": 0.04336145122714955
+    },
+    "74": {
+        "query_count": 3,
+        "total_execution_time": 4610.30671370253,
+        "scanned": 458.1954791388599,
+        "spilled": 67.0980300085475,
+        "avg_spill": 4.550999986015767,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 1,
+            "update": 4
+        },
+        "total_joins": 2,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "9",
+            "1"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3142.684938664629
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1285.6443739519545,
+        "queue_time_percentage": 0.22523426705516258,
+        "compile_overhead_ratio": 0.859311268268141,
+        "read_write_ratio": 1.5696893950210333,
+        "abort_rate": 0.03069047364483314
+    },
+    "75": {
+        "query_count": 8,
+        "total_execution_time": 1171.1641888609922,
+        "scanned": 395.2674152985761,
+        "spilled": 39.79577052386002,
+        "avg_spill": 8.370947704072288,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 3,
+            "update": 3
+        },
+        "total_joins": 1,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "5"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2410.4766339976904
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 4741.519880825915
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 4293.497247125929
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 4948.505906482072
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 879.063834353951,
+        "queue_time_percentage": 0.16364249402659947,
+        "compile_overhead_ratio": 0.741174560448695,
+        "read_write_ratio": 1.3318377085843125,
+        "abort_rate": 0.04405667504988672
+    },
+    "76": {
+        "query_count": 6,
+        "total_execution_time": 2351.048248002224,
+        "scanned": 236.6433090753629,
+        "spilled": 14.8266177675781,
+        "avg_spill": 1.888879523299598,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 1,
+            "update": 0
+        },
+        "total_joins": 2,
+        "total_aggregations": 6,
+        "unique_tables": [
+            "1",
+            "10",
+            "8",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 1389.6471090623183
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 977.9240159340704
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 2189.109886148431
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 4680.261269293108
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 2566.2881127953233,
+        "queue_time_percentage": 0.34640168202758004,
+        "compile_overhead_ratio": 1.0308500094828343,
+        "read_write_ratio": 1.292722249872349,
+        "abort_rate": 0.03755001337094728
+    },
+    "77": {
+        "query_count": 9,
+        "total_execution_time": 7116.632771120544,
+        "scanned": 183.0087723845925,
+        "spilled": 93.87613944311256,
+        "avg_spill": 5.629867071136823,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 0,
+            "update": 5
+        },
+        "total_joins": 4,
+        "total_aggregations": 1,
+        "unique_tables": [
+            "8",
+            "1",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3631.421169983994
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4713.568338701531
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 4654.082545621927
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2485.121112623256,
+        "queue_time_percentage": 0.6489795914230441,
+        "compile_overhead_ratio": 0.5329550300715876,
+        "read_write_ratio": 0.5091992037706415,
+        "abort_rate": 0.08005735217072305
+    },
+    "78": {
+        "query_count": 6,
+        "total_execution_time": 9792.985227936011,
+        "scanned": 132.38256029415263,
+        "spilled": 93.34029123920777,
+        "avg_spill": 2.9109978749784258,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 4,
+            "update": 4
+        },
+        "total_joins": 3,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2678.6151859958045
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 2580.829289288904
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 2468.7876222965174
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 2961.89406224285,
+        "queue_time_percentage": 0.9545707847771755,
+        "compile_overhead_ratio": 1.4622322891749735,
+        "read_write_ratio": 1.6364645775839461,
+        "abort_rate": 0.061621417530759004
+    },
+    "79": {
+        "query_count": 1,
+        "total_execution_time": 2695.886304184116,
+        "scanned": 437.75472036573353,
+        "spilled": 86.93075309698378,
+        "avg_spill": 2.42492216940689,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 3,
+            "update": 0
+        },
+        "total_joins": 0,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2124.8610365764475
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 980.11623940248,
+        "queue_time_percentage": 0.6649632518135249,
+        "compile_overhead_ratio": 0.6605796405174389,
+        "read_write_ratio": 1.94447371570674,
+        "abort_rate": 0.06989155967380663
+    },
+    "80": {
+        "query_count": 2,
+        "total_execution_time": 6140.767804029728,
+        "scanned": 454.6431305350211,
+        "spilled": 33.1046708654261,
+        "avg_spill": 7.9222433663341105,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 3,
+            "update": 2
+        },
+        "total_joins": 2,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "5",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1583.4129952956814
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 4523.509606623634
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 2735.1365715205225
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 4954.908292844533
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 674.4172817839418,
+        "queue_time_percentage": 0.05709840953205603,
+        "compile_overhead_ratio": 0.5692972143536361,
+        "read_write_ratio": 0.5924534824599705,
+        "abort_rate": 0.0071335882755955045
+    },
+    "81": {
+        "query_count": 4,
+        "total_execution_time": 5133.568601714246,
+        "scanned": 433.5725548227258,
+        "spilled": 21.403601464303236,
+        "avg_spill": 6.836370349987826,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 5,
+            "update": 4
+        },
+        "total_joins": 1,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "5",
+            "8",
+            "3",
+            "10",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 3927.9171651634606
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 105.69423408512249
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 926.7177708986902,
+        "queue_time_percentage": 0.23960148623726163,
+        "compile_overhead_ratio": 1.323428501760301,
+        "read_write_ratio": 0.6982063505249684,
+        "abort_rate": 0.07877304564408265
+    },
+    "82": {
+        "query_count": 8,
+        "total_execution_time": 3803.524585373137,
+        "scanned": 154.94264062137773,
+        "spilled": 61.535366599986574,
+        "avg_spill": 2.910547243824493,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 2,
+            "update": 1
+        },
+        "total_joins": 3,
+        "total_aggregations": 8,
+        "unique_tables": [
+            "9",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 966.4921951865288
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 1388.1711767681775
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 573.4875776303423,
+        "queue_time_percentage": 0.708436271420902,
+        "compile_overhead_ratio": 0.8318850267408523,
+        "read_write_ratio": 1.3500723296291308,
+        "abort_rate": 0.015185561331497722
+    },
+    "83": {
+        "query_count": 8,
+        "total_execution_time": 9055.138116004995,
+        "scanned": 5.1003221215185635,
+        "spilled": 23.973639035900252,
+        "avg_spill": 3.438980167732578,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 4,
+            "update": 5
+        },
+        "total_joins": 0,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 3505.271091899643
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 1863.8712884010308
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 3792.5887033747767
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 2163.6276353195894
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1384.1234313311725,
+        "queue_time_percentage": 0.952241920006576,
+        "compile_overhead_ratio": 1.0710877086201631,
+        "read_write_ratio": 1.5762581694353086,
+        "abort_rate": 0.02291033808170111
+    },
+    "84": {
+        "query_count": 3,
+        "total_execution_time": 5862.1743548580625,
+        "scanned": 224.51414342063714,
+        "spilled": 90.6223709365727,
+        "avg_spill": 1.2401233534315093,
+        "query_type_counts": {
+            "insert": 5,
+            "select": 2,
+            "update": 3
+        },
+        "total_joins": 1,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "9",
+            "7",
+            "5",
+            "3",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 270.5568225680011
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 893.0891166050137
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 3932.6762036366545
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2329.5471277946726,
+        "queue_time_percentage": 0.5027803844279746,
+        "compile_overhead_ratio": 1.2154899896740927,
+        "read_write_ratio": 1.5857367438540528,
+        "abort_rate": 0.05882578745788452
+    },
+    "85": {
+        "query_count": 10,
+        "total_execution_time": 6014.1279967255,
+        "scanned": 259.1540084765492,
+        "spilled": 95.40367786602745,
+        "avg_spill": 7.387114373712338,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 0,
+            "update": 1
+        },
+        "total_joins": 5,
+        "total_aggregations": 8,
+        "unique_tables": [
+            "3",
+            "4",
+            "10",
+            "8"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 3336.9497980429046
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 3963.421359532356
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 3296.5824234066995
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 4727.338215275131
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1552.9510918465262,
+        "queue_time_percentage": 0.45151230056985336,
+        "compile_overhead_ratio": 1.3348632135765146,
+        "read_write_ratio": 0.5474735780068019,
+        "abort_rate": 0.09841860925312218
+    },
+    "86": {
+        "query_count": 3,
+        "total_execution_time": 7615.6892842132265,
+        "scanned": 391.4009456718329,
+        "spilled": 54.78765536877037,
+        "avg_spill": 4.103121701256448,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 3,
+            "update": 0
+        },
+        "total_joins": 5,
+        "total_aggregations": 6,
+        "unique_tables": [
+            "7",
+            "5",
+            "8",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 1938.1489848949896
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 2435.639911646322,
+        "queue_time_percentage": 0.08542846045450236,
+        "compile_overhead_ratio": 1.3339129730261452,
+        "read_write_ratio": 1.1700097945077461,
+        "abort_rate": 0.020597183264341713
+    },
+    "87": {
+        "query_count": 6,
+        "total_execution_time": 5976.6816691507765,
+        "scanned": 307.8330283379661,
+        "spilled": 74.30462784725117,
+        "avg_spill": 8.516233142946964,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 1,
+            "update": 5
+        },
+        "total_joins": 4,
+        "total_aggregations": 4,
+        "unique_tables": [
+            "8",
+            "5",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 2946.3548833819027
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 1776.4487009652098,
+        "queue_time_percentage": 0.5218876509960214,
+        "compile_overhead_ratio": 0.6220905730468643,
+        "read_write_ratio": 1.2703012147448347,
+        "abort_rate": 0.08463246235672378
+    },
+    "88": {
+        "query_count": 3,
+        "total_execution_time": 8615.133136122971,
+        "scanned": 22.588857666861863,
+        "spilled": 71.38899490535066,
+        "avg_spill": 5.737234726972002,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 4,
+            "update": 3
+        },
+        "total_joins": 2,
+        "total_aggregations": 0,
+        "unique_tables": [
+            "9",
+            "1",
+            "8"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 3726.5805717485796
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 3290.9814333595414
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 2983.84189157573
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 2792.972190917885
+            },
+            "4": {
+                "query_count": 2,
+                "total_duration": 3834.415241402636
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1191.8563126018848,
+        "queue_time_percentage": 0.31838413267039667,
+        "compile_overhead_ratio": 0.5303786503430603,
+        "read_write_ratio": 0.7429104696930402,
+        "abort_rate": 0.05779802990109494
+    },
+    "89": {
+        "query_count": 7,
+        "total_execution_time": 4543.933552866084,
+        "scanned": 172.8835292663326,
+        "spilled": 89.33667025663866,
+        "avg_spill": 2.552060116763344,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 3,
+            "update": 2
+        },
+        "total_joins": 3,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "4",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1453.0180543369743
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 1560.0088915368144
+            },
+            "2": {
+                "query_count": 2,
+                "total_duration": 1240.733618947198
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 3751.4452050222944
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 1549.9402038020125,
+        "queue_time_percentage": 0.38739627189318127,
+        "compile_overhead_ratio": 1.2094660387439808,
+        "read_write_ratio": 1.0604868367064284,
+        "abort_rate": 0.03991733236326825
+    },
+    "90": {
+        "query_count": 8,
+        "total_execution_time": 1868.2576329753942,
+        "scanned": 35.214543582341776,
+        "spilled": 44.59295105316456,
+        "avg_spill": 7.780025486568428,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 0,
+            "update": 5
+        },
+        "total_joins": 0,
+        "total_aggregations": 7,
+        "unique_tables": [
+            "7",
+            "5",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2989.695304689934
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 2589.0655972129343,
+        "queue_time_percentage": 0.7135852604127019,
+        "compile_overhead_ratio": 0.8444810142583261,
+        "read_write_ratio": 1.9547361856393366,
+        "abort_rate": 0.017545160673675064
+    },
+    "91": {
+        "query_count": 7,
+        "total_execution_time": 8823.932736716997,
+        "scanned": 60.52575859343629,
+        "spilled": 49.592416768077086,
+        "avg_spill": 4.306037893879146,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 4,
+            "update": 1
+        },
+        "total_joins": 3,
+        "total_aggregations": 6,
+        "unique_tables": [
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 2,
+                "total_duration": 4371.36222063735
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 2328.1488758881924
+            },
+            "2": {
+                "query_count": 3,
+                "total_duration": 4847.949917677895
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 3839.4319784193012
+            },
+            "4": {
+                "query_count": 2,
+                "total_duration": 2761.1025604026645
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 528.1850423806759,
+        "queue_time_percentage": 0.5398933364622598,
+        "compile_overhead_ratio": 1.1900737557270142,
+        "read_write_ratio": 1.2026043190528752,
+        "abort_rate": 0.07980980034052126
+    },
+    "92": {
+        "query_count": 9,
+        "total_execution_time": 1744.857868505302,
+        "scanned": 292.36426421217806,
+        "spilled": 99.5134444279459,
+        "avg_spill": 6.227505057690291,
+        "query_type_counts": {
+            "insert": 4,
+            "select": 2,
+            "update": 5
+        },
+        "total_joins": 4,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "4",
+            "9",
+            "10",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2048.7128153409813
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 144.6727435178228
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 239.35868110271213
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 3133.831466705885
+            },
+            "4": {
+                "query_count": 3,
+                "total_duration": 2762.9678084020375
+            }
+        },
+        "aborted_queries": 1,
+        "avg_execution_time": 843.8632848492903,
+        "queue_time_percentage": 0.16197646005378774,
+        "compile_overhead_ratio": 1.4952588416620507,
+        "read_write_ratio": 1.4130242587343058,
+        "abort_rate": 0.06981469006149925
+    },
+    "93": {
+        "query_count": 3,
+        "total_execution_time": 5553.344799830255,
+        "scanned": 445.4115682873091,
+        "spilled": 86.92128902522649,
+        "avg_spill": 9.192436367834258,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 5,
+            "update": 2
+        },
+        "total_joins": 3,
+        "total_aggregations": 9,
+        "unique_tables": [
+            "8",
+            "6"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2194.5976584855434
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 2012.2554172360665
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 2737.357600861225,
+        "queue_time_percentage": 0.8749376293649458,
+        "compile_overhead_ratio": 0.5403436665691665,
+        "read_write_ratio": 0.6173760852104189,
+        "abort_rate": 0.05596641466648533
+    },
+    "94": {
+        "query_count": 9,
+        "total_execution_time": 8015.664530002223,
+        "scanned": 454.2795848161163,
+        "spilled": 94.10037864811615,
+        "avg_spill": 1.2914468407168134,
+        "query_type_counts": {
+            "insert": 3,
+            "select": 1,
+            "update": 2
+        },
+        "total_joins": 1,
+        "total_aggregations": 7,
+        "unique_tables": [
+            "7",
+            "5",
+            "10",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 892.5320029583429
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 4771.587859336072
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 2918.6035818944724,
+        "queue_time_percentage": 0.10226600743296366,
+        "compile_overhead_ratio": 0.7594785431626008,
+        "read_write_ratio": 0.5717241187272305,
+        "abort_rate": 0.022577306659948726
+    },
+    "95": {
+        "query_count": 6,
+        "total_execution_time": 5832.367345018231,
+        "scanned": 99.39919912815314,
+        "spilled": 17.156953915003903,
+        "avg_spill": 0.8581223306537256,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 3,
+            "update": 0
+        },
+        "total_joins": 1,
+        "total_aggregations": 3,
+        "unique_tables": [
+            "5",
+            "1",
+            "10"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 573.9878108772845
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1083.643564857828,
+        "queue_time_percentage": 0.6535583079886538,
+        "compile_overhead_ratio": 0.8952012296889984,
+        "read_write_ratio": 1.391968345134277,
+        "abort_rate": 0.03596300039384266
+    },
+    "96": {
+        "query_count": 5,
+        "total_execution_time": 9839.219036093626,
+        "scanned": 98.46614138589682,
+        "spilled": 94.51239940242343,
+        "avg_spill": 5.52817879683377,
+        "query_type_counts": {
+            "insert": 1,
+            "select": 5,
+            "update": 0
+        },
+        "total_joins": 1,
+        "total_aggregations": 5,
+        "unique_tables": [
+            "1",
+            "10",
+            "6",
+            "4"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 1905.1413280003524
+            },
+            "1": {
+                "query_count": 1,
+                "total_duration": 4020.5533882495733
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 3222.243315119842
+            },
+            "3": {
+                "query_count": 3,
+                "total_duration": 269.1957766682922
+            }
+        },
+        "aborted_queries": 0,
+        "avg_execution_time": 1393.5406383525208,
+        "queue_time_percentage": 0.3126906255254822,
+        "compile_overhead_ratio": 0.5096158459621909,
+        "read_write_ratio": 0.9361548487208726,
+        "abort_rate": 0.0910060502475748
+    },
+    "97": {
+        "query_count": 7,
+        "total_execution_time": 5392.991669068182,
+        "scanned": 208.55697441045612,
+        "spilled": 12.871622029876729,
+        "avg_spill": 9.046126046100593,
+        "query_type_counts": {
+            "insert": 0,
+            "select": 5,
+            "update": 5
+        },
+        "total_joins": 3,
+        "total_aggregations": 2,
+        "unique_tables": [
+            "7"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 4611.546812033901
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 3044.136592469464
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 1993.391457193957
+            },
+            "3": {
+                "query_count": 2,
+                "total_duration": 3502.462744994588
+            },
+            "4": {
+                "query_count": 1,
+                "total_duration": 2152.793212046897
+            }
+        },
+        "aborted_queries": 2,
+        "avg_execution_time": 899.372781778437,
+        "queue_time_percentage": 0.33059035064203357,
+        "compile_overhead_ratio": 0.9501867626598473,
+        "read_write_ratio": 1.6537026933362389,
+        "abort_rate": 0.08988529113767393
+    },
+    "98": {
+        "query_count": 4,
+        "total_execution_time": 6971.234420949409,
+        "scanned": 419.9899540139817,
+        "spilled": 46.91509447524955,
+        "avg_spill": 7.568209652838862,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 0,
+            "update": 3
+        },
+        "total_joins": 1,
+        "total_aggregations": 9,
+        "unique_tables": [
+            "3",
+            "9",
+            "6",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 3,
+                "total_duration": 2142.644882737335
+            },
+            "1": {
+                "query_count": 3,
+                "total_duration": 1880.1744834203519
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 4146.030736651377
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 4385.189486743874
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1077.4713496988684,
+        "queue_time_percentage": 0.3613900727430096,
+        "compile_overhead_ratio": 1.0429716842105168,
+        "read_write_ratio": 1.0801041034019425,
+        "abort_rate": 0.03516469531998875
+    },
+    "99": {
+        "query_count": 4,
+        "total_execution_time": 5932.070944739829,
+        "scanned": 216.45329337011597,
+        "spilled": 60.15899360337214,
+        "avg_spill": 3.430909598421963,
+        "query_type_counts": {
+            "insert": 2,
+            "select": 5,
+            "update": 2
+        },
+        "total_joins": 2,
+        "total_aggregations": 10,
+        "unique_tables": [
+            "8",
+            "2"
+        ],
+        "cluster_metrics": {
+            "0": {
+                "query_count": 1,
+                "total_duration": 1786.3582303014891
+            },
+            "1": {
+                "query_count": 2,
+                "total_duration": 2433.080131350109
+            },
+            "2": {
+                "query_count": 1,
+                "total_duration": 333.13453824277633
+            },
+            "3": {
+                "query_count": 1,
+                "total_duration": 4891.463267831642
+            },
+            "4": {
+                "query_count": 3,
+                "total_duration": 3879.5364459968596
+            }
+        },
+        "aborted_queries": 3,
+        "avg_execution_time": 1828.5446894469624,
+        "queue_time_percentage": 0.4370403522681132,
+        "compile_overhead_ratio": 1.141589401027447,
+        "read_write_ratio": 1.01323902937946,
+        "abort_rate": 0.08002448186403471
+    }
+}
