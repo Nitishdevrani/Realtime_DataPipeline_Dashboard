@@ -1,43 +1,26 @@
 "use client";
 
 import React from "react";
-import {
-  PieChart,
-  Pie,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  Legend,
-} from "recharts";
+import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
 import { QueryData } from "@/utils/dataProcessor";
 
-type Props = {
-  points: QueryData[];
-  dataKey: keyof QueryData;
+// ✅ Define color palette
+const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#00C49F", "#D72638", "#FFBB28"];
+
+// ✅ Define a Type for Pie Chart Labels
+type PieLabelProps = {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+  index: number;
+  name: string;
 };
 
-// ✅ Define color palette
-const COLORS = [
-  "#8884d8",
-  "#82ca9d",
-  "#ffc658",
-  "#ff7300",
-  "#00C49F",
-  "#D72638",
-  "#FFBB28",
-];
-
-// ✅ Custom function to generate Pie labels
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-  index,
-  name,
-}: any) => {
+// ✅ Custom function to generate Pie labels with TypeScript
+const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }: PieLabelProps) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5; // Adjust position
   const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
   const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
@@ -55,6 +38,11 @@ const renderCustomizedLabel = ({
       {name} ({(percent * 100).toFixed(0)}%)
     </text>
   );
+};
+
+type Props = {
+  points: QueryData[];
+  dataKey: keyof QueryData;
 };
 
 const CustomPieChart: React.FC<Props> = ({ points, dataKey }) => {
