@@ -5,6 +5,7 @@ Load the cleaned data, process it and send to the dashboard.
 import time
 import asyncio
 from helpers import get_rows, load_data, upload_data
+from prediction import predict
 from workload_state import WorkloadState
 
 STATE_STORAGE_TIMER = 60
@@ -20,7 +21,6 @@ async def process_data(generator):
     last_save_time = time.time()
 
     for row in generator:
-        # TODO: Process the data
         state = workload_state.update_state(row)
 
         # save the workload state
@@ -28,7 +28,9 @@ async def process_data(generator):
             asyncio.create_task(workload_state.save_state())
             last_save_time = time.time()
 
-        print("uploading data")
+        state = predict(state)
+        # TODO: Process the data
+
         asyncio.create_task(upload_data(state))
 
         # allow other tasks to run

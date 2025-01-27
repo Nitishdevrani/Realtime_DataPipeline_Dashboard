@@ -1,6 +1,7 @@
 *.parquet
 .venv
 *.pyc
+*.pkl
 
 # WSL
 *Zone.Identifier
