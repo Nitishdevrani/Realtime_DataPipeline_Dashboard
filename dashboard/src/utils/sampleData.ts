@@ -1,7 +1,7 @@
 import { QueryData, parseQueryData, sortByTimestamp } from "./dataProcessor";
 import data from "./completeData.json";
 
-const FULL_DATA: QueryData[] = parseQueryData(sortByTimestamp(data));
+const FULL_DATA: QueryData[] = sortByTimestamp(parseQueryData(data));
 
 // ✅ Simulated Real-Time Streaming
 let currentIndex = 0;

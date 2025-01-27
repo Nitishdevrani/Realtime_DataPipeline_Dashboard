@@ -1,8 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { BarChart as ReBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { generateFakeData, DataPoint } from "@/utils/fakeData";
 import { formatTimestamp, QueryData } from "@/utils/dataProcessor";
 import CustomTooltip from "../CustomTooltip";
 

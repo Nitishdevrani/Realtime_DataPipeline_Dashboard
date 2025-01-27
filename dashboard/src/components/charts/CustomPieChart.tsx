@@ -1,7 +1,14 @@
 "use client";
 
 import React from "react";
-import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  Legend,
+} from "recharts";
 import { QueryData } from "@/utils/dataProcessor";
 
 type Props = {
@@ -9,7 +16,46 @@ type Props = {
   dataKey: keyof QueryData;
 };
 
-const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#00C49F"];
+// ✅ Define color palette
+const COLORS = [
+  "#8884d8",
+  "#82ca9d",
+  "#ffc658",
+  "#ff7300",
+  "#00C49F",
+  "#D72638",
+  "#FFBB28",
+];
+
+// ✅ Custom function to generate Pie labels
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+  name,
+}: any) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5; // Adjust position
+  const x = cx + radius * Math.cos(-midAngle * (Math.PI / 180));
+  const y = cy + radius * Math.sin(-midAngle * (Math.PI / 180));
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor="middle"
+      dominantBaseline="central"
+      fontSize="12px"
+      fontWeight="bold"
+    >
+      {name} ({(percent * 100).toFixed(0)}%)
+    </text>
+  );
+};
 
 const CustomPieChart: React.FC<Props> = ({ points, dataKey }) => {
   const aggregatedData = points.reduce((acc, entry) => {
@@ -19,7 +65,7 @@ const CustomPieChart: React.FC<Props> = ({ points, dataKey }) => {
   }, {} as Record<string, number>);
 
   const pieData = Object.keys(aggregatedData).map((key, index) => ({
-    name: key,
+    name: key, // ✅ This name will be used for labels
     value: aggregatedData[key],
     fill: COLORS[index % COLORS.length],
   }));
@@ -28,12 +74,23 @@ const CustomPieChart: React.FC<Props> = ({ points, dataKey }) => {
     <div className="w-full bg-gray-800 p-4 rounded-lg shadow-lg">
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
-          <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="#8884d8">
+          <Pie
+            data={pieData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={100}
+            fill="#8884d8"
+            label={renderCustomizedLabel} // ✅ Add labels inside pie slices
+            labelLine={false} // ✅ Hide connecting label lines
+          >
             {pieData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.fill} />
             ))}
           </Pie>
           <Tooltip />
+          <Legend />
         </PieChart>
       </ResponsiveContainer>
     </div>

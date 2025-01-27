@@ -26,14 +26,42 @@ export type QueryData = {
   num_aggregations: number;
 };
 
+// ✅ Define a type for raw input data
+type RawQueryData = {
+  instance_id?: string;
+  cluster_size?: string;
+  user_id?: string;
+  database_id?: string;
+  query_id?: string;
+  arrival_timestamp?: string;
+  compile_duration_ms?: string;
+  queue_duration_ms?: string;
+  execution_duration_ms?: string;
+  feature_fingerprint?: string;
+  was_aborted?: string;
+  was_cached?: string;
+  cache_source_query_id?: string;
+  query_type?: string;
+  num_permanent_tables_accessed?: string;
+  num_external_tables_accessed?: string;
+  num_system_tables_accessed?: string;
+  read_table_ids?: string;
+  write_table_ids?: string;
+  mbytes_scanned?: string;
+  mbytes_spilled?: string;
+  num_joins?: string;
+  num_scans?: string;
+  num_aggregations?: string;
+};
+
 // ✅ Utility function to safely parse numbers
-const safeParseFloat = (value: any, defaultValue: number = 0): number => {
+const safeParseFloat = (value: string, defaultValue: number = 0): number => {
   const num = parseFloat(value);
   return isNaN(num) ? defaultValue : parseFloat(num.toFixed(2)); // Ensure 2 decimal places
 };
 
 // ✅ Function to process and clean data
-export const parseQueryData = (rawData: any[]): QueryData[] => {
+export const parseQueryData = (rawData: RawQueryData[]): QueryData[] => {
   return rawData.map((item) => ({
     instance_id: item.instance_id || "unknown",
     cluster_size: item.cluster_size || "unknown",
@@ -41,25 +69,25 @@ export const parseQueryData = (rawData: any[]): QueryData[] => {
     database_id: item.database_id || "unknown",
     query_id: item.query_id || "unknown",
     arrival_timestamp: item.arrival_timestamp || new Date().toISOString(),
-    compile_duration_ms: safeParseFloat(item.compile_duration_ms),
-    queue_duration_ms: safeParseFloat(item.queue_duration_ms),
-    execution_duration_ms: safeParseFloat(item.execution_duration_ms),
+    compile_duration_ms: safeParseFloat(item.compile_duration_ms || "0"),
+    queue_duration_ms: safeParseFloat(item.queue_duration_ms || "0"),
+    execution_duration_ms: safeParseFloat(item.execution_duration_ms || "0"),
     feature_fingerprint: item.feature_fingerprint || "",
     was_aborted: item.was_aborted === "1",
     was_cached: item.was_cached === "1",
     cache_source_query_id: item.cache_source_query_id || "",
     query_type: item.query_type || "unknown",
-    num_permanent_tables_accessed: safeParseFloat(item.num_permanent_tables_accessed),
-    num_external_tables_accessed: safeParseFloat(item.num_external_tables_accessed),
-    num_system_tables_accessed: safeParseFloat(item.num_system_tables_accessed),
+    num_permanent_tables_accessed: safeParseFloat(item.num_permanent_tables_accessed || "0"),
+    num_external_tables_accessed: safeParseFloat(item.num_external_tables_accessed || "0"),
+    num_system_tables_accessed: safeParseFloat(item.num_system_tables_accessed || "0"),
     read_table_ids: item.read_table_ids || "",
     write_table_ids: item.write_table_ids || "",
-    mbytes_scanned: safeParseFloat(item.mbytes_scanned),
-    mbytes_spilled: safeParseFloat(item.mbytes_spilled),
-    num_joins: safeParseFloat(item.num_joins),
-    num_scans: safeParseFloat(item.num_scans),
-    predicted_num_scans: safeParseFloat(item.num_scans),
-    num_aggregations: safeParseFloat(item.num_aggregations),
+    mbytes_scanned: safeParseFloat(item.mbytes_scanned || "0"),
+    mbytes_spilled: safeParseFloat(item.mbytes_spilled || "0"),
+    num_joins: safeParseFloat(item.num_joins || "0"),
+    num_scans: safeParseFloat(item.num_scans || "0"),
+    predicted_num_scans: safeParseFloat(item.num_scans || "0"),
+    num_aggregations: safeParseFloat(item.num_aggregations || "0"),
   }));
 };
 
@@ -70,6 +98,8 @@ export const formatTimestamp = (timestamp: string): string => {
 };
 
 // ✅ Function to sort data by `arrival_timestamp`
-export const sortByTimestamp = (data: any[]): any[] => {
-  return data.sort((a, b) => new Date(a.arrival_timestamp).getTime() - new Date(b.arrival_timestamp).getTime());
+export const sortByTimestamp = (data: QueryData[]): QueryData[] => {
+  return [...data].sort(
+    (a, b) => new Date(a.arrival_timestamp).getTime() - new Date(b.arrival_timestamp).getTime()
+  );
 };
