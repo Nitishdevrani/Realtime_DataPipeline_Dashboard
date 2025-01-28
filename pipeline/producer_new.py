@@ -1,5 +1,6 @@
 """ Kafka Producer for raw data """
 
+import asyncio
 from datetime import datetime, timedelta
 import json
 import duckdb
@@ -11,7 +12,7 @@ class ProducerClassDuckDB:
 
     def __init__(
         self,
-        kafka_broker,
+        kafka_host,
         kafka_topic,
         provisioned_file,
         serverless_file,
@@ -19,10 +20,11 @@ class ProducerClassDuckDB:
     ):
         self.producer = Producer(
             {
-                "bootstrap.servers": kafka_broker,
+                "bootstrap.servers": kafka_host,
                 "queue.buffering.max.kbytes": 1048576,
             }
         )
+
         self.topic = kafka_topic
         self.table_name = table_name
 
@@ -79,12 +81,16 @@ class ProducerClassDuckDB:
 
         return min_timestamp, max_timestamp
 
-    def produce_data_in_chunks(self, chunk_size_days=1):
+    async def produce_data_in_chunks(
+        self, chunk_size_minutes=1, chunk_size_seconds=1
+    ):
         """Fetch and produce data to Kafka in chunks."""
 
         # Get the timestamp range
         min_datetime, max_datetime = self._get_timestamp_range()
-        chunk_size = timedelta(days=chunk_size_days)
+        chunk_size = timedelta(
+            minutes=chunk_size_minutes, seconds=chunk_size_seconds
+        )
 
         current_start = min_datetime
         while current_start <= max_datetime:
@@ -97,7 +103,8 @@ class ProducerClassDuckDB:
                 AND arrival_timestamp < '{current_end.isoformat()}';
             """
             chunk = self.conn.execute(query).fetchall()
-            print(len(chunk))
+            # print(len(chunk))
+            # i = 0
             for row in chunk:
                 # Convert datetime objects to strings (ISO format),
                 # in the row before serializing
@@ -112,9 +119,11 @@ class ProducerClassDuckDB:
                 # Serialize the dictionary to a JSON string
                 message = json.dumps(row_dict)
                 self.producer.produce(self.topic, value=message)
+                # i += 1
                 # print(f"Produced: {message}")
-
+            # print(f"Chunk {current_start} to {current_end} produced: {i}")
             self.producer.flush()
+            await asyncio.sleep(0)
             current_start = current_end
 
         print("All chunks processed and sent to Kafka!")
