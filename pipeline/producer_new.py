@@ -1,3 +1,5 @@
+""" Kafka Producer for raw data """
+
 from datetime import datetime, timedelta
 import json
 import duckdb
@@ -5,7 +7,8 @@ from confluent_kafka import Producer
 
 
 class ProducerClassDuckDB:
-    """ Kafka Producer for raw data """
+    """Kafka Producer for raw data"""
+
     def __init__(
         self,
         kafka_broker,
@@ -26,11 +29,13 @@ class ProducerClassDuckDB:
         # Connect to DuckDB
         self.conn = duckdb.connect("producer.duckdb")
         # Check if table exists
-        table_exists = self.conn.execute(f"""
+        table_exists = self.conn.execute(
+            f"""
             SELECT COUNT(*)
             FROM information_schema.tables
             WHERE table_name = '{table_name}'
-        """).fetchone()[0]
+        """
+        ).fetchone()[0]
 
         if table_exists:
             print(
@@ -41,14 +46,18 @@ class ProducerClassDuckDB:
                 f"Table '{table_name}' does not exist. Create and load data..."
             )
             # Load data directly from Parquet
-            self.conn.execute(f"""
-                CREATE TABLE {table_name} AS 
+            self.conn.execute(
+                f"""
+                CREATE TABLE {table_name} AS
                 SELECT * FROM read_parquet('{provisioned_file}')
-            """)
-            self.conn.execute(f"""
-                INSERT INTO {table_name} 
+            """
+            )
+            self.conn.execute(
+                f"""
+                INSERT INTO {table_name}
                 SELECT * FROM read_parquet('{serverless_file}')
-            """)
+            """
+            )
 
         row_count = self.conn.execute(
             f"SELECT COUNT(*) FROM {table_name};"
@@ -83,8 +92,8 @@ class ProducerClassDuckDB:
 
             # Query the current chunk
             query = f"""
-                SELECT * FROM {self.table_name} 
-                WHERE arrival_timestamp >= '{current_start.isoformat()}' 
+                SELECT * FROM {self.table_name}
+                WHERE arrival_timestamp >= '{current_start.isoformat()}'
                 AND arrival_timestamp < '{current_end.isoformat()}';
             """
             chunk = self.conn.execute(query).fetchall()
