@@ -1,92 +1,130 @@
-from confluent_kafka import Consumer, KafkaError
-from datetime import datetime, timedelta
-import random
 import json
+from datetime import datetime
+from confluent_kafka import Consumer
 import csv
 import os
 
-
-class KafkaConsumer:
-    def __init__(self, broker, group_id, topic, output_dir):
+class ConsumerClassCSV:
+    def __init__(self, kafka_broker, kafka_topic, group):
+        self.kafka_topic = kafka_topic
         self.consumer = Consumer({
-            'bootstrap.servers': broker,
-            'group.id': group_id,
+            'bootstrap.servers': kafka_broker,
+            'group.id': group,
             'auto.offset.reset': 'earliest'
         })
-        self.topic = topic
-        self.output_dir = output_dir
-        self.max_chunks = 20
-        self.max_rows_per_chunk = 10000
-        self.chunk_index = 0
-        self.chunk_files = []
+        self.consumer.subscribe([kafka_topic])
+        print("Topic Subscribed")
+    def process_message(self, message):
+        """Process the consumed message."""
+        # Deserialize the JSON message
+        data = json.loads(message)
 
-    def consume_data(self):
-        print(self.topic)
-        self.consumer.subscribe([self.topic])
-        chunk_row_count = 0
-        chunk_file = None
-        csv_writer = None
+        # Ensure datetime values are converted back to datetime objects
+        for key, value in data.items():
+            if isinstance(value, str) and "T" in value:  # ISO format check
+                try:
+                    data[key] = datetime.fromisoformat(value)  # Convert to datetime object
+                except ValueError:
+                    pass  # Ignore if it's not a valid ISO string
 
+        # Calculate chunk number based on the arrival timestamp
+        chunk_number = self.get_chunk_number(data['arrival_timestamp'])
+
+        # Save the data by chunk number (to a CSV file)
+        self.save_to_csv(data, chunk_number)
+
+    def get_chunk_number(self, timestamp):
+        """Calculate the chunk number based on the timestamp."""
+        if isinstance(timestamp, datetime):
+            return timestamp.strftime("%Y-%m-%d")  # Format datetime as a date string
+        return timestamp.split("T")[0]  # If it's already a string, split by 'T'  # Use the date part as the chunk identifier
+
+    def save_to_csv(self, data, chunk_number):
+        """Save the message data to a CSV file by chunk."""
+        # Define the CSV file name based on the chunk number
+        chunk_file_name = f"chunk_{chunk_number}.csv"
+        print(chunk_file_name)
+        # Check if the file exists to determine if headers need to be written
+        file_exists = os.path.isfile(chunk_file_name)
+
+        # Define the header and data rows
+        header = [
+            "instance_id", "cluster_size", "user_id", "database_id", "query_id", "arrival_timestamp",
+            "compile_duration_ms", "queue_duration_ms", "execution_duration_ms", "feature_fingerprint",
+            "was_aborted", "was_cached", "cache_source_query_id", "query_type",
+            "num_permanent_tables_accessed", "num_external_tables_accessed", "num_system_tables_accessed",
+            "read_table_ids", "write_table_ids", "mbytes_scanned", "mbytes_spilled",
+            "num_joins", "num_scans", "num_aggregations", "source"
+        ]
+
+        row = [
+            data.get("instance_id"),
+            data.get("cluster_size"),
+            data.get("user_id"),
+            data.get("database_id"),
+            data.get("query_id"),
+            data.get("arrival_timestamp"),
+            data.get("compile_duration_ms"),
+            data.get("queue_duration_ms"),
+            data.get("execution_duration_ms"),
+            data.get("feature_fingerprint"),
+            data.get("was_aborted"),
+            data.get("was_cached"),
+            data.get("cache_source_query_id"),
+            data.get("query_type"),
+            data.get("num_permanent_tables_accessed"),
+            data.get("num_external_tables_accessed"),
+            data.get("num_system_tables_accessed"),
+            data.get("read_table_ids"),
+            data.get("write_table_ids"),
+            data.get("mbytes_scanned"),
+            data.get("mbytes_spilled"),
+            data.get("num_joins"),
+            data.get("num_scans"),
+            data.get("num_aggregations"),
+            data.get("source")
+        ]
+
+        # Write data to the CSV file
+        with open(chunk_file_name, mode="a", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+
+            # Write the header only if the file is being created for the first time
+            if not file_exists:
+                writer.writerow(header)
+
+            # Write the data row
+            writer.writerow(row)
+
+        print(f"Data written to chunk: {chunk_file_name}")
+
+    def consume(self):
+        """Consume messages from Kafka and process them."""
         try:
             while True:
-                msg = self.consumer.poll(1.0)
-                print(msg)
+                print("into consumer")
+                # Poll for messages from Kafka
+                msg = self.consumer.poll(timeout=1.0)  # Adjust timeout if needed
                 if msg is None:
+                    print(None)
                     continue
                 if msg.error():
-                    if msg.error().code() == KafkaError._PARTITION_EOF:
-                        continue
-                    else:
-                        print(f"Consumer error: {msg.error()}")
-                        break
-
-                try:
-                    data = msg.value().decode('utf-8', errors='replace')
-                    if data == "__END__":
-                        print("End of data signal received. Stopping consumer.")
-                        break
-
-                    data_dict = json.loads(data)  # Convert JSON string to dictionary
-                    #print(data_dict)
-                except json.JSONDecodeError as e:
-                    print(f"JSON decode error: {e}. Skipping message.")
+                    print(f"Error: {msg.error()}")
                     continue
 
-                # Create a new chunk file if necessary
-                if chunk_row_count == 0 or chunk_row_count >= self.max_rows_per_chunk:
-                    if chunk_file:
-                        chunk_file.close()
-
-                    self.chunk_index += 1
-                    if len(self.chunk_files) >= self.max_chunks:
-                        # Overwrite the oldest chunk file
-                        oldest_chunk = self.chunk_files.pop(0)
-                        os.remove(oldest_chunk)
-
-                    chunk_file_path = os.path.join(self.output_dir, f"chunk_{self.chunk_index}.csv")
-                    self.chunk_files.append(chunk_file_path)
-
-                    chunk_file = open(chunk_file_path, mode='w', newline='', encoding='utf-8')
-                    csv_writer = csv.DictWriter(chunk_file, fieldnames=data_dict.keys())
-                    csv_writer.writeheader()
-                    chunk_row_count = 0
-
-                # Write the row to the current chunk
-                csv_writer.writerow(data_dict)
-                chunk_row_count += 1
-
+                # Process the message
+                print(msg)
+                self.process_message(msg.value().decode('utf-8'))
         except KeyboardInterrupt:
-            pass
+            print("Consumption stopped manually.")
         finally:
-            if chunk_file:
-                chunk_file.close()
             self.consumer.close()
 """
-kafka_host = "localhost:9092"
-kafka_topic = "stream_dreamers_test_new_1"
-consumer = KafkaConsumer(broker=kafka_host,
-                            group_id='assignment5teachers' + str(random.random()),
-                            topic=kafka_topic,
-                            output_dir ='output/')
-consumer.consume_data()
+if __name__ == "__main__":
+    # Define parameters
+    kafka_broker = 'localhost:9092'
+    kafka_topic = "streamer_dreamers_raw_data"
+    group_id = 'data-pipeline-group_2'
+    consumer = ConsumerClassCSV(kafka_broker, kafka_topic, group_id)
+    consumer.consume()
 """
