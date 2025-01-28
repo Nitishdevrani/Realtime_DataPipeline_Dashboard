@@ -67,6 +67,7 @@ class WorkloadState:
             "aborted_queries": 0,
             "abort_rate": 0,
             "read_write_ratio": 0,
+            # "serverless": True,
         }
 
     def _update_user_metrics(self, user_id: str, row: pd.DataFrame) -> None:
