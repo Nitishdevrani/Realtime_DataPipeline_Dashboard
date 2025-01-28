@@ -1,7 +1,7 @@
 import random
 import os
-from producer import ProducerClassDuckDB
-from consumer import ConsumerClassCSV
+from producer import KafkaProducer
+from consumer import KafkaConsumer
 
 kafka_host = "localhost:9092"
 kafka_topic = "stream_dreamers_test_new"
@@ -9,7 +9,6 @@ kafka_topic = "stream_dreamers_test_new"
 if __name__ == "__main__":
     # Kafka Producer
     producer = KafkaProducer(broker=kafka_host, topic=kafka_topic)
-    producer = ProducerClassDuckDB(kafka_host, kafka_topic, "aws_data1")
     producer.load_data("data/provisioned/sample_0.001_provisioned.parquet")
     producer.prepare_data()
     producer.send_data()

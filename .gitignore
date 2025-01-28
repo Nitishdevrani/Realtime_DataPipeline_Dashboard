@@ -4,6 +4,7 @@
 *.pkl
 aws/*
 kafka/*
+*.duckdb
 
 # WSL
 *Zone.Identifier
