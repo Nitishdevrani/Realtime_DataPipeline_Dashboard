@@ -3,3 +3,4 @@ pyarrow
 confluent-kafka
 aiofiles
 river
+duckdb

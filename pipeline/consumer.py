@@ -1,19 +1,23 @@
 import json
-from datetime import datetime
-from confluent_kafka import Consumer
 import csv
 import os
+from datetime import datetime
+from confluent_kafka import Consumer
+
 
 class ConsumerClassCSV:
     def __init__(self, kafka_broker, kafka_topic, group):
         self.kafka_topic = kafka_topic
-        self.consumer = Consumer({
-            'bootstrap.servers': kafka_broker,
-            'group.id': group,
-            'auto.offset.reset': 'earliest'
-        })
+        self.consumer = Consumer(
+            {
+                "bootstrap.servers": kafka_broker,
+                "group.id": group,
+                "auto.offset.reset": "earliest",
+            }
+        )
         self.consumer.subscribe([kafka_topic])
         print("Topic Subscribed")
+
     def process_message(self, message):
         """Process the consumed message."""
         # Deserialize the JSON message
@@ -23,12 +27,14 @@ class ConsumerClassCSV:
         for key, value in data.items():
             if isinstance(value, str) and "T" in value:  # ISO format check
                 try:
-                    data[key] = datetime.fromisoformat(value)  # Convert to datetime object
+                    data[key] = datetime.fromisoformat(
+                        value
+                    )  # Convert to datetime object
                 except ValueError:
                     pass  # Ignore if it's not a valid ISO string
 
         # Calculate chunk number based on the arrival timestamp
-        chunk_number = self.get_chunk_number(data['arrival_timestamp'])
+        chunk_number = self.get_chunk_number(data["arrival_timestamp"])
 
         # Save the data by chunk number (to a CSV file)
         self.save_to_csv(data, chunk_number)
@@ -36,8 +42,12 @@ class ConsumerClassCSV:
     def get_chunk_number(self, timestamp):
         """Calculate the chunk number based on the timestamp."""
         if isinstance(timestamp, datetime):
-            return timestamp.strftime("%Y-%m-%d")  # Format datetime as a date string
-        return timestamp.split("T")[0]  # If it's already a string, split by 'T'  # Use the date part as the chunk identifier
+            return timestamp.strftime(
+                "%Y-%m-%d"
+            )  # Format datetime as a date string
+        return timestamp.split("T")[
+            0
+        ]  # If it's already a string, split by 'T'  # Use the date part as the chunk identifier
 
     def save_to_csv(self, data, chunk_number):
         """Save the message data to a CSV file by chunk."""
@@ -49,12 +59,31 @@ class ConsumerClassCSV:
 
         # Define the header and data rows
         header = [
-            "instance_id", "cluster_size", "user_id", "database_id", "query_id", "arrival_timestamp",
-            "compile_duration_ms", "queue_duration_ms", "execution_duration_ms", "feature_fingerprint",
-            "was_aborted", "was_cached", "cache_source_query_id", "query_type",
-            "num_permanent_tables_accessed", "num_external_tables_accessed", "num_system_tables_accessed",
-            "read_table_ids", "write_table_ids", "mbytes_scanned", "mbytes_spilled",
-            "num_joins", "num_scans", "num_aggregations", "source"
+            "instance_id",
+            "cluster_size",
+            "user_id",
+            "database_id",
+            "query_id",
+            "arrival_timestamp",
+            "compile_duration_ms",
+            "queue_duration_ms",
+            "execution_duration_ms",
+            "feature_fingerprint",
+            "was_aborted",
+            "was_cached",
+            "cache_source_query_id",
+            "query_type",
+            "num_permanent_tables_accessed",
+            "num_external_tables_accessed",
+            "num_system_tables_accessed",
+            "read_table_ids",
+            "write_table_ids",
+            "mbytes_scanned",
+            "mbytes_spilled",
+            "num_joins",
+            "num_scans",
+            "num_aggregations",
+            "source",
         ]
 
         row = [
@@ -82,11 +111,13 @@ class ConsumerClassCSV:
             data.get("num_joins"),
             data.get("num_scans"),
             data.get("num_aggregations"),
-            data.get("source")
+            data.get("source"),
         ]
 
         # Write data to the CSV file
-        with open(chunk_file_name, mode="a", newline="", encoding="utf-8") as file:
+        with open(
+            chunk_file_name, mode="a", newline="", encoding="utf-8"
+        ) as file:
             writer = csv.writer(file)
 
             # Write the header only if the file is being created for the first time
@@ -104,7 +135,9 @@ class ConsumerClassCSV:
             while True:
                 print("into consumer")
                 # Poll for messages from Kafka
-                msg = self.consumer.poll(timeout=1.0)  # Adjust timeout if needed
+                msg = self.consumer.poll(
+                    timeout=1.0
+                )  # Adjust timeout if needed
                 if msg is None:
                     print(None)
                     continue
@@ -114,11 +147,13 @@ class ConsumerClassCSV:
 
                 # Process the message
                 print(msg)
-                self.process_message(msg.value().decode('utf-8'))
+                self.process_message(msg.value().decode("utf-8"))
         except KeyboardInterrupt:
             print("Consumption stopped manually.")
         finally:
             self.consumer.close()
+
+
 """
 if __name__ == "__main__":
     # Define parameters

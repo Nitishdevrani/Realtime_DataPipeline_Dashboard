@@ -3,6 +3,7 @@
 *.pyc
 *.pkl
 aws/*
+kafka/*
 
 # WSL
 *Zone.Identifier

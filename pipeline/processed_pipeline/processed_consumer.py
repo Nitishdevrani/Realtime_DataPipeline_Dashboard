@@ -14,9 +14,9 @@ class ProcessedConsumer:
         self.chunk_size = 50
 
     def save_to_file(self):
-        with open(self.output_file, 'a') as f:
+        with open(self.output_file, "a") as f:
             for record in self.buffer:
-                f.write(json.dumps(record) + '\n')
+                f.write(json.dumps(record) + "\n")
         self.buffer = []
 
     def consume(self):
@@ -33,7 +33,7 @@ class ProcessedConsumer:
                         continue
 
                 # Process the message
-                data = json.loads(msg.value().decode('utf-8'))
+                data = json.loads(msg.value().decode("utf-8"))
                 print(f"Consumed message: {data}")
                 self.buffer.append(data)
                 print(len(self.buffer))
