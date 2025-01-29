@@ -1,6 +1,10 @@
+""" Main script to run the producer and consumer tasks concurrently. """
+
 import asyncio
+from cleaning.clean_data_new import clean_data
 from pipeline.producer_new import ProducerClassDuckDB
 from pipeline.consumer_new import ConsumerClass
+from processing.processing import process_dataframe
 
 KAFKA_HOST = "localhost:9092"
 KAFKA_TOPIC = "streamer_dreamers_raw_data"
@@ -37,8 +41,13 @@ async def consume_and_process(consumer: ConsumerClass):
         # Process each chunk as it arrives
         print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}\n")
 
+        cleaned_data = clean_data(data)
+        processed_data = await process_dataframe(cleaned_data)
+
+        print(f"[Consumer] Processed data:\n{processed_data}\n")
         # Simulate processing time
-        await asyncio.sleep(0)
+        await asyncio.sleep(2)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
