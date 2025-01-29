@@ -15,14 +15,14 @@ class WorkloadState:
         self.overall = {}
 
     @property
-    def state(self) -> dict:
+    def state(self) -> pd.DataFrame:
         """
         Return the full state, including user-level and overall metrics.
         This makes it easy to pass a single object around if needed.
         """
-        return {"users": self.users, "overall": self.overall}
+        return pd.DataFrame({"users": self.users, "overall": self.overall})
 
-    def update_state(self, row: pd.DataFrame) -> dict:
+    def update_state(self, row: pd.DataFrame) -> pd.DataFrame:
         """
         Main entry point to update all metrics based on an incoming row.
         Returns the entire state after updating.
