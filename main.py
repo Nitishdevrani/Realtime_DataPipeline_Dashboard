@@ -2,10 +2,10 @@
 
 import asyncio
 import time
-from cleaning.clean_data_new import clean_data
 from pipeline.producer_new import ProducerClassDuckDB
 from pipeline.consumer_new import ConsumerClass
 from pipeline.processed_pipeline.processed_producer import ProcessedProducer
+from cleaning.clean_data_new import clean_data
 from processing.processing import process_dataframe
 from processing.workload_state import WorkloadState
 
@@ -49,12 +49,12 @@ async def consume_and_process(consumer: ConsumerClass):
     window_duration = 10.0  # 1-minute window
     window_start_time = time.time()
 
-    for data, chunk_number in consumer.consume():
+    for data, _ in consumer.consume():
         # Process each chunk as it arrives
-        # print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}\n")
+        # print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}")
 
         cleaned_data = clean_data(data)
-        
+
         processed_data = await process_dataframe(cleaned_data, workload_state)
 
         # print(f"[Consumer] Processed data:\n{processed_data}\n")

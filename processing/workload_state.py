@@ -1,3 +1,4 @@
+""" Module to manage the current workload state. """
 import pickle
 import pandas as pd
 import aiofiles
@@ -69,7 +70,7 @@ class WorkloadState:
         }
 
     def _update_user_metrics(self, user_id: str, row: pd.DataFrame) -> None:
-        """Update raw counters (no derived calculations) for a user based on a single row."""
+        """Update raw counters (no derived calculations) for a user."""
         user_data = self.users[user_id]
 
         # Basic increments
@@ -118,7 +119,7 @@ class WorkloadState:
     def _update_user_derived_metrics(
         self, user_id: str, row: pd.DataFrame
     ) -> None:
-        """Compute any user-level averages, ratios, or percentages that depend on updated counters."""
+        """Compute any user-level averages, ratios, or percentages."""
         user_data = self.users[user_id]
         qcount = user_data["query_count"]
 
@@ -164,7 +165,7 @@ class WorkloadState:
         write_ops = len(row.get("write_table_ids", []) or [])
         # If there are zero write_ops, decide how to handle
         if write_ops == 0:
-            # If we want to reflect infinite or undefined, we could set it differently.
+            # If we want to reflect infinite or undefined, we could change.
             # Here, we'll just do float('inf') if read_ops > 0, else 0.
             if read_ops > 0:
                 user_data["read_write_ratio"] = float("inf")
@@ -174,7 +175,7 @@ class WorkloadState:
             user_data["read_write_ratio"] = round(read_ops / write_ops, 2)
 
     def _update_overall_averages(self) -> None:
-        """Compute global averages across all users and store them in `self.overall`."""
+        """Compute global averages across all users and store them."""
         total_users = len(self.users)
         if total_users == 0:
             self.overall = {}
