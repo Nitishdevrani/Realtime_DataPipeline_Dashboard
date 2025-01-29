@@ -48,6 +48,7 @@ async def consume_and_process(consumer: ConsumerClass):
         print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}\n")
 
         cleaned_data = clean_data(data)
+        
         processed_data = await process_dataframe(cleaned_data)
 
         # print(f"[Consumer] Processed data:\n{processed_data}\n")

@@ -1,4 +1,52 @@
-# Realtime_DataPipeline_Dashboard
+# Data Engineering Final Project
+A realtime data processing pipeline for the redset dataset providing workload analysis to the user.
+
+## Setup Guide
+
+### 1. Download Parquet Files
+- Download the required `.parquet` files from [Amazon Science Redset GitHub](https://github.com/amazon-science/redset).
+- Place the `provisioned_full.parquet` file in `data/provisioned/`.
+- Place the `serverless_full.parquet` file in `data/serverless/`.
+
+### 2. Install Dependencies
+- Create a Python virtual environment (optional):
+  ```bash
+  python -m venv .venv
+  source .venv/bin/activate  # On Linux/MacOS
+  .venv\Scripts\activate    # On Windows
+  ```
+- Install the required Python packages:
+  ```bash
+  pip install -r requirements.txt
+  ```
+
+### 3. Start Kafka
+- Ensure Docker is installed and running on your system.
+- Start Kafka using the provided shell script (Linux only):
+  ```bash
+  ./start_kafka.sh
+  ```
+
+### 4. Run the Application
+- Start the data processing pipeline:
+  ```bash
+  python main.py
+  ```
+
+### 5. Start the Dashboard
+- Navigate to the `dashboard` directory:
+  ```bash
+  cd dashboard
+  ```
+- Install Node.js dependencies:
+  ```bash
+  npm install
+  ```
+- Start the dashboard:
+  ```bash
+  npm run dev
+  ```
+- Open the dashboard in your browser at `http://localhost:3000`.
 
 | **Date**       | **Day**   | **Tasks**                                                                                                                                                 |
 | -------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
