@@ -46,13 +46,13 @@ workload_state = WorkloadState()
 workload_state.reset_state()
 
 
-async def process_dataframe(df: pd.DataFrame) -> List[pd.DataFrame]:
+async def process_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """Process the data and return."""
 
     last_save_time = time.time()
 
     processed_data = []
-    for row in df.iterrows():
+    for _, row in df.iterrows():
         state = workload_state.update_state(row)
 
         # save the workload state
@@ -63,13 +63,12 @@ async def process_dataframe(df: pd.DataFrame) -> List[pd.DataFrame]:
         state = predict(state)
         # TODO: Process the data
 
-        state_df = pd.DataFrame([state])
-        processed_data.append(state_df)
+        processed_data.append(state)
         # asyncio.create_task(upload_data(state))
 
         # allow other tasks to run
         await asyncio.sleep(0)
-    return processed_data
+    return pd.DataFrame(processed_data)
 
 
 if __name__ == "__main__":

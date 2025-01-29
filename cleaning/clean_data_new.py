@@ -1,4 +1,6 @@
 """ This module cleans the data in the DataFrame. """
+
+import math
 import time
 import pandas as pd
 
@@ -39,14 +41,18 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
         )
         average_ratio = ratios.mean()
 
-        # Apply this average ratio to estimate compile_duration_ms where it's currently 0
-        df.loc[df["compile_duration_ms"] == 0, "compile_duration_ms"] = (
-            (df["execution_duration_ms"] * average_ratio).round().astype(int)
-        )
+        # Check if average_ratio is finite
+        if math.isfinite(average_ratio) and average_ratio > 0:
+            # Apply this average ratio to estimate compile_duration_ms where it's currently 0
+            df.loc[df["compile_duration_ms"] == 0, "compile_duration_ms"] = (
+                (df["execution_duration_ms"] * average_ratio)
+                .round()
+                .astype(int)
+            )
 
-        print(
-            f"Applied estimated compilation times based on {average_ratio:.2%} of execution durations."
-        )
+            print(
+                f"Applied estimated compilation times based on {average_ratio:.2%} of execution durations."
+            )
         return df
 
     except Exception as e:

@@ -1,5 +1,3 @@
-"""Safe the state of the workload in a file."""
-
 import pickle
 import pandas as pd
 import aiofiles
@@ -63,7 +61,7 @@ class WorkloadState:
             "total_joins": 0,
             "total_aggregations": 0,
             "unique_tables": set(),
-            "cluster_metrics": {},  # e.g. { cluster_size: { "query_count": X, "total_duration": Y } }
+            "cluster_metrics": {},
             "aborted_queries": 0,
             "abort_rate": 0,
             "read_write_ratio": 0,
@@ -125,44 +123,55 @@ class WorkloadState:
         qcount = user_data["query_count"]
 
         # Averages
-        user_data["avg_spill"] = (
-            round(user_data["spilled"] / qcount, 2) if qcount else 0
-        )
-        user_data["avg_execution_time"] = (
-            round(user_data["total_execution_time"] / qcount, 2)
-            if qcount
-            else 0
-        )
+        if qcount:
+            user_data["avg_spill"] = round(user_data["spilled"] / qcount, 2)
+            user_data["avg_execution_time"] = round(
+                user_data["total_execution_time"] / qcount, 2
+            )
+        else:
+            user_data["avg_spill"] = 0
+            user_data["avg_execution_time"] = 0
 
         # Execution Efficiency
         total_execution_time = user_data["total_execution_time"]
         queue_duration = row.get("queue_duration_ms", 0)
-        if total_execution_time > 0:
+        if total_execution_time <= 0:
+            user_data["queue_time_percentage"] = 0
+        else:
             user_data["queue_time_percentage"] = round(
                 (queue_duration / total_execution_time) * 100, 2
             )
-        else:
-            user_data["queue_time_percentage"] = 0
 
         compile_duration = row.get("compile_duration_ms", 0)
-        execution_duration = row.get(
-            "execution_duration_ms", 1
-        )  # avoid division by zero
-        user_data["compile_overhead_ratio"] = round(
-            compile_duration / execution_duration, 2
-        )
+        execution_duration = row.get("execution_duration_ms", 0)
+        if execution_duration <= 0:
+            user_data["compile_overhead_ratio"] = 0
+        else:
+            user_data["compile_overhead_ratio"] = round(
+                compile_duration / execution_duration, 2
+            )
 
         # Aborted rate
-        user_data["abort_rate"] = (
-            round((user_data["aborted_queries"] / qcount) * 100, 2)
-            if qcount
-            else 0
-        )
+        if qcount:
+            user_data["abort_rate"] = round(
+                (user_data["aborted_queries"] / qcount) * 100, 2
+            )
+        else:
+            user_data["abort_rate"] = 0
 
         # Read/Write ratio
         read_ops = len(row.get("read_table_ids", []) or [])
         write_ops = len(row.get("write_table_ids", []) or [])
-        user_data["read_write_ratio"] = round(read_ops / (write_ops or 1), 2)
+        # If there are zero write_ops, decide how to handle
+        if write_ops == 0:
+            # If we want to reflect infinite or undefined, we could set it differently.
+            # Here, we'll just do float('inf') if read_ops > 0, else 0.
+            if read_ops > 0:
+                user_data["read_write_ratio"] = float("inf")
+            else:
+                user_data["read_write_ratio"] = 0
+        else:
+            user_data["read_write_ratio"] = round(read_ops / write_ops, 2)
 
     def _update_overall_averages(self) -> None:
         """Compute global averages across all users and store them in `self.overall`."""
