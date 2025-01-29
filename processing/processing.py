@@ -4,7 +4,6 @@ Load the cleaned data, process it and send to the dashboard.
 
 import time
 import asyncio
-from typing import List
 
 import pandas as pd
 from processing.helpers import get_rows, load_data, upload_data
@@ -40,31 +39,30 @@ async def process_data(generator):
         await asyncio.sleep(0)
 
 
-workload_state = WorkloadState()
+# workload_state = WorkloadState()
 # TODO: remove after testing
 # workload_state.load_state()
-workload_state.reset_state()
+# workload_state.reset_state()
 
 
-async def process_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+async def process_dataframe(
+    df: pd.DataFrame, state: WorkloadState
+) -> pd.DataFrame:
     """Process the data and return."""
 
     last_save_time = time.time()
 
     processed_data = []
     for _, row in df.iterrows():
-        state = workload_state.update_state(row)
+        state = state.update_state(row)
 
         # save the workload state
         if time.time() - last_save_time >= STATE_STORAGE_TIMER:
-            asyncio.create_task(workload_state.save_state())
+            asyncio.create_task(state.save_state())
             last_save_time = time.time()
 
         state = predict(state)
-        # TODO: Process the data
-
         processed_data.append(state)
-        # asyncio.create_task(upload_data(state))
 
         # allow other tasks to run
         await asyncio.sleep(0)

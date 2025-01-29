@@ -1,11 +1,13 @@
 """ Main script to run the producer and consumer tasks concurrently. """
 
 import asyncio
+import time
 from cleaning.clean_data_new import clean_data
 from pipeline.producer_new import ProducerClassDuckDB
 from pipeline.consumer_new import ConsumerClass
 from pipeline.processed_pipeline.processed_producer import ProcessedProducer
 from processing.processing import process_dataframe
+from processing.workload_state import WorkloadState
 
 KAFKA_HOST = "localhost:9092"
 KAFKA_TOPIC_RAW = "streamer_dreamers_raw_data"
@@ -43,16 +45,28 @@ async def consume_and_process(consumer: ConsumerClass):
     # init processed producer
     processed_producer = ProcessedProducer(KAFKA_HOST, KAFKA_TOPIC_PROCESSED)
 
+    workload_state = WorkloadState()  # create aggregator
+    window_duration = 10.0  # 1-minute window
+    window_start_time = time.time()
+
     for data, chunk_number in consumer.consume():
         # Process each chunk as it arrives
-        print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}\n")
+        # print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}\n")
 
         cleaned_data = clean_data(data)
         
-        processed_data = await process_dataframe(cleaned_data)
+        processed_data = await process_dataframe(cleaned_data, workload_state)
 
         # print(f"[Consumer] Processed data:\n{processed_data}\n")
-        processed_producer.produce(processed_data)
+        # processed_producer.produce(processed_data)
+        current_time = time.time()
+        if current_time - window_start_time >= window_duration:
+            processed_producer.produce(processed_data)
+            print(f"Produced aggregated snapshot at {current_time}")
+
+            workload_state.reset_state()
+            window_start_time = current_time
+
         await asyncio.sleep(0)
 
 
