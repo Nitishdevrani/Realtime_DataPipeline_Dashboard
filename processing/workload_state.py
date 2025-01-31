@@ -66,6 +66,7 @@ class WorkloadState:
             "aborted_queries": 0,
             "abort_rate": 0,
             "read_write_ratio": 0,
+            "timestamp": None,
             # "serverless": False,
         }
 
@@ -111,6 +112,8 @@ class WorkloadState:
         user_data["cluster_metrics"][cluster_size]["total_duration"] += row.get(
             "execution_duration_ms", 0
         )
+
+        user_data["timestamp"] = row.get("arrival_timestamp")
 
         # Aborted queries
         if row.get("was_aborted", False):
@@ -187,6 +190,7 @@ class WorkloadState:
         total_scanned = 0
         total_spilled = 0
         total_abort_rate = 0
+        timestamp = pd.Timestamp.min
 
         # Sum over all users
         for user_data in self.users.values():
@@ -195,6 +199,7 @@ class WorkloadState:
             total_scanned += user_data["scanned"]
             total_spilled += user_data["spilled"]
             total_abort_rate += user_data["abort_rate"]
+            timestamp = max(user_data["timestamp"], timestamp)
 
         # Compute averages
         self.overall["avg_query_count"] = round(
@@ -208,6 +213,9 @@ class WorkloadState:
         self.overall["avg_abort_rate"] = round(
             total_abort_rate / total_users, 2
         )
+        self.overall["timestamp"] = timestamp
+        self.overall["total_queries"] = total_query_count
+        self.overall["total_exec_time"] = total_exec_time
 
     def reset_state(self) -> None:
         """Reset all user data and overall metrics."""

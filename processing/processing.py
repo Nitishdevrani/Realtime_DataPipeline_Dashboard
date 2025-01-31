@@ -7,7 +7,7 @@ import asyncio
 
 import pandas as pd
 from processing.helpers import get_rows, load_data, upload_data
-from processing.prediction import predict
+from processing.prediction import partial_fit_predict
 from processing.workload_state import WorkloadState
 
 STATE_STORAGE_TIMER = 60
@@ -29,7 +29,7 @@ async def process_dataframe(
             asyncio.create_task(state.save_state())
             last_save_time = time.time()
 
-        state = predict(state)
+        state = partial_fit_predict(state)
         processed_data.append(state)
 
         # allow other tasks to run
