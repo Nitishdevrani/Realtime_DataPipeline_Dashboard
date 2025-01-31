@@ -1,136 +1,290 @@
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
-from statsmodels.tsa.stattools import adfuller, acf, pacf
+from statsmodels.tsa.stattools import adfuller
+import warnings
+import itertools
+
+# Suppress warnings for cleaner output
+warnings.filterwarnings("ignore")
 
 
-# Function to check stationarity using the Augmented Dickey-Fuller test
-def check_stationarity(timeseries):
-    result = adfuller(timeseries)
-    print("ADF Statistic:", result[0])
-    print("p-value:", result[1])
-    print("Critical Values:", result[4])
-    return result[1] < 0.05  # If p-value < 0.05, data is stationary
+class ARIMAPredictor:
+    def __init__(
+        self,
+        window_size=50,
+        step_interval=10,
+        max_d=2,
+        p_range=(0, 3),
+        q_range=(0, 3),
+        select_params=True,
+    ):
+        """
+        Initialize the ARIMAPredictor.
 
+        Parameters:
+        - window_size: Number of data points to use for training.
+        - step_interval: Number of steps to predict each time.
+        - max_d: Maximum order of differencing to achieve stationarity.
+        - p_range: Tuple indicating the range of p values to consider.
+        - q_range: Tuple indicating the range of q values to consider.
+        - select_params: Whether to perform parameter selection.
+        """
+        self.window_size = window_size
+        self.step_interval = step_interval
+        self.max_d = max_d
+        self.p_range = p_range
+        self.q_range = q_range
+        self.select_params = select_params
+        self.historical_data = []
+        self.subpredictions = []
+        self.model_fit = None
+        self.arima_order = None
+        self.initialized = False
 
-# Function to difference a time series to achieve stationarity
-def difference_series(series, order=1):
-    return np.diff(series, n=order)
+    @staticmethod
+    def check_stationarity(timeseries):
+        """
+        Check the stationarity of a time series using the Augmented Dickey-Fuller test.
 
+        Returns:
+        - True if the series is stationary, False otherwise.
+        """
+        result = adfuller(timeseries)
+        return result[1] < 0.05  # If p-value < 0.05, data is stationary
 
-# Function to determine ARIMA model parameters based on ACF and PACF
-def find_arima_params(series):
-    nlags = min(len(series) // 2, 10)  # Ensure nlags is valid
-    lag_acf = acf(series, nlags=nlags)
-    lag_pacf = pacf(series, nlags=nlags)
+    @staticmethod
+    def difference_series(series, order=1):
+        """
+        Difference a time series to achieve stationarity.
 
-    p = (
-        np.where(
-            lag_pacf < 1.96 / np.sqrt(len(series)), 0, np.arange(len(lag_pacf))
-        )[1]
-        if len(lag_pacf) > 1
-        else 1
-    )
-    q = (
-        np.where(
-            lag_acf < 1.96 / np.sqrt(len(series)), 0, np.arange(len(lag_acf))
-        )[1]
-        if len(lag_acf) > 1
-        else 1
-    )
+        Parameters:
+        - series: The original time series.
+        - order: The order of differencing.
 
-    d = 0
-    while not check_stationarity(series) and d < 2:
-        series = difference_series(series, order=1)
-        d += 1
+        Returns:
+        - Differenced time series.
+        """
+        return np.diff(series, n=order)
 
-    return p, d, q
+    def find_stationary_d(self, series):
+        """
+        Determine the degree of differencing required to make the series stationary.
 
+        Parameters:
+        - series: The time series data.
 
-# Function to train the ARIMA model
-def train_arima(series, p, d, q):
-    model = ARIMA(series, order=(p, d, q))
-    model_fit = model.fit()
-    return model_fit
+        Returns:
+        - d: The determined order of differencing.
+        - differenced_series: The differenced time series.
+        """
+        d = 0
+        temp_series = series.copy()
+        while not self.check_stationarity(temp_series) and d < self.max_d:
+            temp_series = self.difference_series(temp_series, order=1)
+            d += 1
+            print(f"Differenced series to order {d} for stationarity check.")
+        return d, temp_series
 
+    def select_arima_order(self, series):
+        """
+        Select the best ARIMA(p, d, q) order based on AIC.
 
-# Function to predict future values without iteration
-def predict_future(model_fit, steps=10):
-    forecast = model_fit.forecast(steps=steps)
-    return forecast
+        Parameters:
+        - series: The time series data.
 
+        Returns:
+        - best_order: Tuple of (p, d, q) with the lowest AIC.
+        """
+        # Determine d
+        d, _ = self.find_stationary_d(series)
+        if d > self.max_d:
+            print("Maximum differencing order reached. Series may still be non-stationary.")
 
-# Function to visualize the results with sub-predictions
-def visualize_results_with_subpredictions(
-    original_series, subpredictions, step_interval
-):
-    plt.figure(figsize=(10, 5))
-    plt.plot(
-        range(len(original_series)),
-        original_series,
-        label="Historical Data",
-        marker="o",
-    )
-    for i, subprediction in enumerate(subpredictions):
-        start_idx = (
-            step_interval * i
-            + len(original_series)
-            - len(subpredictions) * step_interval
-        )
+        # Define p and q ranges
+        p_values = range(self.p_range[0], self.p_range[1] + 1)
+        q_values = range(self.q_range[0], self.q_range[1] + 1)
+        best_aic = np.inf
+        best_order = None
+
+        print(f"Selecting ARIMA parameters with d={d}...")
+        for p, q in itertools.product(p_values, q_values):
+            try:
+                model = ARIMA(series, order=(p, d, q))
+                model_fit = model.fit()
+                print(f"Tested ARIMA({p},{d},{q}) - AIC:{model_fit.aic}")
+                if model_fit.aic < best_aic:
+                    best_aic = model_fit.aic
+                    best_order = (p, d, q)
+            except Exception as e:
+                print(f"ARIMA({p},{d},{q}) failed to fit. Error: {e}")
+                continue
+
+        if best_order is None:
+            # Fallback to (0, d, 0) if no model could be fitted
+            best_order = (0, d, 0)
+            print(f"No suitable ARIMA model found. Falling back to ARIMA{best_order}.")
+        else:
+            print(f"Selected ARIMA{best_order} with AIC={best_aic}")
+
+        return best_order
+
+    def initialize_model(self):
+        """
+        Initialize the ARIMA model by selecting parameters and fitting the model.
+        """
+        if len(self.historical_data) >= self.window_size:
+            train_data = self.historical_data[-self.window_size:]
+            if self.select_params:
+                order = self.select_arima_order(train_data)
+            else:
+                # If not selecting parameters, use pre-defined order
+                if self.arima_order is None:
+                    raise ValueError(
+                        "ARIMA order not set. Set select_params=True to select parameters."
+                    )
+                order = self.arima_order
+
+            self.arima_order = order
+            self.model_fit = self.train_arima(train_data, order)
+            self.initialized = True
+            print(f"Initialized ARIMA model with order {order}")
+
+    def train_arima(self, series, order):
+        """
+        Train the ARIMA model.
+
+        Parameters:
+        - series: The training time series data.
+        - order: Tuple of (p, d, q).
+
+        Returns:
+        - Fitted ARIMA model.
+        """
+        try:
+            model = ARIMA(series, order=order)
+            model_fit = model.fit()
+            return model_fit
+        except Exception as e:
+            print(f"Failed to train ARIMA{order}. Error: {e}")
+            return None
+
+    @staticmethod
+    def predict_future(model_fit, steps=10):
+        """
+        Predict future values using the fitted ARIMA model.
+
+        Parameters:
+        - model_fit: The fitted ARIMA model.
+        - steps: Number of future steps to predict.
+
+        Returns:
+        - Forecasted values as a NumPy array.
+        """
+        forecast = model_fit.forecast(steps=steps)
+        return forecast
+
+    def visualize_results_with_subpredictions(self):
+        """
+        Visualize the historical data along with sub-predictions.
+        """
+        plt.figure(figsize=(12, 6))
         plt.plot(
-            range(start_idx, start_idx + len(subprediction)),
-            subprediction,
-            label=f"Subprediction {i + 1}",
-            marker="x",
-            linestyle="dashed",
+            range(len(self.historical_data)),
+            self.historical_data,
+            label="Historical Data",
+            marker="o",
         )
-    plt.xlabel("Time Steps")
-    plt.ylabel("Query Counts")
-    # plt.legend()
-    plt.title("Real-Time Workload Prediction Using ARIMA")
-    plt.show()
+        for i, subprediction in enumerate(self.subpredictions):
+            start_idx = (
+                self.step_interval * i
+                + len(self.historical_data)
+                - len(self.subpredictions) * self.step_interval
+            )
+            plt.plot(
+                range(start_idx, start_idx + len(subprediction)),
+                subprediction,
+                label=f"Subprediction {i + 1}",
+                marker="x",
+                linestyle="dashed",
+            )
+        plt.xlabel("Time Steps")
+        plt.ylabel("Query Counts")
+        plt.legend()
+        plt.title("Real-Time Workload Prediction Using ARIMA")
+        plt.show()
+
+    def predict(self, new_data):
+        """
+        Input new data into the predictor and perform prediction if enough data is available.
+
+        Parameters:
+        - new_data: A list or array of new data points to be added.
+
+        Returns:
+        - Forecasted values if prediction is made, else None.
+        """
+        self.historical_data.extend(new_data)
+        print(f"Added new data: {new_data}")
+
+        if not self.initialized and len(self.historical_data) >= self.window_size:
+            self.initialize_model()
+
+        if self.initialized:
+            try:
+                # Retrain the model with new data without parameter selection
+                train_data = self.historical_data[-self.window_size:]
+                model_fit = self.train_arima(train_data, self.arima_order)
+                if model_fit is not None:
+                    # Predict future steps
+                    future_pred = self.predict_future(model_fit, steps=self.step_interval)
+                    self.subpredictions.append(future_pred)
+                    print(f"Forecasted next {self.step_interval} steps: {future_pred}")
+                    return future_pred
+                else:
+                    print("Model fitting failed.")
+                    return None
+            except Exception as e:
+                print(f"Prediction failed. Error: {e}")
+                return None
+        else:
+            print("Not enough data to initialize the model yet.")
+            return None
 
 
-# Simulate real-time data and subpredictions
-np.random.seed(42)
-x = np.linspace(0, 20, 1000)
-query_counts = (
-    2 * x**3
-    - 5 * x**2
-    + 3 * x
-    + 50
-    + 50 * np.sin(2 * np.pi * x / 5)
-    + np.random.normal(0, 20, len(x))
-)
-query_counts = query_counts.astype(int).tolist()
+def main():
+    # Simulate real-time data
+    np.random.seed(42)
+    x = np.linspace(0, 20, 300)
+    query_counts = (
+        2 * x**3
+        - 5 * x**2
+        + 3 * x
+        + 50
+        + 50 * np.sin(2 * np.pi * x / 5)
+        + np.random.normal(0, 20, len(x))
+    )
+    query_counts = query_counts.astype(int).tolist()
 
-# Parameters for real-time simulation
-window_size = 50  # Number of points before retraining
-step_interval = 10  # Number of steps to predict each time
+    # Parameters for real-time simulation
+    window_size = 100  # Increased window size for more data points
+    step_interval = 10  # Number of steps to predict each time
 
-subpredictions = []
-historical_data = []
+    # Initialize the ARIMA predictor with parameter selection enabled
+    predictor = ARIMAPredictor(
+        window_size=window_size,
+        step_interval=step_interval,
+        select_params=True,  # Set to False if you want to fix ARIMA parameters
+    )
 
-for i in range(0, len(query_counts), step_interval):
-    # Append the current incoming data
-    historical_data.extend(query_counts[i : i + step_interval])
+    # Loop through the data in step intervals
+    for i in range(0, len(query_counts), step_interval):
+        incoming_data = query_counts[i : i + step_interval]
+        predictor.predict(incoming_data)
 
-    # Only train when the historical data reaches the window size
-    if len(historical_data) >= window_size:
-        train_data = historical_data[-window_size:]
+    # Visualize the results
+    predictor.visualize_results_with_subpredictions()
 
-        # Find ARIMA parameters
-        p, d, q = find_arima_params(train_data)
 
-        # Train the model
-        model_fit = train_arima(train_data, p, d, q)
-
-        # Predict future steps
-        future_pred = predict_future(model_fit, steps=step_interval)
-        subpredictions.append(future_pred)
-
-# Visualize the results
-visualize_results_with_subpredictions(
-    historical_data, subpredictions, step_interval
-)
+if __name__ == "__main__":
+    main()
