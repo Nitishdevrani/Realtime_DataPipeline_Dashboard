@@ -67,7 +67,7 @@ class WorkloadState:
             "abort_rate": 0,
             "read_write_ratio": 0,
             "timestamp": None,
-            # "serverless": False,
+            "serverless": False,
         }
 
     def _update_user_metrics(self, user_id: str, row: pd.DataFrame) -> None:
@@ -113,6 +113,9 @@ class WorkloadState:
             "execution_duration_ms", 0
         )
 
+        # is serverless if size of cluster is 0 or undefined
+        user_data["serverless"] = row.get("cluster_size", 0) >= 0
+        
         user_data["timestamp"] = row.get("arrival_timestamp")
 
         # Aborted queries
