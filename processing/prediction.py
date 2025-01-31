@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import adfuller
 import warnings
@@ -17,7 +18,6 @@ class ARIMAPredictor:
         max_d=2,
         p_range=(0, 3),
         q_range=(0, 3),
-        select_params=True,
     ):
         """
         Initialize the ARIMAPredictor.
@@ -35,7 +35,6 @@ class ARIMAPredictor:
         self.max_d = max_d
         self.p_range = p_range
         self.q_range = q_range
-        self.select_params = select_params
         self.historical_data = []
         self.subpredictions = []
         self.model_fit = None
@@ -99,7 +98,9 @@ class ARIMAPredictor:
         # Determine d
         d, _ = self.find_stationary_d(series)
         if d > self.max_d:
-            print("Maximum differencing order reached. Series may still be non-stationary.")
+            print(
+                "Maximum differencing order reached. Series may still be non-stationary."
+            )
 
         # Define p and q ranges
         p_values = range(self.p_range[0], self.p_range[1] + 1)
@@ -123,7 +124,9 @@ class ARIMAPredictor:
         if best_order is None:
             # Fallback to (0, d, 0) if no model could be fitted
             best_order = (0, d, 0)
-            print(f"No suitable ARIMA model found. Falling back to ARIMA{best_order}.")
+            print(
+                f"No suitable ARIMA model found. Falling back to ARIMA{best_order}."
+            )
         else:
             print(f"Selected ARIMA{best_order} with AIC={best_aic}")
 
@@ -134,16 +137,8 @@ class ARIMAPredictor:
         Initialize the ARIMA model by selecting parameters and fitting the model.
         """
         if len(self.historical_data) >= self.window_size:
-            train_data = self.historical_data[-self.window_size:]
-            if self.select_params:
-                order = self.select_arima_order(train_data)
-            else:
-                # If not selecting parameters, use pre-defined order
-                if self.arima_order is None:
-                    raise ValueError(
-                        "ARIMA order not set. Set select_params=True to select parameters."
-                    )
-                order = self.arima_order
+            train_data = self.historical_data[-self.window_size :]
+            order = self.select_arima_order(train_data)
 
             self.arima_order = order
             self.model_fit = self.train_arima(train_data, order)
@@ -204,7 +199,6 @@ class ARIMAPredictor:
             plt.plot(
                 range(start_idx, start_idx + len(subprediction)),
                 subprediction,
-                label=f"Subprediction {i + 1}",
                 marker="x",
                 linestyle="dashed",
             )
@@ -227,19 +221,26 @@ class ARIMAPredictor:
         self.historical_data.extend(new_data)
         print(f"Added new data: {new_data}")
 
-        if not self.initialized and len(self.historical_data) >= self.window_size:
+        if (
+            not self.initialized
+            and len(self.historical_data) >= self.window_size
+        ):
             self.initialize_model()
 
         if self.initialized:
             try:
                 # Retrain the model with new data without parameter selection
-                train_data = self.historical_data[-self.window_size:]
+                train_data = self.historical_data[-self.window_size :]
                 model_fit = self.train_arima(train_data, self.arima_order)
                 if model_fit is not None:
                     # Predict future steps
-                    future_pred = self.predict_future(model_fit, steps=self.step_interval)
+                    future_pred = self.predict_future(
+                        model_fit, steps=self.step_interval
+                    )
                     self.subpredictions.append(future_pred)
-                    print(f"Forecasted next {self.step_interval} steps: {future_pred}")
+                    print(
+                        f"Forecasted next {self.step_interval} steps: {future_pred}"
+                    )
                     return future_pred
                 else:
                     print("Model fitting failed.")
@@ -252,7 +253,29 @@ class ARIMAPredictor:
             return None
 
 
-def main():
+class RealTimePredictor:
+    """ Class to handle real-time data streaming and predictions. """
+
+    def __init__(self, window_size=100, step_interval=10):
+        self.predictor = ARIMAPredictor(window_size=window_size, step_interval=step_interval)
+        self.previous_data = []
+        self.step_size = step_interval
+
+    def predict_rt_data(self, df: pd.DataFrame):
+        """ Predict real-time data using ARIMA. """
+        query_count = df["overall"]["avg_query_count"]
+        self.previous_data.append(query_count)
+
+        if len(self.previous_data) > self.step_size:
+            self.predictor.predict(self.previous_data)
+            self.previous_data = []  # Reset for next batch
+
+    def visualize_predictions(self):
+        """ Visualize the predictions. """
+        self.predictor.visualize_results_with_subpredictions()
+
+
+if __name__ == "__main__":
     # Simulate real-time data
     np.random.seed(42)
     x = np.linspace(0, 20, 300)
@@ -266,25 +289,17 @@ def main():
     )
     query_counts = query_counts.astype(int).tolist()
 
-    # Parameters for real-time simulation
-    window_size = 100  # Increased window size for more data points
-    step_interval = 10  # Number of steps to predict each time
+    query_counts_df = [
+        pd.DataFrame({"overall": {"avg_query_count": query_count}})
+        for query_count in query_counts
+    ]
 
-    # Initialize the ARIMA predictor with parameter selection enabled
-    predictor = ARIMAPredictor(
-        window_size=window_size,
-        step_interval=step_interval,
-        select_params=True,  # Set to False if you want to fix ARIMA parameters
-    )
+    # Instantiate the real-time predictor
+    rt_predictor = RealTimePredictor(window_size=100, step_interval=10)
 
-    # Loop through the data in step intervals
-    for i in range(0, len(query_counts), step_interval):
-        incoming_data = query_counts[i : i + step_interval]
-        predictor.predict(incoming_data)
+    # Simulate real-time data feeding
+    for tmp_df in query_counts_df:
+        rt_predictor.predict_rt_data(tmp_df)
 
     # Visualize the results
-    predictor.visualize_results_with_subpredictions()
-
-
-if __name__ == "__main__":
-    main()
+    rt_predictor.visualize_predictions()
