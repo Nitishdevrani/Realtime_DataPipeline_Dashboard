@@ -51,17 +51,20 @@ def find_arima_params(series):
 # Function to train the ARIMA model
 def train_arima(series, p, d, q):
     model = ARIMA(series, order=(p, d, q))
-    return model.fit()
+    model_fit = model.fit()
+    return model_fit
 
 
 # Function to predict future values without iteration
-def predict_future(model_fit, steps=100):
+def predict_future(model_fit, steps=10):
     forecast = model_fit.forecast(steps=steps)
     return forecast
 
 
-# Function to visualize the results
-def visualize_results(original_series, forecasted_values):
+# Function to visualize the results with sub-predictions
+def visualize_results_with_subpredictions(
+    original_series, subpredictions, step_interval
+):
     plt.figure(figsize=(10, 5))
     plt.plot(
         range(len(original_series)),
@@ -69,45 +72,65 @@ def visualize_results(original_series, forecasted_values):
         label="Historical Data",
         marker="o",
     )
-    plt.plot(
-        range(
-            len(original_series), len(original_series) + len(forecasted_values)
-        ),
-        forecasted_values,
-        label="Predicted",
-        marker="x",
-        linestyle="dashed",
-    )
+    for i, subprediction in enumerate(subpredictions):
+        start_idx = (
+            step_interval * i
+            + len(original_series)
+            - len(subpredictions) * step_interval
+        )
+        plt.plot(
+            range(start_idx, start_idx + len(subprediction)),
+            subprediction,
+            label=f"Subprediction {i + 1}",
+            marker="x",
+            linestyle="dashed",
+        )
     plt.xlabel("Time Steps")
     plt.ylabel("Query Counts")
-    plt.legend()
-    plt.title("Workload Prediction Using ARIMA")
+    # plt.legend()
+    plt.title("Real-Time Workload Prediction Using ARIMA")
     plt.show()
 
 
-# Generate a polynomial workload dataset with a repeating pattern
+# Simulate real-time data and subpredictions
 np.random.seed(42)
-x = np.linspace(0, 20, 10)
+x = np.linspace(0, 20, 1000)
 query_counts = (
     2 * x**3
-    - 3 * x**2
-    + 2 * x
-    + 10
+    - 5 * x**2
+    + 3 * x
+    + 50
     + 50 * np.sin(2 * np.pi * x / 5)
     + np.random.normal(0, 20, len(x))
 )
 query_counts = query_counts.astype(int).tolist()
 
-# Find optimal ARIMA parameters
-p, d, q = find_arima_params(query_counts)
-print(f"Optimal ARIMA parameters: p={p}, d={d}, q={q}")
+# Parameters for real-time simulation
+window_size = 50  # Number of points before retraining
+step_interval = 10  # Number of steps to predict each time
 
-# Train the ARIMA model
-model_fit = train_arima(query_counts, p, d, q)
+subpredictions = []
+historical_data = []
 
-# Predict future workload demand
-future_predictions = predict_future(model_fit, steps=100)
-print(f"Predicted next workload query counts: {future_predictions}")
+for i in range(0, len(query_counts), step_interval):
+    # Append the current incoming data
+    historical_data.extend(query_counts[i : i + step_interval])
+
+    # Only train when the historical data reaches the window size
+    if len(historical_data) >= window_size:
+        train_data = historical_data[-window_size:]
+
+        # Find ARIMA parameters
+        p, d, q = find_arima_params(train_data)
+
+        # Train the model
+        model_fit = train_arima(train_data, p, d, q)
+
+        # Predict future steps
+        future_pred = predict_future(model_fit, steps=step_interval)
+        subpredictions.append(future_pred)
 
 # Visualize the results
-visualize_results(query_counts, future_predictions)
+visualize_results_with_subpredictions(
+    historical_data, subpredictions, step_interval
+)

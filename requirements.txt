@@ -5,3 +5,4 @@ aiofiles
 duckdb
 scikit-learn
 matplotlib
+statsmodels
