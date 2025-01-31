@@ -217,6 +217,8 @@ class WorkloadState:
         self.overall["total_queries"] = total_query_count
         self.overall["total_exec_time"] = total_exec_time
 
+        self.overall["predicted_query_count"] = []
+
     def reset_state(self) -> None:
         """Reset all user data and overall metrics."""
         self.users = {}

@@ -187,7 +187,7 @@ class ARIMAPredictor:
         plt.plot(
             range(len(self.historical_data)),
             self.historical_data,
-            label="Historical Data"
+            label="Historical Data",
         )
         for i, subprediction in enumerate(self.subpredictions):
             start_idx = (
@@ -265,10 +265,15 @@ class RealTimePredictor:
         """Predict real-time data using ARIMA."""
         query_count = df["overall"]["avg_query_count"]
         self.previous_data.append(query_count)
-
         if len(self.previous_data) > self.step_size:
-            self.predictor.predict(self.previous_data)
+            df["overall"]["predicted_query_count"] = self.predictor.predict(
+                self.previous_data
+            )
             self.previous_data = []  # Reset for next batch
+        # if predicted_query_count is in df overall, print
+        if "predicted_query_count" in df["overall"]:
+            print(df["overall"]["predicted_query_count"])
+        return df
 
     def visualize_predictions(self):
         """Visualize the predictions."""
