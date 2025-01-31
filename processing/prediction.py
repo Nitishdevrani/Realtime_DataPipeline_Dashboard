@@ -187,8 +187,7 @@ class ARIMAPredictor:
         plt.plot(
             range(len(self.historical_data)),
             self.historical_data,
-            label="Historical Data",
-            marker="o",
+            label="Historical Data"
         )
         for i, subprediction in enumerate(self.subpredictions):
             start_idx = (
@@ -199,7 +198,6 @@ class ARIMAPredictor:
             plt.plot(
                 range(start_idx, start_idx + len(subprediction)),
                 subprediction,
-                marker="x",
                 linestyle="dashed",
             )
         plt.xlabel("Time Steps")
@@ -219,7 +217,7 @@ class ARIMAPredictor:
         - Forecasted values if prediction is made, else None.
         """
         self.historical_data.extend(new_data)
-        print(f"Added new data: {new_data}")
+        # print(f"Added new data: {new_data}")
 
         if (
             not self.initialized
@@ -238,9 +236,9 @@ class ARIMAPredictor:
                         model_fit, steps=self.step_interval
                     )
                     self.subpredictions.append(future_pred)
-                    print(
-                        f"Forecasted next {self.step_interval} steps: {future_pred}"
-                    )
+                    # print(
+                    #     f"Forecasted next {self.step_interval} steps: {future_pred}"
+                    # )
                     return future_pred
                 else:
                     print("Model fitting failed.")
@@ -249,20 +247,22 @@ class ARIMAPredictor:
                 print(f"Prediction failed. Error: {e}")
                 return None
         else:
-            print("Not enough data to initialize the model yet.")
+            # print("Not enough data to initialize the model yet.")
             return None
 
 
 class RealTimePredictor:
-    """ Class to handle real-time data streaming and predictions. """
+    """Class to handle real-time data streaming and predictions."""
 
     def __init__(self, window_size=100, step_interval=10):
-        self.predictor = ARIMAPredictor(window_size=window_size, step_interval=step_interval)
+        self.predictor = ARIMAPredictor(
+            window_size=window_size, step_interval=step_interval
+        )
         self.previous_data = []
         self.step_size = step_interval
 
     def predict_rt_data(self, df: pd.DataFrame):
-        """ Predict real-time data using ARIMA. """
+        """Predict real-time data using ARIMA."""
         query_count = df["overall"]["avg_query_count"]
         self.previous_data.append(query_count)
 
@@ -271,16 +271,16 @@ class RealTimePredictor:
             self.previous_data = []  # Reset for next batch
 
     def visualize_predictions(self):
-        """ Visualize the predictions. """
+        """Visualize the predictions."""
         self.predictor.visualize_results_with_subpredictions()
 
 
 if __name__ == "__main__":
     # Simulate real-time data
     np.random.seed(42)
-    x = np.linspace(0, 20, 300)
+    x = np.linspace(0, 20, 3000)
     query_counts = (
-        2 * x**3
+        10 * x**3
         - 5 * x**2
         + 3 * x
         + 50
@@ -295,7 +295,7 @@ if __name__ == "__main__":
     ]
 
     # Instantiate the real-time predictor
-    rt_predictor = RealTimePredictor(window_size=100, step_interval=10)
+    rt_predictor = RealTimePredictor(window_size=200, step_interval=50)
 
     # Simulate real-time data feeding
     for tmp_df in query_counts_df:

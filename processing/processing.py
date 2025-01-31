@@ -9,9 +9,11 @@ import pandas as pd
 from processing.helpers import get_rows, load_data, upload_data
 # from processing.prediction import partial_fit_predict
 from processing.workload_state import WorkloadState
+from processing.prediction import RealTimePredictor
 
 STATE_STORAGE_TIMER = 60
 
+rt_predictor = RealTimePredictor(window_size=200, step_interval=100)
 
 async def process_dataframe(
     df: pd.DataFrame, state: WorkloadState
@@ -30,6 +32,7 @@ async def process_dataframe(
             last_save_time = time.time()
 
         # state = partial_fit_predict(state)
+        state = rt_predictor.predict_rt_data(df_row)
         processed_data.append(state)
 
         # allow other tasks to run
