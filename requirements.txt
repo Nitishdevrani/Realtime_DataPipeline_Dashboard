@@ -2,7 +2,6 @@ pandas
 pyarrow
 confluent-kafka
 aiofiles
-river
 duckdb
 scikit-learn
 matplotlib
