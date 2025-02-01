@@ -33,7 +33,6 @@ def get_cleaned_data(raw_df: pd.DataFrame) -> pd.DataFrame:
 
 async def main():
     """Main function to run the producer and consumer tasks concurrently."""
-    # Instantiate Producer and Consumer for simulation rt-data
     producer = ProducerClassDuckDB(
         KAFKA_HOST,
         KAFKA_TOPIC_RAW,
@@ -43,7 +42,7 @@ async def main():
     )
     producer_task = asyncio.create_task(
         producer.produce_data_in_chunks(
-            chunk_size_minutes=0, chunk_size_seconds=10
+            chunk_size_minutes=60, chunk_size_seconds=0
         )
     )
 
@@ -59,23 +58,17 @@ async def main():
 
 async def consume_and_process(consumer: ConsumerClass):
     """Continuously consume data from Kafka and process it."""
-    # init processed producer
     processed_producer = ProcessedProducer(KAFKA_HOST, KAFKA_TOPIC_PROCESSED)
 
-    workload_state = WorkloadState()  # create aggregator
-    window_duration = 10.0  # 1-minute window
+    workload_state = WorkloadState()
+    window_duration = 10.0
     window_start_time = time.time()
 
     for data, _ in consumer.consume():
-        # Process each chunk as it arrives
-        # print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}")
-
         cleaned_data = get_cleaned_data(data)
 
         processed_data = await process_dataframe(cleaned_data, workload_state)
 
-        # print(f"[Consumer] Processed data:\n{processed_data}\n")
-        # processed_producer.produce(processed_data)
         current_time = time.time()
         if current_time - window_start_time >= window_duration:
             processed_producer.produce(processed_data)
