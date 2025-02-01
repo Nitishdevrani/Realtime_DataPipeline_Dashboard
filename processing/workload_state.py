@@ -25,18 +25,25 @@ class WorkloadState:
         self.global_aborted = 0
         self.global_timestamp = pd.Timestamp.min
 
+    # @property
+    # def state(self) -> pd.DataFrame:
+    #     """
+    #     Return the full state, including user-level and overall metrics.
+    #     If the state hasn’t changed, return a cached DataFrame.
+    #     """
+    #     if self._state_dirty or self._cached_state is None:
+    #         self._cached_state = pd.DataFrame(
+    #             {"users": [self.users], "overall": [self.overall]}, index=[0]
+    #         )
+    #         self._state_dirty = False
+    #     return self._cached_state
     @property
     def state(self) -> pd.DataFrame:
         """
-        Return the full state, including user-level and overall metrics.
-        If the state hasn’t changed, return a cached DataFrame.
+        Return the state as a single DataFrame where the overall metrics are flattened into columns,
+        and user metrics are merged in (this is less common since they have different granularities).
         """
-        if self._state_dirty or self._cached_state is None:
-            self._cached_state = pd.DataFrame(
-                {"users": self.users, "overall": self.overall}
-            )
-            self._state_dirty = False
-        return self._cached_state
+        return pd.DataFrame({"users": self.users, "overall": self.overall})
 
     def update_state(self, row: dict) -> pd.DataFrame:
         """
