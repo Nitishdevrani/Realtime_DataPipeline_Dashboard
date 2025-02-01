@@ -116,12 +116,13 @@ class ProducerClassDuckDB:
             SELECT * FROM {self.table_name}
             WHERE arrival_timestamp >= '{current_start.isoformat()}'
               AND arrival_timestamp < '{current_end.isoformat()}'
-              ORDER BY arrival_timestamp ASC;
+            ORDER BY arrival_timestamp;
         """
         chunk = self.conn.execute(query).fetchall()
         # Cache the description so we don't recompute it on every row.
         column_names = [desc[0] for desc in self.conn.description]
 
+        messages_in_chunk = 0
         for row in chunk:
             # Create a dictionary for the row.
             row_dict = dict(zip(column_names, row))
@@ -134,7 +135,13 @@ class ProducerClassDuckDB:
             message = json.dumps(row_dict)
             self.producer.produce(self.topic, value=message)
 
-        # Flush the producer to ensure messages are sent.
+            messages_in_chunk += 1
+            # Periodically poll to allow the producer to process delivery reports
+            # and prevent the internal queue from filling.
+            if messages_in_chunk % 1000 == 0:
+                self.producer.poll(0)
+
+        # Flush any remaining messages in the producer queue.
         self.producer.flush()
 
     def close(self):
