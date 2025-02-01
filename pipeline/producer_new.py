@@ -82,11 +82,12 @@ class ProducerClassDuckDB:
         return min_timestamp, max_timestamp
 
     async def produce_data_in_chunks(
-        self, chunk_size_minutes=1, chunk_size_seconds=1
+        self, chunk_size_minutes=30, chunk_size_seconds=0
     ):
-        """Fetch and produce data to Kafka in chunks."""
-
-        # Get the timestamp range
+        """
+        Fetch and produce data to Kafka in chunks. This method offloads the
+        blocking parts (querying, row processing, and flushing) to a separate thread.
+        """
         min_datetime, max_datetime = self._get_timestamp_range()
         chunk_size = timedelta(
             minutes=chunk_size_minutes, seconds=chunk_size_seconds
@@ -96,37 +97,52 @@ class ProducerClassDuckDB:
         while current_start <= max_datetime:
             current_end = current_start + chunk_size
 
-            # Query the current chunk
-            query = f"""
-                SELECT * FROM {self.table_name}
-                WHERE arrival_timestamp >= '{current_start.isoformat()}'
-                AND arrival_timestamp < '{current_end.isoformat()}';
-            """
-            chunk = self.conn.execute(query).fetchall()
-            # print(len(chunk))
-            # i = 0
-            for row in chunk:
-                # Convert datetime objects to strings (ISO format),
-                # in the row before serializing
-                row_dict = dict(
-                    zip([desc[0] for desc in self.conn.description], row)
-                )
-                # Convert datetime values to isoformat strings
-                for key, value in row_dict.items():
-                    if isinstance(value, datetime):
-                        row_dict[key] = value.isoformat()
+            # Offload the blocking chunk processing to a thread.
+            await asyncio.to_thread(self.produce_chunk, current_start, current_end)
 
-                # Serialize the dictionary to a JSON string
-                message = json.dumps(row_dict)
-                self.producer.produce(self.topic, value=message)
-                # i += 1
-                # print(f"Produced: {message}")
-            # print(f"Chunk {current_start} to {current_end} produced: {i}")
-            self.producer.flush()
+            # Yield to the event loop.
             await asyncio.sleep(0)
             current_start = current_end
 
         print("All chunks processed and sent to Kafka!")
+
+    def produce_chunk(self, current_start: datetime, current_end: datetime):
+        """
+        This method runs in a separate thread. It queries DuckDB for the given
+        time window, converts each row to JSON, produces messages to Kafka, and
+        flushes the producer.
+        """
+        query = f"""
+            SELECT * FROM {self.table_name}
+            WHERE arrival_timestamp >= '{current_start.isoformat()}'
+              AND arrival_timestamp < '{current_end.isoformat()}'
+            ORDER BY arrival_timestamp;
+        """
+        chunk = self.conn.execute(query).fetchall()
+        # Cache the description so we don't recompute it on every row.
+        column_names = [desc[0] for desc in self.conn.description]
+
+        messages_in_chunk = 0
+        for row in chunk:
+            # Create a dictionary for the row.
+            row_dict = dict(zip(column_names, row))
+            # Convert datetime objects to ISO strings.
+            for key, value in row_dict.items():
+                if isinstance(value, datetime):
+                    row_dict[key] = value.isoformat()
+
+            # Serialize the dictionary to JSON.
+            message = json.dumps(row_dict)
+            self.producer.produce(self.topic, value=message)
+
+            messages_in_chunk += 1
+            # Periodically poll to allow the producer to process delivery reports
+            # and prevent the internal queue from filling.
+            if messages_in_chunk % 1000 == 0:
+                self.producer.poll(0)
+
+        # Flush any remaining messages in the producer queue.
+        self.producer.flush()
 
     def close(self):
         """Close DuckDB connection and flush producer."""

@@ -4,12 +4,15 @@ import math
 import time
 import pandas as pd
 
+pd.set_option("future.no_silent_downcasting", True)
+
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """Clean the data in the DataFrame."""
     try:
         # Handle missing values
         df.fillna(0, inplace=True)
+        df.infer_objects(copy=False)
 
         # numns to the appropriate type
         df["compile_duration_ms"] = (
@@ -50,9 +53,9 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
                 .astype(int)
             )
 
-            print(
-                f"Applied estimated compilation times based on {average_ratio:.2%} of execution durations."
-            )
+            # print(
+            #     f"Applied estimated compilation times based on {average_ratio:.2%} of execution durations."
+            # )
         return df
 
     except Exception as e:

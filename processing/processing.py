@@ -4,74 +4,64 @@ Load the cleaned data, process it and send to the dashboard.
 
 import time
 import asyncio
-from typing import List
-
 import pandas as pd
 from processing.helpers import get_rows, load_data, upload_data
-from processing.prediction import predict
 from processing.workload_state import WorkloadState
+from processing.prediction import RealTimePredictor
 
-STATE_STORAGE_TIMER = 60
+STATE_STORAGE_TIMER = 120
+rt_predictor = RealTimePredictor(window_size=200, step_interval=100)
 
 
-async def process_data(generator):
-    """Process the data and send to the dashboard."""
-    workload_state = WorkloadState()
-    # TODO: remove after testing
-    # workload_state.load_state()
-    workload_state.reset_state()
+async def process_dataframe(
+    df: pd.DataFrame, state: WorkloadState
+) -> pd.DataFrame:
+    """Process a DataFrame in a more efficient, batched fashion."""
+    # last_save_time = time.time()
+    processed_states = []
 
-    last_save_time = time.time()
+    # itertuples usually faster than iterrows
+    for row in df.itertuples(index=False, name="Row"):
+        row_dict = row._asdict()
+        updated_state = await asyncio.to_thread(state.update_state, row_dict)
+        
+        # Save state asynchronously.
+        overall_ts = updated_state["overall"]["timestamp"]
+        if overall_ts is not None:
+            # convert to a Python datetime if it's a pandas Timestamp
+            overall_dt = (
+                overall_ts.to_pydatetime()
+                if isinstance(overall_ts, pd.Timestamp)
+                else overall_ts
+            )
+            # if this is the first valid timestamp
+            if state.last_backup_timestamp is None:
+                print("initializing last_backup_timestamp")
+                state.last_backup_timestamp = overall_dt
+            # Calculate the elapsed time in seconds.
+            elapsed = (overall_dt - state.last_backup_timestamp).total_seconds()
+            if elapsed >= STATE_STORAGE_TIMER:
+                print(f"start saving state at: {overall_ts}")
+                asyncio.create_task(state.save_state())
+                state.last_backup_timestamp = overall_ts
 
-    for row in generator:
-        state = workload_state.update_state(row)
+        # If the predictor is running on CPU
+        # updated_state = await asyncio.to_thread(
+        #     rt_predictor.predict_rt_data, updated_state
+        # )
+        processed_states.append(updated_state)
 
-        # save the workload state
-        if time.time() - last_save_time >= STATE_STORAGE_TIMER:
-            asyncio.create_task(workload_state.save_state())
-            last_save_time = time.time()
-
-        state = predict(state)
-        # TODO: Process the data
-
-        asyncio.create_task(upload_data(state))
-
-        # allow other tasks to run
+        # Let the event loop handle other tasks.
         await asyncio.sleep(0)
 
-
-workload_state = WorkloadState()
-# TODO: remove after testing
-# workload_state.load_state()
-workload_state.reset_state()
-
-
-async def process_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Process the data and return."""
-
-    last_save_time = time.time()
-
-    processed_data = []
-    for _, row in df.iterrows():
-        state = workload_state.update_state(row)
-
-        # save the workload state
-        if time.time() - last_save_time >= STATE_STORAGE_TIMER:
-            asyncio.create_task(workload_state.save_state())
-            last_save_time = time.time()
-
-        state = predict(state)
-        # TODO: Process the data
-
-        processed_data.append(state)
-        # asyncio.create_task(upload_data(state))
-
-        # allow other tasks to run
-        await asyncio.sleep(0)
-    return pd.DataFrame(processed_data)
+    return pd.concat(processed_states, ignore_index=True)
 
 
 if __name__ == "__main__":
-    df = load_data("data/serverless/serverless_full.parquet", n=500)
-    row_generator = get_rows(df)
-    asyncio.run(process_data(row_generator))
+    partial_data = load_data("data/serverless/serverless_full.parquet", n=500)
+
+    workload_state = WorkloadState()
+    row_generator = get_rows(partial_data)
+
+    for row in row_generator:
+        data = process_dataframe(row, workload_state)

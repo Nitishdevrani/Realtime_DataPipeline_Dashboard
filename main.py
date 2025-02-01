@@ -1,20 +1,38 @@
 """ Main script to run the producer and consumer tasks concurrently. """
 
 import asyncio
-from cleaning.clean_data_new import clean_data
+import pickle
+import time
+from functools import lru_cache
+
+import pandas as pd
 from pipeline.producer_new import ProducerClassDuckDB
 from pipeline.consumer_new import ConsumerClass
 from pipeline.processed_pipeline.processed_producer import ProcessedProducer
+from cleaning.clean_data_new import clean_data
 from processing.processing import process_dataframe
+from processing.workload_state import WorkloadState
 
 KAFKA_HOST = "localhost:9092"
 KAFKA_TOPIC_RAW = "streamer_dreamers_raw_data"
 KAFKA_TOPIC_PROCESSED = "streamer_dreamers_processed_data"
 
 
+@lru_cache(maxsize=128)
+def clean_data_cached(df_pickle: bytes) -> pd.DataFrame:
+    """Cache cleaning based on the bytes of the DataFrame."""
+    df = pickle.loads(df_pickle)
+    return clean_data(df)
+
+
+def get_cleaned_data(raw_df: pd.DataFrame) -> pd.DataFrame:
+    """Convert into a hashable form and clean it using the cached function."""
+    df_pickle = pickle.dumps(raw_df)
+    return clean_data_cached(df_pickle)
+
+
 async def main():
     """Main function to run the producer and consumer tasks concurrently."""
-    # Instantiate Producer and Consumer for simulation rt-data
     producer = ProducerClassDuckDB(
         KAFKA_HOST,
         KAFKA_TOPIC_RAW,
@@ -24,7 +42,7 @@ async def main():
     )
     producer_task = asyncio.create_task(
         producer.produce_data_in_chunks(
-            chunk_size_minutes=0, chunk_size_seconds=10
+            chunk_size_minutes=5, chunk_size_seconds=0
         )
     )
 
@@ -40,19 +58,25 @@ async def main():
 
 async def consume_and_process(consumer: ConsumerClass):
     """Continuously consume data from Kafka and process it."""
-    # init processed producer
     processed_producer = ProcessedProducer(KAFKA_HOST, KAFKA_TOPIC_PROCESSED)
 
-    for data, chunk_number in consumer.consume():
-        # Process each chunk as it arrives
-        print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}\n")
+    workload_state = WorkloadState()
+    window_duration = 10.0
+    window_start_time = time.time()
 
-        cleaned_data = clean_data(data)
-        
-        processed_data = await process_dataframe(cleaned_data)
+    for data, _ in consumer.consume():
+        cleaned_data = get_cleaned_data(data)
 
-        # print(f"[Consumer] Processed data:\n{processed_data}\n")
-        processed_producer.produce(processed_data)
+        processed_data = await process_dataframe(cleaned_data, workload_state)
+
+        current_time = time.time()
+        if current_time - window_start_time >= window_duration:
+            processed_producer.produce(processed_data)
+            print(f"Produced aggregated snapshot at {current_time}")
+
+            workload_state.reset_state()
+            window_start_time = current_time
+
         await asyncio.sleep(0)
 
 
