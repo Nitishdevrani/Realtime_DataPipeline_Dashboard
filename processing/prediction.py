@@ -1,10 +1,10 @@
+import warnings
+import itertools
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import adfuller
-import warnings
-import itertools
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
