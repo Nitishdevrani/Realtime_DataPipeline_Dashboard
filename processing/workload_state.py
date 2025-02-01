@@ -1,12 +1,6 @@
-import json
+import ujson as json_lib
 import pandas as pd
 import duckdb
-
-# Optionally, try to use a faster JSON library.
-try:
-    import ujson as json_lib
-except ImportError:
-    json_lib = json
 
 
 class WorkloadState:
