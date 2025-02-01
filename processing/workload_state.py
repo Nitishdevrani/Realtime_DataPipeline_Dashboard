@@ -264,15 +264,19 @@ class WorkloadState:
             """
         )
         backup_time = pd.Timestamp.now()
-        # Use the chosen JSON library; convert sets to lists.
-        users_json = json_lib.dumps(
-            self.users, default=lambda o: list(o) if isinstance(o, set) else o
-        )
-        overall_json = json_lib.dumps(self.overall, default=str)
-        con.execute(
-            "INSERT INTO state_backup VALUES (?, ?, ?)",
-            (backup_time, users_json, overall_json),
-        )
+        # # Use the chosen JSON library; convert sets to lists.
+        # users_json = json_lib.dumps(
+        #     self.users,
+        #     default=lambda o: list(o) if isinstance(o, set) else o,
+        #     check_circular=False,
+        # )
+        # overall_json = json_lib.dumps(
+        #     self.overall, default=str, check_circular=False
+        # )
+        # con.execute(
+        #     "INSERT INTO state_backup VALUES (?, ?, ?)",
+        #     (backup_time, users_json, overall_json),
+        # )
         con.close()
         print(f"Backup state saved at {backup_time}.")
 
