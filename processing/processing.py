@@ -23,10 +23,11 @@ async def process_dataframe(
     # itertuples usually faster than iterrows
     for row in df.itertuples(index=False, name="Row"):
         row_dict = row._asdict()
+
         updated_state = await asyncio.to_thread(state.update_state, row_dict)
-        
+
         # Save state asynchronously.
-        overall_ts = updated_state["overall"]["timestamp"]
+        overall_ts = updated_state["timestamp"].iloc[0]
         if overall_ts is not None:
             # convert to a Python datetime if it's a pandas Timestamp
             overall_dt = (

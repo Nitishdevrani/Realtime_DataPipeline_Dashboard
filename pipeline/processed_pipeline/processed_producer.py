@@ -26,6 +26,8 @@ class ProcessedProducer:
         #         self.topic, value=message, callback=self.delivery_report
         #     )
         self.producer.produce(
-            self.topic, value=data.to_json(), callback=self.delivery_report
+            self.topic,
+            value=data.to_json(orient="recors")[0],
+            callback=self.delivery_report,
         )
         self.producer.flush()
