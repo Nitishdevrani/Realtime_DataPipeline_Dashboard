@@ -1,10 +1,10 @@
+import warnings
+import itertools
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import adfuller
-import warnings
-import itertools
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
@@ -263,17 +263,16 @@ class RealTimePredictor:
 
     def predict_rt_data(self, df: pd.DataFrame):
         """Predict real-time data using ARIMA."""
-        query_count = df["overall"]["avg_query_count"]
+        query_count = df["avg_query_count"].iloc[0]
         self.previous_data.append(query_count)
         if len(self.previous_data) > self.step_size:
-            df["overall"]["predicted_query_count"] = self.predictor.predict(
-                self.previous_data
-            )
+            df["predicted_query_count"] = [
+                self.predictor.predict(self.previous_data)
+            ]
             self.previous_data = []  # Reset for next batch
         # if predicted_query_count is in df overall, print
-        if "predicted_query_count" in df["overall"]:
-            # print(df["overall"]["predicted_query_count"])
-            print(df["overall"])
+        # if "predicted_query_count" in df:
+        #     print(df["predicted_query_count"])
         return df
 
     def visualize_predictions(self):
@@ -296,7 +295,7 @@ if __name__ == "__main__":
     query_counts = query_counts.astype(int).tolist()
 
     query_counts_df = [
-        pd.DataFrame({"overall": {"avg_query_count": query_count}})
+        pd.DataFrame({"avg_query_count": query_count})
         for query_count in query_counts
     ]
 

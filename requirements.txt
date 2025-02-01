@@ -6,3 +6,4 @@ duckdb
 scikit-learn
 matplotlib
 statsmodels
+ujson

@@ -9,38 +9,59 @@ from processing.helpers import get_rows, load_data, upload_data
 from processing.workload_state import WorkloadState
 from processing.prediction import RealTimePredictor
 
-STATE_STORAGE_TIMER = 60
+STATE_STORAGE_TIMER = 120
 rt_predictor = RealTimePredictor(window_size=200, step_interval=100)
 
 
 async def process_dataframe(
     df: pd.DataFrame, state: WorkloadState
 ) -> pd.DataFrame:
-    """Process the data and return."""
+    """Process a DataFrame in a more efficient, batched fashion."""
+    # last_save_time = time.time()
+    processed_states = []
 
-    last_save_time = time.time()
+    # itertuples usually faster than iterrows
+    for row in df.itertuples(index=False, name="Row"):
+        row_dict = row._asdict()
 
-    processed_data = []
-    for _, df_row in df.iterrows():
-        state = state.update_state(df_row)
+        updated_state = await asyncio.to_thread(state.update_state, row_dict)
 
-        # save the workload state
-        if time.time() - last_save_time >= STATE_STORAGE_TIMER:
-            asyncio.create_task(state.save_state())
-            last_save_time = time.time()
+        # Save state asynchronously.
+        overall_ts = updated_state["timestamp"].iloc[0]
+        if overall_ts is not None:
+            # convert to a Python datetime if it's a pandas Timestamp
+            overall_dt = (
+                overall_ts.to_pydatetime()
+                if isinstance(overall_ts, pd.Timestamp)
+                else overall_ts
+            )
+            # if this is the first valid timestamp
+            if state.last_backup_timestamp is None:
+                print("initializing last_backup_timestamp")
+                state.last_backup_timestamp = overall_dt
+            # Calculate the elapsed time in seconds.
+            elapsed = (overall_dt - state.last_backup_timestamp).total_seconds()
+            if elapsed >= STATE_STORAGE_TIMER:
+                print(f"start saving state at: {overall_ts}")
+                asyncio.create_task(state.save_state())
+                state.last_backup_timestamp = overall_ts
 
-        state = rt_predictor.predict_rt_data(state)
-        processed_data.append(state)
+        # If the predictor is running on CPU
+        updated_state = await asyncio.to_thread(
+            rt_predictor.predict_rt_data, updated_state
+        )
+        processed_states.append(updated_state)
 
-        # allow other tasks to run
+        # Let the event loop handle other tasks.
         await asyncio.sleep(0)
-    return pd.concat(processed_data, ignore_index=True)
+
+    return pd.concat(processed_states, ignore_index=True)
 
 
 if __name__ == "__main__":
     partial_data = load_data("data/serverless/serverless_full.parquet", n=500)
 
-    workload_state = WorkloadState()  # create aggregator
+    workload_state = WorkloadState()
     row_generator = get_rows(partial_data)
 
     for row in row_generator:

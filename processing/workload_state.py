@@ -1,18 +1,23 @@
 """ Module to manage the current workload state. """
-import pickle
+
+import json
 import pandas as pd
-import aiofiles
+import duckdb
 
 
 class WorkloadState:
     """Class to store and manage the current workload state."""
 
-    def __init__(self, file_path: str = "workload_state.pkl"):
-        self.file_path = file_path
+    def __init__(self, db_path: str = "workload_state.duckdb"):
         # Dictionary of user_id -> user metrics
         self.users = {}
         # Dictionary for overall (global) metrics
         self.overall = {}
+        self._cached_state = None
+        self._state_dirty = True
+
+        self.db_path = db_path
+        self.last_backup_timestamp = None
 
     @property
     def state(self) -> pd.DataFrame:
@@ -20,7 +25,18 @@ class WorkloadState:
         Return the full state, including user-level and overall metrics.
         This makes it easy to pass a single object around if needed.
         """
-        return pd.DataFrame({"users": self.users, "overall": self.overall})
+        # print("before constructing state", self.overall)
+        # print("before constructing state2", self.users)
+        if self._state_dirty or self._cached_state is None:
+            # wrap the dictionaries in a list so that the DataFrame has one row
+            # self._cached_state = pd.DataFrame(
+            #     {"users": self.users, "overall": self.overall}
+            # )
+            self._cached_state = pd.DataFrame(
+                [{**self.overall, "users": self.users}]
+            )
+            self._state_dirty = False
+        return self._cached_state
 
     def update_state(self, row: pd.DataFrame) -> pd.DataFrame:
         """
@@ -45,6 +61,7 @@ class WorkloadState:
         # Finally, update the overall (global) averages across all users
         self._update_overall_averages()
 
+        self._state_dirty = True
         return self.state
 
     def _init_user_metrics(self, user_id: str) -> None:
@@ -66,8 +83,8 @@ class WorkloadState:
             "aborted_queries": 0,
             "abort_rate": 0,
             "read_write_ratio": 0,
-            "timestamp": None,
-            # "serverless": False,
+            "timestamp": pd.Timestamp.min,
+            "serverless": False,
         }
 
     def _update_user_metrics(self, user_id: str, row: pd.DataFrame) -> None:
@@ -113,7 +130,13 @@ class WorkloadState:
             "execution_duration_ms", 0
         )
 
-        user_data["timestamp"] = row.get("arrival_timestamp")
+        # is serverless if size of cluster is 0 or undefined
+        user_data["serverless"] = row.get("cluster_size", 0) >= 0
+
+        user_data["timestamp"] = max(
+            row.get("arrival_timestamp", pd.Timestamp.min),
+            user_data["timestamp"],
+        )
 
         # Aborted queries
         if row.get("was_aborted", False):
@@ -224,27 +247,63 @@ class WorkloadState:
         self.users = {}
         self.overall = {}
 
-    def save_state_synchronous(self) -> None:
-        """Save the entire state (users + overall) to file (blocking)."""
-        with open(self.file_path, "wb") as f:
-            # You can store just self.state or the entire instance
-            pickle.dump(self, f)
-        print("Saved current state synchronously.")
-
     async def save_state(self) -> None:
-        """Save the entire state (users + overall) to file asynchronously."""
-        async with aiofiles.open(self.file_path, "wb") as f:
-            await f.write(pickle.dumps(self))
-        print("Saved current state asynchronously.")
+        """
+        Append a snapshot of the current state to DuckDB.
+        The backup is stored in a table 'state_backup' as JSON strings.
+        """
+        con = duckdb.connect(self.db_path)
+        # Create the backup table if it doesn't exist.
+        con.execute(
+            """
+            CREATE TABLE IF NOT EXISTS state_backup (
+                backup_time TIMESTAMP,
+                users TEXT,
+                overall TEXT
+            )
+        """
+        )
+        backup_time = pd.Timestamp.now()
+        # Serialize the dictionaries. The lambda converts any sets to lists.
+        users_json = json.dumps(
+            self.users, default=lambda o: list(o) if isinstance(o, set) else o
+        )
+        overall_json = json.dumps(self.overall, default=str)
+        con.execute(
+            "INSERT INTO state_backup VALUES (?, ?, ?)",
+            (backup_time, users_json, overall_json),
+        )
+        con.close()
+        print(f"Backup state saved at {backup_time}.")
 
     def load_state(self) -> None:
-        """Load the state from a file."""
+        """
+        Load the most recent backup from DuckDB into memory.
+        Converts lists back into sets for the 'unique_tables' field.
+        """
+        con = duckdb.connect(self.db_path)
         try:
-            with open(self.file_path, "rb") as f:
-                loaded_state = pickle.load(f)
-            # Update local attributes from the loaded object
-            self.users = loaded_state.users
-            self.overall = loaded_state.overall
-            print("Loaded previous state.")
-        except FileNotFoundError:
-            print("No previous state found. Starting fresh.")
+            df = con.execute(
+                "SELECT * FROM state_backup ORDER BY backup_time DESC LIMIT 1"
+            ).df()
+            if not df.empty:
+                backup_row = df.iloc[0]
+                self.users = json.loads(backup_row["users"])
+                self.overall = json.loads(backup_row["overall"])
+                # Convert unique_tables back to sets.
+                for uid, metrics in self.users.items():
+                    if "unique_tables" in metrics and isinstance(
+                        metrics["unique_tables"], list
+                    ):
+                        metrics["unique_tables"] = set(metrics["unique_tables"])
+                print(
+                    f"Loaded state from backup at {backup_row['backup_time']}."
+                )
+            else:
+                print("No backup found. Starting with an empty state.")
+                self.reset_state()
+        except Exception as e:
+            print("Error loading state backup:", e)
+            self.reset_state()
+        finally:
+            con.close()
