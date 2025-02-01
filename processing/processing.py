@@ -40,7 +40,7 @@ async def process_dataframe(
 if __name__ == "__main__":
     partial_data = load_data("data/serverless/serverless_full.parquet", n=500)
 
-    workload_state = WorkloadState()  # create aggregator
+    workload_state = WorkloadState()
     row_generator = get_rows(partial_data)
 
     for row in row_generator:

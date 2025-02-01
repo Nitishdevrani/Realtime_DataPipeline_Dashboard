@@ -1,7 +1,11 @@
 """ Main script to run the producer and consumer tasks concurrently. """
 
 import asyncio
+import pickle
 import time
+from functools import lru_cache
+
+import pandas as pd
 from pipeline.producer_new import ProducerClassDuckDB
 from pipeline.consumer_new import ConsumerClass
 from pipeline.processed_pipeline.processed_producer import ProcessedProducer
@@ -12,6 +16,19 @@ from processing.workload_state import WorkloadState
 KAFKA_HOST = "localhost:9092"
 KAFKA_TOPIC_RAW = "streamer_dreamers_raw_data"
 KAFKA_TOPIC_PROCESSED = "streamer_dreamers_processed_data"
+
+
+@lru_cache(maxsize=128)
+def clean_data_cached(df_pickle: bytes) -> pd.DataFrame:
+    """Cache cleaning based on the bytes of the DataFrame."""
+    df = pickle.loads(df_pickle)
+    return clean_data(df)
+
+
+def get_cleaned_data(raw_df: pd.DataFrame) -> pd.DataFrame:
+    """Convert into a hashable form and clean it using the cached function."""
+    df_pickle = pickle.dumps(raw_df)
+    return clean_data_cached(df_pickle)
 
 
 async def main():
@@ -53,7 +70,7 @@ async def consume_and_process(consumer: ConsumerClass):
         # Process each chunk as it arrives
         # print(f"[Consumer] Received chunk #{chunk_number} with data:\n{data}")
 
-        cleaned_data = clean_data(data)
+        cleaned_data = get_cleaned_data(data)
 
         processed_data = await process_dataframe(cleaned_data, workload_state)
 

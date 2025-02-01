@@ -1,4 +1,5 @@
 """ Module to manage the current workload state. """
+
 import pickle
 import pandas as pd
 import aiofiles
@@ -13,6 +14,8 @@ class WorkloadState:
         self.users = {}
         # Dictionary for overall (global) metrics
         self.overall = {}
+        self._cached_state = None
+        self._state_dirty = True
 
     @property
     def state(self) -> pd.DataFrame:
@@ -20,7 +23,13 @@ class WorkloadState:
         Return the full state, including user-level and overall metrics.
         This makes it easy to pass a single object around if needed.
         """
-        return pd.DataFrame({"users": self.users, "overall": self.overall})
+        if self._state_dirty or self._cached_state is None:
+            # wrap the dictionaries in a list so that the DataFrame has one row
+            self._cached_state = pd.DataFrame(
+                {"users": self.users, "overall": self.overall}
+            )
+            self._state_dirty = False
+        return self._cached_state
 
     def update_state(self, row: pd.DataFrame) -> pd.DataFrame:
         """
@@ -45,6 +54,7 @@ class WorkloadState:
         # Finally, update the overall (global) averages across all users
         self._update_overall_averages()
 
+        self._state_dirty = True
         return self.state
 
     def _init_user_metrics(self, user_id: str) -> None:
@@ -115,7 +125,7 @@ class WorkloadState:
 
         # is serverless if size of cluster is 0 or undefined
         user_data["serverless"] = row.get("cluster_size", 0) >= 0
-        
+
         user_data["timestamp"] = row.get("arrival_timestamp")
 
         # Aborted queries
