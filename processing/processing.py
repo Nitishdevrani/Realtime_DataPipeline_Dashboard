@@ -16,25 +16,30 @@ rt_predictor = RealTimePredictor(window_size=200, step_interval=100)
 async def process_dataframe(
     df: pd.DataFrame, state: WorkloadState
 ) -> pd.DataFrame:
-    """Process the data and return."""
-
+    """Process a DataFrame in a more efficient, batched fashion."""
     last_save_time = time.time()
+    processed_states = []
 
-    processed_data = []
-    for _, df_row in df.iterrows():
-        state = state.update_state(df_row)
+    # itertuples usually faster than iterrows
+    for row in df.itertuples(index=False, name="Row"):
+        row_dict = row._asdict()
+        updated_state = await asyncio.to_thread(state.update_state, row_dict)
 
-        # save the workload state
+        # Save state asynchronously.
         if time.time() - last_save_time >= STATE_STORAGE_TIMER:
             asyncio.create_task(state.save_state())
             last_save_time = time.time()
 
-        state = rt_predictor.predict_rt_data(state)
-        processed_data.append(state)
+        # If the predictor is running on CPU
+        updated_state = await asyncio.to_thread(
+            rt_predictor.predict_rt_data, updated_state
+        )
+        processed_states.append(updated_state)
 
-        # allow other tasks to run
+        # Let the event loop handle other tasks.
         await asyncio.sleep(0)
-    return pd.concat(processed_data, ignore_index=True)
+
+    return pd.concat(processed_states, ignore_index=True)
 
 
 if __name__ == "__main__":
