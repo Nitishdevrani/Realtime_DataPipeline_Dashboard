@@ -40,7 +40,6 @@ async def process_dataframe(
                 state.last_backup_timestamp = overall_dt
             # Calculate the elapsed time in seconds.
             elapsed = (overall_dt - state.last_backup_timestamp).total_seconds()
-            print(f"elapsed: {elapsed}")
             if elapsed >= STATE_STORAGE_TIMER:
                 print(f"start saving state at: {overall_ts}")
                 asyncio.create_task(state.save_state())

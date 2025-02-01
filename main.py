@@ -42,7 +42,7 @@ async def main():
     )
     producer_task = asyncio.create_task(
         producer.produce_data_in_chunks(
-            chunk_size_minutes=60, chunk_size_seconds=0
+            chunk_size_minutes=5, chunk_size_seconds=0
         )
     )
 
