@@ -78,7 +78,7 @@ class WorkloadState:
             "aborted_queries": 0,
             "abort_rate": 0,
             "read_write_ratio": 0,
-            "timestamp": None,
+            "timestamp": pd.Timestamp.min,
             "serverless": False,
         }
 
@@ -128,7 +128,10 @@ class WorkloadState:
         # is serverless if size of cluster is 0 or undefined
         user_data["serverless"] = row.get("cluster_size", 0) >= 0
 
-        user_data["timestamp"] = row.get("arrival_timestamp")
+        user_data["timestamp"] = max(
+            row.get("arrival_timestamp", pd.Timestamp.min),
+            user_data["timestamp"],
+        )
 
         # Aborted queries
         if row.get("was_aborted", False):
