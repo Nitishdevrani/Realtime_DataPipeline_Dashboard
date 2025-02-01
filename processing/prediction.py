@@ -272,7 +272,8 @@ class RealTimePredictor:
             self.previous_data = []  # Reset for next batch
         # if predicted_query_count is in df overall, print
         if "predicted_query_count" in df["overall"]:
-            print(df["overall"]["predicted_query_count"])
+            # print(df["overall"]["predicted_query_count"])
+            print(df["overall"])
         return df
 
     def visualize_predictions(self):

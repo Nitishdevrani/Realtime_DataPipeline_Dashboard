@@ -22,6 +22,8 @@ class ProducerClassDuckDB:
             {
                 "bootstrap.servers": kafka_host,
                 "queue.buffering.max.kbytes": 1048576,
+                'batch.size': 32768,  # Set batch size to 32 KB
+                'linger.ms': 500,     # Wait up to 100ms to fill the batch
             }
         )
 
@@ -82,7 +84,7 @@ class ProducerClassDuckDB:
         return min_timestamp, max_timestamp
 
     async def produce_data_in_chunks(
-        self, chunk_size_minutes=1, chunk_size_seconds=1
+        self, chunk_size_minutes=1, chunk_size_seconds=1, sleep_time=0
     ):
         """Fetch and produce data to Kafka in chunks."""
 
@@ -108,6 +110,7 @@ class ProducerClassDuckDB:
             for row in chunk:
                 # Convert datetime objects to strings (ISO format),
                 # in the row before serializing
+                
                 row_dict = dict(
                     zip([desc[0] for desc in self.conn.description], row)
                 )
@@ -118,12 +121,15 @@ class ProducerClassDuckDB:
 
                 # Serialize the dictionary to a JSON string
                 message = json.dumps(row_dict)
+                while len(self.producer) >90000:
+                    self.producer.flush()
+
                 self.producer.produce(self.topic, value=message)
                 # i += 1
                 # print(f"Produced: {message}")
             # print(f"Chunk {current_start} to {current_end} produced: {i}")
             self.producer.flush()
-            await asyncio.sleep(0)
+            await asyncio.sleep(sleep_time)
             current_start = current_end
 
         print("All chunks processed and sent to Kafka!")

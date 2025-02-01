@@ -5,7 +5,8 @@
 aws/*
 kafka/*
 *.duckdb
-
+data_engg_env/*
+myenv/*
 # WSL
 *Zone.Identifier
 *Zone.Identifier:*
