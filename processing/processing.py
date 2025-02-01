@@ -46,9 +46,9 @@ async def process_dataframe(
                 state.last_backup_timestamp = overall_ts
 
         # If the predictor is running on CPU
-        # updated_state = await asyncio.to_thread(
-        #     rt_predictor.predict_rt_data, updated_state
-        # )
+        updated_state = await asyncio.to_thread(
+            rt_predictor.predict_rt_data, updated_state
+        )
         processed_states.append(updated_state)
 
         # Let the event loop handle other tasks.
