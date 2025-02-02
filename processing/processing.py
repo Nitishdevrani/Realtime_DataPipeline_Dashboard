@@ -4,6 +4,7 @@ Load the cleaned data, process it and send to the dashboard.
 
 import asyncio
 import pandas as pd
+from processing.billing_processing import BillingCalculator
 from processing.helpers import get_rows, load_data, upload_data
 from processing.workload_state import WorkloadState
 from processing.prediction import RealTimePredictor
@@ -12,8 +13,9 @@ from processing.prediction_spill import RealTimePredictor as SpillPredictor
 STATE_STORAGE_TIMER = 120
 rt_predictor = RealTimePredictor(window_size=200, step_interval=100)
 spill_predictor = SpillPredictor(
-    window_size=200, step_interval=100, threshold=80
+    window_size=200, step_interval=100, threshold=15000
 )
+billing_calculator = BillingCalculator()
 
 
 async def process_dataframe(
@@ -55,6 +57,11 @@ async def process_dataframe(
 
         updated_state = await asyncio.to_thread(
             spill_predictor.predict_rt_data, updated_state
+        )
+
+        # Calculate billing for all users
+        updated_state = await asyncio.to_thread(
+            billing_calculator.calculate_all_users_billing, updated_state
         )
         processed_states.append(updated_state)
 
