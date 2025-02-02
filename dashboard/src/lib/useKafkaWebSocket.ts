@@ -1,13 +1,13 @@
 "use client";
 
-import { KafkaData, KafkaDataStream, OverallData, Users } from "@/utils/KafkaData";
+import { KafkaData, KafkaDataStream, Users } from "@/utils/KafkaData";
 import { useEffect, useState } from "react";
 
 const useKafkaWebSocket = () => {
-  // const [messages, setMessages] = useState<KafkaDataStream>([]);
-  const [overallData, setOverallData] = useState<OverallData[]>([]);
+  const [incomingData, setIncomingData] = useState<KafkaDataStream>([]);
+  // const [overallData, setOverallData] = useState<OverallData[]>([]);
   const [usersData, setUsersData] = useState<Users[]>([]);
-
+  const [userList, setUserList] = useState<Record<string, Users[]>>({});
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080"); // WebSocket URL
     ws.onopen = () => {
@@ -19,12 +19,32 @@ const useKafkaWebSocket = () => {
       };
     ws.onmessage = (event) => {
       try {
-        const {users, overall}: KafkaData = JSON.parse(event.data);
-        console.log('overall',overall);
-        const extractedOverall = Object.values(overall)[0];
-
-        setOverallData((prev) => [...prev.slice(-50), extractedOverall]); // Keep last 50 messages
-        setUsersData((prev) => [...prev.slice(-50), users]); // Keep last 50 messages
+        // console.log('rawDATA',event);
+        
+        const KafkaDataIncoming: KafkaData = JSON.parse(event.data);
+        // console.log('completeData',KafkaDataIncoming);
+        const extractedInData = Object.values(KafkaDataIncoming)[0];
+        const {users} = extractedInData;
+        let currentUsers = Object.entries(users);
+        
+        setUserList((prev) => {
+          let updatedUsers: Record<string, Users[]> = { ...prev };
+        
+          if (currentUsers.length > 0) {
+            for (const [key, value] of currentUsers as [string, Users][]) {  // Explicitly cast value as Users
+              if (key in updatedUsers) {
+                updatedUsers[key] = [...updatedUsers[key].slice(-10), value]; // Append new data
+              } else {
+                updatedUsers[key] = [value]; // Create new array for a new user
+              }
+            }
+          }
+        
+          return updatedUsers;
+        });
+        
+        setUsersData((prev) => [...prev.slice(-10), users]); // Keep last 50 messages
+        setIncomingData((prev) => [...prev.slice(-10), extractedInData]); // Keep last 50 messages
 
       } catch (error) {
         console.error("Error parsing Kafka data:", error);
@@ -37,7 +57,7 @@ const useKafkaWebSocket = () => {
     return () => ws.close(); // Cleanup on unmount
   }, []);
 
-  return {usersData, overallData};
+  return {incomingData, usersData, userList};
 };
 
 export default useKafkaWebSocket;

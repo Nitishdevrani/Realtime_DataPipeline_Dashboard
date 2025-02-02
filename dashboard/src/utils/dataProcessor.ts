@@ -94,7 +94,8 @@ export const parseQueryData = (rawData: RawQueryData[]): QueryData[] => {
 // ✅ Function to format timestamp (e.g., "2023-01-27 10:47:01" → "27 Jan")
 export const formatTimestamp = (timestamp: string): string => {
   const date = new Date(timestamp);
-  return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
+  return date.toDateString();
+  // return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
 };
 
 // ✅ Function to sort data by `arrival_timestamp`

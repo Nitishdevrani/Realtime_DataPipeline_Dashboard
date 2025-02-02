@@ -3,6 +3,7 @@
 import React from "react";
 import { PieChart, Pie, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
 import { QueryData } from "@/utils/dataProcessor";
+import { Users } from "@/utils/KafkaData";
 
 // ✅ Define color palette
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#00C49F", "#D72638", "#FFBB28"];
@@ -41,8 +42,8 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 type Props = {
-  points: QueryData[];
-  dataKey: keyof QueryData;
+  points: Users;
+  dataKey: keyof Users;
 };
 
 const CustomPieChart: React.FC<Props> = ({ points, dataKey }) => {

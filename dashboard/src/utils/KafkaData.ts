@@ -18,7 +18,7 @@ export interface ClusterMetrics {
   };
 }
 
-export interface UserQueryData {
+export interface UserMetrics {
   query_count: number;
   total_execution_time: number;
   scanned: number;
@@ -35,31 +35,25 @@ export interface UserQueryData {
   aborted_queries: number;
   abort_rate: number;
   read_write_ratio: number | null;
-  predicted_avg_execution_time: number;
-}
-
-export interface UserData {
-  [userId: string]: UserQueryData;
+  timestamp: number;
+  serverless: boolean;
 }
 
 export interface Users {
-  [instanceId: string]: UserData;
-}
-
-export interface OverallData {
-//   [clusterId: string]: {
-    avg_query_count: number;
-    avg_execution_time: number;
-    avg_scanned: number;
-    avg_spilled: number;
-    avg_abort_rate: number;
-//   };
+  [userId: string]: UserMetrics;
 }
 
 export interface KafkaData {
+  avg_query_count: number;
+  avg_execution_time: number;
+  avg_scanned: number;
+  avg_spilled: number;
+  avg_abort_rate: number;
+  timestamp: number;
+  total_queries: number;
+  total_exec_time: number;
+  predicted_query_count: number[]; // Can be updated if structure is known
   users: Users;
-  overall: OverallData;
 }
 
-/** ✅ This represents the full array of streaming Kafka data */
 export type KafkaDataStream = KafkaData[];
