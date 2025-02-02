@@ -28,7 +28,7 @@ const ChartGenerator: React.FC<ChartGeneratorProps> = ({
   yKey,
 }) => {
   return (
-    <div className="w-full bg-gray-800 p-4 rounded-lg shadow-lg">
+    <div className="w-full bg-gray-800 p-4 rounded-lg shadow-lg mb-4">
       <h2 className="text-lg font-semibold text-center text-white mb-2">
         {title}
       </h2>

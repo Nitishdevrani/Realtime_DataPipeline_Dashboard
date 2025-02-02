@@ -20,7 +20,7 @@ type CLC = {
 };
 
 const CustomLineChart: React.FC<CLC> = ({ points, dataKeys }) => {
-  console.log("points", points);
+  // console.log("points", points);
 
   return (
     <ResponsiveContainer width="100%" height={300}>
