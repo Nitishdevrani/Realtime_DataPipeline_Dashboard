@@ -70,10 +70,9 @@ class BillingCalculator:
         if isinstance(state, pd.DataFrame) and not state.empty:
             state_dict = state.iloc[0].to_dict()  # Convert first row to a dictionary
             users = state_dict.get("users", {})
-            overall = state_dict.get("overall", {})
         else:
             users = state.get("users", {})
-            overall = state.get("overall", {})
+            state_dict = state
 
         if not users:
             print("No user data available for billing calculation.")
@@ -102,10 +101,10 @@ class BillingCalculator:
                 }
 
         # Store overall billing in extracted dictionary
-        overall["total_billing"] = round(total_billing, 4)
+        state_dict["total_billing"] = round(total_billing, 4)
 
         # Reconstruct the state DataFrame with updated values
-        updated_state = pd.DataFrame([{**overall, "users": users}])
+        updated_state = pd.DataFrame([{**state_dict, "users": users}])
 
         # print(f"✅ Billing calculated. Total system cost: ${total_billing:.4f}")
         return updated_state  # Return updated DataFrame
