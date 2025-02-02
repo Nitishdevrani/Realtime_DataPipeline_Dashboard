@@ -44,6 +44,7 @@ export interface Users {
 }
 
 export interface KafkaData {
+  alerts: string[];
   avg_query_count: number;
   avg_execution_time: number;
   avg_scanned: number;
@@ -53,6 +54,7 @@ export interface KafkaData {
   total_queries: number;
   total_exec_time: number;
   predicted_query_count: number[]; // Can be updated if structure is known
+  predicted_spill: number[];
   users: Users;
 }
 

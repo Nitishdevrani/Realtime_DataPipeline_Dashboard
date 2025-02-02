@@ -22,6 +22,8 @@ class ProducerClassDuckDB:
             {
                 "bootstrap.servers": kafka_host,
                 "queue.buffering.max.kbytes": 1048576,
+                'batch.size': 32768,  # Set batch size to 32 KB
+                'linger.ms': 500,     # Wait up to 100ms to fill the batch
             }
         )
 

@@ -20,8 +20,8 @@ type CLC = {
 };
 
 const CustomLineChart: React.FC<CLC> = ({ points, dataKeys }) => {
-  console.log('points',points);
-  
+  // console.log("points", points);
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <ReLineChart data={points}>
@@ -38,11 +38,15 @@ const CustomLineChart: React.FC<CLC> = ({ points, dataKeys }) => {
         {/* ✅ Render multiple lines dynamically */}
         {dataKeys.map((key, index) => (
           <Line
+            connectNulls
             key={key}
             type="monotone"
             dataKey={key}
-            stroke={["#38bdf8", "#82ca9d", "#ff7300", "#8884d8", "#ffc658"][index % 5]} // Cycle colors
+            stroke={
+              ["#38bdf8", "#FF5733", "#82ca9d", "#ff7300", "#8884d8", "#ffc658"][index % 5]
+            } // Cycle colors
             strokeWidth={2}
+            // strokeDasharray="3 4 5 2"
           />
         ))}
       </ReLineChart>

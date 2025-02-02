@@ -44,7 +44,7 @@ selectedUserId && selectedUserData
       timestamp: val.timestamp,
     }))
   : [];
-  console.log('query_type',query_type);
+  // console.log('query_type',query_type);
   
   const multiCluster = Array.from(
     new Set(
@@ -55,7 +55,7 @@ selectedUserId && selectedUserData
       )
     )
   );
-      console.log('multiCluster',multiCluster);
+      // console.log('multiCluster',multiCluster);
     
       // cluster_metrics
     

@@ -11,7 +11,7 @@ export const formatXAxisTimestamp = (timestamps: number[]): string[] => {
   
     // If data is within a single day, use hours
     if (timeDiffHours < 24) {
-      return dates.map((date) => date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }));
+      return dates.map((date) => date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" , second: "2-digit" }));
     } else {
       // Data spans multiple days, use dates
       const formattedDates: string[] = [];
