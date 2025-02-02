@@ -131,7 +131,7 @@ class WorkloadState:
         )
 
         # is serverless if size of cluster is 0 or undefined
-        user_data["serverless"] = row.get("cluster_size", 0) >= 0
+        user_data["serverless"] = row.get("cluster_size", 0) <= 0
 
         user_data["timestamp"] = max(
             row.get("arrival_timestamp", pd.Timestamp.min),
