@@ -1,43 +1,105 @@
 "use client";
 
-import { KafkaData, KafkaDataStream, OverallData, Users } from "@/utils/KafkaData";
+import { KafkaData, KafkaDataStream, Users } from "@/utils/KafkaData";
 import { useEffect, useState } from "react";
 
 const useKafkaWebSocket = () => {
-  // const [messages, setMessages] = useState<KafkaDataStream>([]);
-  const [overallData, setOverallData] = useState<OverallData[]>([]);
-  const [usersData, setUsersData] = useState<Users[]>([]);
+  const [incomingData, setIncomingData] = useState<KafkaDataStream>([]);
+  // const [overallData, setOverallData] = useState<OverallData[]>([]);
+  // const [usersData, setUsersData] = useState<Users[]>([]);
+  const [userList, setUserList] = useState<Record<string, Users[]>>({});
+  const [avgQueryCount, setAvgQueryCount] = useState<
+    { timestamp: number; avg_query_count: number }[]
+  >([]);
+  const [predictedData, setPredictedData] = useState<
+    { timestamp: number; predicted_value: number }[]
+  >([]);
+  const [realDataCounter, setRealDataCounter] = useState(0); // 🔥 Track real data count since last prediction append
+  const [futurePredictions, setFuturePredictions] = useState<{ timestamp: number; predicted_value: number }[]>([]);
+
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080"); // WebSocket URL
     ws.onopen = () => {
-        console.log("✅ Connected to WebSocket:", "ws://localhost:8080");
-      };
-  
-      ws.onerror = (error) => {
-        console.error("❌ WebSocket error:", error);
-      };
+      console.log("✅ Connected to WebSocket:", "ws://localhost:8080");
+    };
+
+    ws.onerror = (error) => {
+      console.error("❌ WebSocket error:", error);
+    };
     ws.onmessage = (event) => {
       try {
-        const {users, overall}: KafkaData = JSON.parse(event.data);
-        console.log('overall',overall);
-        const extractedOverall = Object.values(overall)[0];
+        // console.log('rawDATA',event);
 
-        setOverallData((prev) => [...prev.slice(-50), extractedOverall]); // Keep last 50 messages
-        setUsersData((prev) => [...prev.slice(-50), users]); // Keep last 50 messages
+        const KafkaDataIncoming: KafkaData = JSON.parse(event.data);
+        // console.log('completeData',KafkaDataIncoming);
+        const extractedInData = Object.values(KafkaDataIncoming)[0];
+        const { users, predicted_query_count, timestamp, avg_query_count } =
+          extractedInData;
+        let currentUsers = Object.entries(users);
 
+        setUserList((prev) => {
+          let updatedUsers: Record<string, Users[]> = { ...prev };
+
+          if (currentUsers.length > 0) {
+            for (const [key, value] of currentUsers as [string, Users][]) {
+              // Explicitly cast value as Users
+              if (key in updatedUsers) {
+                updatedUsers[key] = [...updatedUsers[key].slice(-10), value]; // Append new data
+              } else {
+                updatedUsers[key] = [value]; // Create new array for a new user
+              }
+            }
+          }
+
+          return updatedUsers;
+        });
+
+        setAvgQueryCount((prev) => [
+          ...prev.slice(-25),
+          { timestamp, avg_query_count },
+        ]);
+
+        
+        setRealDataCounter((prev) => prev + 1); // Increment real data counter
+
+        // 🔥 2️⃣ Handle Predicted Data
+        if (predicted_query_count.length > 0) {
+          // Reset counter because a new prediction set arrived
+          setRealDataCounter(0);
+
+          const newPredictions = predicted_query_count.map((value: number, index: number) => ({
+            timestamp: timestamp + index * 10_000, // 🔹 Offset by 10 sec each
+            predicted_value: value,
+          }));
+
+          // Store only 10 for immediate display, keep the rest for later
+          setPredictedData(newPredictions.slice(0, 25)); // Show first 10 predictions
+          setFuturePredictions(newPredictions.slice(25)); // Store remaining 90 for later
+        } else {
+          // 🔥 3️⃣ Append Future Predictions After 10 Real Data Points
+          if (realDataCounter >= 25 && futurePredictions.length > 0) {
+            setPredictedData(futurePredictions.slice(0, 25)); // Show next 10
+            setFuturePredictions(futurePredictions.slice(25)); // Remove used ones
+            setRealDataCounter(0); // Reset counter
+          }
+        }
+        // ======================================Prediction End
+
+        // setUsersData((prev) => [...prev.slice(-10), users]); // Keep last 50 messages
+        setIncomingData((prev) => [...prev.slice(-10), extractedInData]); // Keep last 50 messages
       } catch (error) {
         console.error("Error parsing Kafka data:", error);
       }
     };
     ws.onclose = () => {
-        console.log("❌ WebSocket closed. Reconnecting in 3s...");
-        // setTimeout(() => useKafkaWebSocket(), 3000); // ✅ Auto-reconnect after 3s
-      };
+      console.log("❌ WebSocket closed. Reconnecting in 3s...");
+      // setTimeout(() => useKafkaWebSocket(), 3000); // ✅ Auto-reconnect after 3s
+    };
     return () => ws.close(); // Cleanup on unmount
   }, []);
 
-  return {usersData, overallData};
+  return { incomingData, userList, predictedData, avgQueryCount };
 };
 
 export default useKafkaWebSocket;

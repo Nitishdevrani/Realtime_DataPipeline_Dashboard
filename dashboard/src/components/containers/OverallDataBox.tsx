@@ -1,9 +1,9 @@
 "use client";
 
-import { OverallData } from "@/utils/KafkaData";
+import { KafkaDataStream } from "@/utils/KafkaData";
 
 type OverallDataBoxProps = {
-  overallData: OverallData[];
+  overallData: KafkaDataStream;
 };
 
 const OverallDataBox: React.FC<OverallDataBoxProps> = ({ overallData }) => {
@@ -11,19 +11,23 @@ const OverallDataBox: React.FC<OverallDataBoxProps> = ({ overallData }) => {
   const latestData = overallData.length > 0 ? overallData[overallData.length - 1] : null;
 
   return (
-    <div className="w-full max-w-7xl mx-auto bg-gray-900 p-6 rounded-lg shadow-xl">
-      <h2 className="text-2xl font-bold text-center text-white mb-4">📊 Overall Metrics</h2>
+    <div className="w-full max-w-max mx-auto bg-gray-900 p-6 rounded-lg shadow-xl mb-4">
+      <h2 className="text-2xl font-bold text-center text-white mb-4">Recent Overall Metrics</h2>
 
       {latestData ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {Object.entries(latestData).map(([key, value]) => (
-            <div key={key} className="bg-gray-800 text-white text-center border-2 border-gray-700 rounded-lg p-5 shadow-lg">
-              <p className="text-lg font-semibold text-gray-400 capitalize">{key.replace(/_/g, " ")}</p>
-              <p className="text-2xl font-bold text-blue-400">
-                {typeof value === "number" ? value.toFixed(2) : value}
-              </p>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+          {Object.entries(latestData).map(([key, value]) => {
+            if (key === "users" || key === "predicted_query_count" || key === "timestamp") return null;
+
+            return (
+              <div key={key} className="bg-gray-800 text-white text-center border-2 border-gray-700 rounded-lg p-5 shadow-lg">
+                <p className="text-lg font-semibold text-gray-400 capitalize">{key.replace(/_/g, " ")}</p>
+                <p className="text-2xl font-bold text-blue-400">
+                  {typeof value === "number" ? value.toFixed(2) : value}
+                </p>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <p className="text-gray-400 text-center">No data available</p>

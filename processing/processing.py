@@ -2,22 +2,24 @@
 Load the cleaned data, process it and send to the dashboard.
 """
 
-import time
 import asyncio
 import pandas as pd
 from processing.helpers import get_rows, load_data, upload_data
 from processing.workload_state import WorkloadState
 from processing.prediction import RealTimePredictor
+from processing.prediction_spill import RealTimePredictor as SpillPredictor
 
 STATE_STORAGE_TIMER = 120
 rt_predictor = RealTimePredictor(window_size=200, step_interval=100)
+spill_predictor = SpillPredictor(
+    window_size=200, step_interval=100, threshold=80
+)
 
 
 async def process_dataframe(
     df: pd.DataFrame, state: WorkloadState
 ) -> pd.DataFrame:
     """Process a DataFrame in a more efficient, batched fashion."""
-    # last_save_time = time.time()
     processed_states = []
 
     # itertuples usually faster than iterrows
@@ -49,6 +51,10 @@ async def process_dataframe(
         # If the predictor is running on CPU
         updated_state = await asyncio.to_thread(
             rt_predictor.predict_rt_data, updated_state
+        )
+
+        updated_state = await asyncio.to_thread(
+            spill_predictor.predict_rt_data, updated_state
         )
         processed_states.append(updated_state)
 
