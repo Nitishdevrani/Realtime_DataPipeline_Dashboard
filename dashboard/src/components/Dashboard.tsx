@@ -8,8 +8,9 @@ import UserDropdown from "./containers/UserDropdown";
 // import incomingData from "../utils/savedRealData.json";
 // import { userList } from "@/utils/userList";
 export default function Dashboard() {
-  const { incomingData, usersData, userList } = useKafkaWebSocket();
-  // console.log('usersData',incomingData, userList);
+  const { incomingData, userList, predictedData, avgQueryCount } =
+    useKafkaWebSocket();
+  console.log("incomingData", avgQueryCount, predictedData);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
@@ -18,10 +19,11 @@ export default function Dashboard() {
       </h1>
       <OverallDataBox overallData={incomingData} />
       <ChartGenerator
-        data={incomingData}
         chartType="line"
-        dataKey={"avg_query_count"}
-        title="Avg Query Count"
+        data={[...incomingData, ...predictedData].sort((a, b) => a.timestamp - b.timestamp)} // 🔥 Sort by timestamp
+        multiKeys={["avg_query_count", "predicted_value"]} // 🔥 Display 2 lines
+        dataKey="timestamp"
+        title="Avg Query Count & Predictions"
       />
       <UserDropdown userList={userList} overallData={incomingData} />
       <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-6">
