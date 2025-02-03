@@ -1,6 +1,14 @@
 # Data Engineering Final Project
 A realtime data processing pipeline for the redset dataset providing workload analysis to the user.
 
+Each step of the project is in a seperate subfolder. The main.py file in the root directory is the entry point of the project.
+Before running main.py, make sure that kafka is running and the required parquet files are in the data folder, follow the setup guide below for more details.
+
+The automatic replay and kafka producer is in the pipeline folder and the raw data for simulating the replay is in the data folder.
+Everything else is in the corresponding subfolders. The system follows this architecture:
+![system architecture](./Architecture.png)
+
+
 ## Setup Guide
 
 ### 1. Download Parquet Files

@@ -1,14 +1,19 @@
+"""
+Contains the BillingCalculator class for calculating billing per user
+and tracking costs over time.
+"""
+
 import pandas as pd
 
 
 class BillingCalculator:
-    """Calculates billing per user and stores data in memory for tracking over time."""
+    """Calculates billing per user and stores data in memory."""
 
     def __init__(self):
         # Pricing models
         # $0.0005 per execution second
         self.serverless_price_per_second = 0.0005
-        
+
         # $0.0002 per MB scanned
         self.serverless_price_per_mb_scanned = 0.0002
         # $0.0003 per MB spilled
@@ -26,14 +31,16 @@ class BillingCalculator:
         # In-memory storage
         self.billing_data = {}
 
-    def calculate_user_billing(self, user_id, user_data):
-        """Calculates billing for a single user and tracks accumulated costs over time."""
+    def calculate_user_billing(self, user_data):
+        """Calculates billing for a single user."""
         execution_time = (
             user_data.get("total_execution_time", 0) / 1000
         )  # Convert ms to seconds
         scanned_data = user_data.get("scanned", 0)  # MB scanned
         spilled_data = user_data.get("spilled", 0)  # MB spilled
-        is_serverless = user_data.get("serverless", False)  # Identify workload type
+        is_serverless = user_data.get(
+            "serverless", False
+        )  # Identify workload type
         cluster_size = user_data.get("cluster_size", 0)
         cluster_cost = 0
 
@@ -64,11 +71,13 @@ class BillingCalculator:
         return total_cost
 
     def calculate_all_users_billing(self, state):
-        """Calculates billing for all users in the workload state and updates in-memory storage."""
+        """Calculates billing for all users and update storage."""
 
         # Check if state is a Pandas DataFrame and extract dictionary values
         if isinstance(state, pd.DataFrame) and not state.empty:
-            state_dict = state.iloc[0].to_dict()  # Convert first row to a dictionary
+            state_dict = state.iloc[
+                0
+            ].to_dict()  # Convert first row to a dictionary
             users = state_dict.get("users", {})
         else:
             users = state.get("users", {})
@@ -81,16 +90,26 @@ class BillingCalculator:
         total_billing = 0
 
         for user_id, user_data in users.items():
-            user_total_cost = self.calculate_user_billing(user_id, user_data)
+            user_total_cost = self.calculate_user_billing(user_data)
             total_billing += user_total_cost
-            users[user_id]["total_cost"] = round(user_total_cost, 4)  # Store total cost per user
+            users[user_id]["total_cost"] = round(
+                user_total_cost, 4
+            )  # Store total cost per user
 
             # Update billing data in memory
             if user_id in self.billing_data:
-                self.billing_data[user_id]["execution_cost"] += user_data["billing"]["execution_cost"]
-                self.billing_data[user_id]["scanned_cost"] += user_data["billing"]["scanned_cost"]
-                self.billing_data[user_id]["spilled_cost"] += user_data["billing"]["spilled_cost"]
-                self.billing_data[user_id]["total_cost"] += user_data["billing"]["total_cost"]
+                self.billing_data[user_id]["execution_cost"] += user_data[
+                    "billing"
+                ]["execution_cost"]
+                self.billing_data[user_id]["scanned_cost"] += user_data[
+                    "billing"
+                ]["scanned_cost"]
+                self.billing_data[user_id]["spilled_cost"] += user_data[
+                    "billing"
+                ]["spilled_cost"]
+                self.billing_data[user_id]["total_cost"] += user_data[
+                    "billing"
+                ]["total_cost"]
             else:
                 self.billing_data[user_id] = {
                     "execution_cost": user_data["billing"]["execution_cost"],
@@ -102,9 +121,4 @@ class BillingCalculator:
 
         # Store overall billing in extracted dictionary
         state_dict["total_billing"] = round(total_billing, 4)
-
-        # Reconstruct the state DataFrame with updated values
-        updated_state = pd.DataFrame([{**state_dict, "users": users}])
-
-        # print(f"✅ Billing calculated. Total system cost: ${total_billing:.4f}")
-        return updated_state  # Return updated DataFrame
+        return pd.DataFrame([{**state_dict, "users": users}])

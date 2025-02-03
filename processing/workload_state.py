@@ -13,6 +13,8 @@ class WorkloadState:
         self.users = {}
         # Dictionary for overall (global) metrics
         self.overall = {}
+
+        # Cache the state DataFrame for quick access
         self._cached_state = None
         self._state_dirty = True
 
@@ -25,13 +27,8 @@ class WorkloadState:
         Return the full state, including user-level and overall metrics.
         This makes it easy to pass a single object around if needed.
         """
-        # print("before constructing state", self.overall)
-        # print("before constructing state2", self.users)
         if self._state_dirty or self._cached_state is None:
             # wrap the dictionaries in a list so that the DataFrame has one row
-            # self._cached_state = pd.DataFrame(
-            #     {"users": self.users, "overall": self.overall}
-            # )
             self._cached_state = pd.DataFrame(
                 [{**self.overall, "users": self.users}]
             )
@@ -191,8 +188,6 @@ class WorkloadState:
         write_ops = len(row.get("write_table_ids", []) or [])
         # If there are zero write_ops, decide how to handle
         if write_ops == 0:
-            # If we want to reflect infinite or undefined, we could change.
-            # Here, we'll just do float('inf') if read_ops > 0, else 0.
             if read_ops > 0:
                 user_data["read_write_ratio"] = float("inf")
             else:
@@ -293,7 +288,7 @@ class WorkloadState:
                 self.users = json.loads(backup_row["users"])
                 self.overall = json.loads(backup_row["overall"])
                 # Convert unique_tables back to sets.
-                for uid, metrics in self.users.items():
+                for _, metrics in self.users.items():
                     if "unique_tables" in metrics and isinstance(
                         metrics["unique_tables"], list
                     ):
@@ -304,7 +299,7 @@ class WorkloadState:
             else:
                 print("No backup found. Starting with an empty state.")
                 self.reset_state()
-        except Exception as e:
+        except (duckdb.Error, json.JSONDecodeError, KeyError) as e:
             print("Error loading state backup:", e)
             self.reset_state()
         finally:

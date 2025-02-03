@@ -1,3 +1,8 @@
+"""
+Real-time query count prediction using ARIMA model, partially implementing
+https://ieeexplore.ieee.org/document/6881647
+"""
+
 import warnings
 import itertools
 import numpy as np
@@ -6,11 +11,12 @@ import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.stattools import adfuller
 
-# Suppress warnings for cleaner output
+# Suppress warnings for a cleaner output
 warnings.filterwarnings("ignore")
 
 
 class ARIMAPredictor:
+    """ Class to handle ARIMA model initialization and real-time prediction """
     def __init__(
         self,
         window_size=50,
@@ -44,7 +50,7 @@ class ARIMAPredictor:
     @staticmethod
     def check_stationarity(timeseries):
         """
-        Check the stationarity of a time series using the Augmented Dickey-Fuller test.
+        Check the stationarity of a time series using Augmented Dickey-Fuller.
 
         Returns:
         - True if the series is stationary, False otherwise.
@@ -68,7 +74,7 @@ class ARIMAPredictor:
 
     def find_stationary_d(self, series):
         """
-        Determine the degree of differencing required to make the series stationary.
+        Determine the degree of differencing required for a stationary series.
 
         Parameters:
         - series: The time series data.
@@ -265,14 +271,12 @@ class RealTimePredictor:
         """Predict real-time data using ARIMA."""
         query_count = df["avg_query_count"].iloc[0]
         self.previous_data.append(query_count)
+        # Train only every step_size data points
         if len(self.previous_data) > self.step_size:
             df["predicted_query_count"] = [
                 self.predictor.predict(self.previous_data)
             ]
             self.previous_data = []  # Reset for next batch
-        # if predicted_query_count is in df overall, print
-        # if "predicted_query_count" in df:
-        #     print(df["predicted_query_count"])
         return df
 
     def visualize_predictions(self):

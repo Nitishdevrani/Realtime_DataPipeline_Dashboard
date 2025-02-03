@@ -2,14 +2,13 @@
 
 import asyncio
 import pickle
-import time
 from functools import lru_cache
 
 import pandas as pd
 from pipeline.producer_new import ProducerClassDuckDB
 from pipeline.consumer_new import ConsumerClass
 from pipeline.processed_pipeline.processed_producer import ProcessedProducer
-from cleaning.clean_data_new import clean_data
+from cleaning.clean_data import clean_data
 from processing.processing import process_dataframe
 from processing.workload_state import WorkloadState
 
@@ -33,6 +32,8 @@ def get_cleaned_data(raw_df: pd.DataFrame) -> pd.DataFrame:
 
 async def main():
     """Main function to run the producer and consumer tasks concurrently."""
+
+    # Automatic Replay
     producer = ProducerClassDuckDB(
         KAFKA_HOST,
         KAFKA_TOPIC_RAW,
@@ -58,24 +59,51 @@ async def main():
 
 async def consume_and_process(consumer: ConsumerClass):
     """Continuously consume data from Kafka and process it."""
+
+    # Initialize the processed data producer to send data to the dashboard
     processed_producer = ProcessedProducer(KAFKA_HOST, KAFKA_TOPIC_PROCESSED)
 
+    # Keeps track of the accumulated data for each user and overall data
     workload_state = WorkloadState()
+    # Defines how big the window of aggregation is before resetting the state
     window_duration = 10.0
-    window_start_time = time.time()
 
     for data, _ in consumer.consume():
+        # Clean the data
         cleaned_data = get_cleaned_data(data)
 
+        # Process the data
         processed_data = await process_dataframe(cleaned_data, workload_state)
 
-        current_time = time.time()
-        if current_time - window_start_time >= window_duration:
-            processed_producer.produce(processed_data)
-            print(f"Produced aggregated snapshot at {current_time}")
+        # Send to the dashboard asynchronously and save the state
+        overall_ts = processed_data["timestamp"].iloc[0]
+        if overall_ts is not None:
+            # convert to a Python datetime if type = pandas Timestamp
+            overall_dt = (
+                overall_ts.to_pydatetime()
+                if isinstance(overall_ts, pd.Timestamp)
+                else overall_ts
+            )
 
-            workload_state.reset_state()
-            window_start_time = current_time
+            # if this is the first valid timestamp
+            if workload_state.last_backup_timestamp is None:
+                print("initializing last_backup_timestamp")
+                workload_state.last_backup_timestamp = overall_dt
+            # Calculate the elapsed time in seconds.
+            elapsed = (
+                overall_dt - workload_state.last_backup_timestamp
+            ).total_seconds()
+
+            # Save and send the data if the window duration has passed
+            if elapsed >= window_duration:
+                # Upload the processed data to the dashboard
+                processed_producer.produce(processed_data)
+                print(f"Produced aggregated snapshot at {overall_ts}")
+
+                # Reset the state and save it
+                workload_state.reset_state()
+                asyncio.create_task(workload_state.save_state())
+                workload_state.last_backup_timestamp = overall_ts
 
         await asyncio.sleep(0)
 
