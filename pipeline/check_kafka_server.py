@@ -2,6 +2,7 @@ from confluent_kafka.admin import AdminClient
 
 
 def check_broker_connection(broker):
+    """Check the connection to the Kafka broker."""
     try:
         admin_client = AdminClient({"bootstrap.servers": broker})
         cluster_metadata = admin_client.list_topics(timeout=5)
