@@ -47,6 +47,8 @@ A realtime data processing pipeline for the redset dataset providing workload an
   npm run dev
   ```
 - Open the dashboard in your browser at `http://localhost:3000`.
+### 6. Check the README.md of /dashboard directory for more details.
+
 
 | **Date**       | **Day**   | **Tasks**                                                                                                                                                 |
 | -------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,21 +1,17 @@
 "use client";
 
 import React from "react";
-import { QueryData } from "@/utils/dataProcessor";
 import { KafkaDataStream, QueryTypeCounts, Users } from "@/utils/KafkaData";
 import CustomLineChart from "./charts/CustomLineChart";
 import CustomStackedBarChart from "./charts/CustomStackedBarGraph";
 import CustomStackedAreaChart from "./charts/CustomStackedAreaChart";
-import CustomPieChart from "./charts/CustomPieChart";
 
 type ChartGeneratorProps = {
   data: KafkaDataStream | Users | QueryTypeCounts;
   chartType: "line" | "bar" | "stackedBar" | "area" | "pie" | "scatter";
-  dataKey?: string; // ✅ Optional for multi-line support
-  multiKeys?: string[]; // ✅ Support for multiple lines
+  dataKey?: string; // Optional for multi-line support
+  multiKeys?: string[]; // Support for multiple lines
   title: string;
-  xKey?: keyof QueryData; // Required for scatter plot
-  yKey?: keyof QueryData; // Required for scatter plot
 };
 
 const ChartGenerator: React.FC<ChartGeneratorProps> = ({
@@ -24,8 +20,6 @@ const ChartGenerator: React.FC<ChartGeneratorProps> = ({
   dataKey,
   title,
   multiKeys = [],
-  xKey,
-  yKey,
 }) => {
   return (
     <div className="w-full bg-gray-800 p-4 rounded-lg shadow-lg mb-4">
@@ -33,7 +27,7 @@ const ChartGenerator: React.FC<ChartGeneratorProps> = ({
         {title}
       </h2>
 
-      {/* ✅ Multi-line support in Line Chart */}
+      {/* Multi-line support in Line Chart */}
       {chartType === "line" && (
         <CustomLineChart
           points={data}
@@ -55,9 +49,6 @@ const ChartGenerator: React.FC<ChartGeneratorProps> = ({
           correlationKeys={multiKeys}
           dataKey={dataKey || ""}
         />
-      )}
-      { chartType === "pie" && (
-        <CustomPieChart points={data} dataKey={"serverless"} />
       )}
     </div>
   );

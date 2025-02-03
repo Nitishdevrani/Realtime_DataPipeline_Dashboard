@@ -37,6 +37,13 @@ export interface UserMetrics {
   read_write_ratio: number | null;
   timestamp: number;
   serverless: boolean;
+  billing: {
+    execution_cost: number;
+    scanned_cost: number;
+    spilled_cost: number;
+    total_cost: number;
+    serverless: boolean;
+  };
 }
 
 export interface Users {
@@ -53,7 +60,7 @@ export interface KafkaData {
   timestamp: number;
   total_queries: number;
   total_exec_time: number;
-  predicted_query_count: number[]; // Can be updated if structure is known
+  predicted_query_count: number[];
   predicted_spill: number[];
   users: Users;
 }

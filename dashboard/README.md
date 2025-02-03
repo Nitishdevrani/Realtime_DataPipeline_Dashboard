@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 **Kafka Real-Time Dashboard with Next.js**  
 
-## Getting Started
+This project provides a **real-time streaming dashboard** using **Next.js, Kafka, and WebSockets**. It visualizes **live streaming data** processed from Kafka topics and WebSocket connections.  
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 📌 **Prerequisites**  
+Before running this project, ensure you have the following installed on your system:  
+- **[Node.js](https://nodejs.org/)** (Recommended: v16 or higher)  
+- **[npm](https://www.npmjs.com/)** (Comes with Node.js)  
+
+---
+
+## 🔥 **Installation & Setup**  
+
+### 1️⃣ **Clone or Download the Repository**  
+```sh
+git clone https://github.com/Nitishdevrani/Realtime_DataPipeline_Dashboard
+cd Realtime_DataPipeline_Dashboard
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2️⃣ **Install Dependencies**  
+Run the following command in the Realtime_DataPipeline_Dashboard/dashboard directory:  
+```sh
+npm install
+```
+This will install all required dependencies for the project.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌎 **Environment Configuration**  
 
-## Learn More
+Before running the project, you need to set up environment variables for Kafka and WebSockets.  
 
-To learn more about Next.js, take a look at the following resources:
+### 3️⃣ **Create a `.env` file** in the root directory and add the following configurations:  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ini
+# ✅ Kafka Configuration
+KAFKA_BROKER=localhost:9092
+KAFKA_GROUP_ID=example_group
+KAFKA_TOPIC=streamer_dreamers_processed_data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# ✅ WebSocket Configuration
+NEXT_PUBLIC_WEBSOCKET_URL=ws://localhost:8080
+```
+- Replace `localhost:9092` with **your Kafka broker URL** if needed.  
+- Replace `ws://localhost:8080` with **your WebSocket server URL**.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 **Run the Development Server**  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4️⃣ **Start the Next.js Project**  
+```sh
+npm run dev
+```
+By default, this will start the project on **http://localhost:3000/**.
+
+---
+
+## 🔧 **Troubleshooting WebSocket Issues**  
+
+If you **see the dashboard** but **get a WebSocket connection error**, follow these steps:
+
+1. Open a **new browser tab** and visit:  
+   ```
+   http://localhost:3000/api/kafka
+   ```
+2. If you see a message saying **"WebSocket is running"**,  
+   - **Go back to `http://localhost:3000`** and refresh the page.  
+   - You should now see **real-time data updating on the dashboard.**  
+
+---
+
+## 📜 **How to Get Real-Time Kafka Data?**  
+
+This project depends on **Kafka, Docker, and Backend Services** for data streaming.  
+To learn more about setting up Kafka, running backend services, and using Docker for this project, **refer to the README in the parent directory**.  
+
+---
+
+## 🎯 **Key Features**  
+✅ **Live Streaming Data** from Kafka using WebSockets  
+✅ **Real-Time Query Metrics** with Predictions  
+✅ **User-Specific Insights** for Query Analysis  
+✅ **Alert System** for Critical Warnings  
+✅ **Interactive Data Visualizations** using Charts  
+
+---
+
+## 💡 **Contributing**  
+Feel free to contribute to this project by submitting **pull requests, feature requests, or bug reports**.  
+
+---
+
+## 🛠 **License**  
+This project is licensed under the **MIT License**.  
+
+---

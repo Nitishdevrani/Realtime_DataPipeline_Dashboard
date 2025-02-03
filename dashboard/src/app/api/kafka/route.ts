@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { Kafka } from "kafkajs";
 import { WebSocketServer } from "ws";
 
@@ -34,7 +33,6 @@ const runConsumer = async () => {
   await consumer.run({
     eachMessage: async ({ message }) => {
       const receivedData = message.value?.toString() || "⚠️ Empty Message";
-      // console.log(`📩 Kafka Log: ${receivedData}`);
 
       // ✅ Send log to all WebSocket clients
       wss?.clients.forEach((client) => {
@@ -48,9 +46,7 @@ const runConsumer = async () => {
 
 // ✅ Start Kafka Consumer (Run only once)
 runConsumer().catch((err)=>{
-  console.log('errrorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr',err);
-  
-  // console.error
+  console.log('error',err);
 });
 
 // ✅ API Route (Keep for Debugging)

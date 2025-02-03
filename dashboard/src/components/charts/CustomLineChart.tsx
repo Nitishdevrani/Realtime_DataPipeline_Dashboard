@@ -11,7 +11,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { formatXAxisTimestamp } from "@/utils/TimeFormater";
-import CustomTooltip from "../CustomTooltip";
 import { KafkaDataStream, Users } from "@/utils/KafkaData";
 
 type CLC = {
@@ -20,7 +19,6 @@ type CLC = {
 };
 
 const CustomLineChart: React.FC<CLC> = ({ points, dataKeys }) => {
-  // console.log("points", points);
 
   return (
     <ResponsiveContainer width="100%" height={300}>
@@ -33,7 +31,6 @@ const CustomLineChart: React.FC<CLC> = ({ points, dataKeys }) => {
         />
         <YAxis stroke="white" />
         <Tooltip />
-        {/* <Tooltip content={<CustomTooltip />} /> */}
 
         {/* ✅ Render multiple lines dynamically */}
         {dataKeys.map((key, index) => (
@@ -43,9 +40,17 @@ const CustomLineChart: React.FC<CLC> = ({ points, dataKeys }) => {
             type="monotone"
             dataKey={key}
             stroke={
-              ["#38bdf8", "#FF5733", "#82ca9d", "#ff7300", "#8884d8", "#ffc658"][index % 5]
+              [
+                "#38bdf8",
+                "#FF5733",
+                "#82ca9d",
+                "#ff7300",
+                "#8884d8",
+                "#ffc658",
+              ][index % 5]
             } // Cycle colors
             strokeWidth={2}
+            // Below line is for dashed line.
             // strokeDasharray="3 4 5 2"
           />
         ))}

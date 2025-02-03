@@ -1,7 +1,16 @@
 "use client";
 
 import { KafkaDataStream } from "@/utils/KafkaData";
-import { FaChartLine, FaClock, FaDatabase, FaExclamationTriangle, FaTasks, FaCalculator } from "react-icons/fa";
+import { JSX } from "react";
+import {
+  FaChartLine,
+  FaClock,
+  FaDatabase,
+  FaExclamationTriangle,
+  FaTasks,
+  FaCalculator,
+  FaFileInvoiceDollar,
+} from "react-icons/fa";
 
 type OverallDataBoxProps = {
   overallData: KafkaDataStream;
@@ -16,6 +25,7 @@ const ICONS: Record<string, JSX.Element> = {
   avg_abort_rate: <FaTasks className="text-yellow-400 text-3xl mb-2" />,
   total_queries: <FaCalculator className="text-orange-400 text-3xl mb-2" />,
   total_exec_time: <FaClock className="text-teal-400 text-3xl mb-2" />,
+  total_billing: <FaFileInvoiceDollar className="text-yellow-400 text-3xl" />,
 };
 
 const OverallDataBox: React.FC<OverallDataBoxProps> = ({ overallData }) => {
@@ -25,7 +35,7 @@ const OverallDataBox: React.FC<OverallDataBoxProps> = ({ overallData }) => {
   return (
     <div className="w-full max-w-max mx-auto bg-gray-900 p-6 rounded-lg shadow-xl mb-4">
       <h2 className="text-2xl font-bold text-center text-white mb-4">
-        Recent Overall Metrics
+        Recent Overall Metrics / 10 Sec
       </h2>
 
       {latestData ? (
@@ -36,7 +46,8 @@ const OverallDataBox: React.FC<OverallDataBoxProps> = ({ overallData }) => {
               key === "users" ||
               key === "predicted_query_count" ||
               key === "timestamp" ||
-              key === "predicted_spill"
+              key === "predicted_spill" ||
+              key === "total_exec_time"
             )
               return null;
 
@@ -45,7 +56,9 @@ const OverallDataBox: React.FC<OverallDataBoxProps> = ({ overallData }) => {
                 key={key}
                 className="bg-gray-800 text-white text-center border-2 border-gray-700 rounded-lg p-5 shadow-lg flex flex-col items-center justify-center min-h-[140px]"
               >
-                {ICONS[key] || <FaChartLine className="text-gray-400 text-3xl mb-2" />}
+                {ICONS[key] || (
+                  <FaChartLine className="text-gray-400 text-3xl mb-2" />
+                )}
                 <p className="text-lg font-semibold text-gray-400 capitalize">
                   {key.replace(/_/g, " ")}
                 </p>

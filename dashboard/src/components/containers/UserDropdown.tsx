@@ -15,6 +15,13 @@ const QUERY_TYPE_NAMES = [
   "vacuum",
   "unload",
 ];
+const BILLING_TYPE = [
+  "execution_cost",
+  "scanned_cost",
+  "spilled_cost",
+  "total_cost",
+];
+
 const UserDropdown = ({
   userList,
   overallData,
@@ -29,51 +36,38 @@ const UserDropdown = ({
 
   // Get selected user's logs
   const selectedUserData = selectedUserId ? userList[selectedUserId] : null;
+  console.log("selectedUserData", selectedUserData);
 
   // Extract query type counts and dynamically include cluster metrics
-const query_type =
-selectedUserId && selectedUserData
-  ? selectedUserData.map((val) => ({
-      ...val?.query_type_counts,
-      ...Object.fromEntries(
-        Object.entries(val.cluster_metrics || {}).map(([key, value]) => [
-          `cluster_${key}`, // Dynamic key naming
-          value.query_count, // Extract query_count for each cluster
-        ])
-      ),
-      timestamp: val.timestamp,
-    }))
-  : [];
+  const query_type =
+    selectedUserId && selectedUserData
+      ? selectedUserData.map((val) => ({
+          ...val?.query_type_counts,
+          ...val?.billing,
+          ...Object.fromEntries(
+            Object.entries(val.cluster_metrics || {}).map(([key, value]) => [
+              `cluster_${key}`, // Dynamic key naming
+              value.query_count, // Extract query_count for each cluster
+            ])
+          ),
+          timestamp: val.timestamp,
+        }))
+      : [];
   // console.log('query_type',query_type);
-  
+
   const multiCluster = Array.from(
     new Set(
       query_type.flatMap((entry) =>
         Object.keys(entry).filter(
-          (key) => key !== "timestamp" && !QUERY_TYPE_NAMES.includes(key)
+          (key) =>
+            key !== "timestamp" &&
+            key !== "serverless" &&
+            !QUERY_TYPE_NAMES.includes(key) &&
+            !BILLING_TYPE.includes(key)
         )
       )
     )
   );
-      // console.log('multiCluster',multiCluster);
-    
-      // cluster_metrics
-    
-  // ✅ Fix: Properly aligning user query count with avg query count
-  // const queryCountComparison =
-  //   selectedUserId && selectedUserData
-  //     ? selectedUserData.map((userEntry) => {
-  //         const matchingAvgData = overallData.find(
-  //           (overallEntry) => overallEntry.timestamp === userEntry.timestamp
-  //         ) as KafkaData | undefined;
-
-  //         return {
-  //           timestamp: userEntry.timestamp,
-  //           user_query_count: userEntry.query_count, // User's query count
-  //           avg_query_count: matchingAvgData ? matchingAvgData.avg_query_count : null, // Avg query count from overallData
-  //         };
-  //       })
-  //     : [];
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-gray-900 p-6 rounded-lg shadow-xl">
@@ -105,6 +99,13 @@ selectedUserId && selectedUserData
           </h3>
 
           <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+            <ChartGenerator
+              chartType="area"
+              data={query_type}
+              dataKey="timestamp"
+              multiKeys={BILLING_TYPE}
+              title="Billing"
+            />
             {/* Line Chart: User's Query Count vs. Avg Query Count */}
             <ChartGenerator
               chartType="line"
@@ -124,8 +125,8 @@ selectedUserId && selectedUserData
             />
 
             {/* Cluster matrice */}
-{/* Stacked Bar Chart: Types of Query */}
-<ChartGenerator
+            {/* Stacked Bar Chart: Types of Query */}
+            <ChartGenerator
               chartType="stackedBar"
               data={query_type}
               dataKey="timestamp"
