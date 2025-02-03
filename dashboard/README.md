@@ -2,6 +2,11 @@
 
 This project provides a **real-time streaming dashboard** using **Next.js, Kafka, and WebSockets**. It visualizes **live streaming data** processed from Kafka topics and WebSocket connections.  
 
+![Screenshot 2025-02-03 191338](https://github.com/user-attachments/assets/d6527962-92c5-4d77-ba61-5ff738102517)
+![Screenshot 2025-02-03 191349](https://github.com/user-attachments/assets/406352af-ba26-4105-8b51-edb53c82f49a)
+![Screenshot 2025-02-03 191359](https://github.com/user-attachments/assets/d4b523da-839b-473f-aa39-351e1aadf1ce)
+
+
 ---
 
 ## 📌 **Prerequisites**  
