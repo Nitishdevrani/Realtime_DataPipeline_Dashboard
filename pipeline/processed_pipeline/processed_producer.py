@@ -8,7 +8,7 @@ class ProcessedProducer:
         self.producer = Producer(
             {
                 "bootstrap.servers": kafka_host,
-                "queue.buffering.max.kbytes": 1048576,
+                "queue.buffering.max.kbytes": 1048576, # increase the buffer size to 1Gb
             }
         )
         self.topic = topic
@@ -20,15 +20,12 @@ class ProcessedProducer:
             print(f"Message delivered to {msg.topic()} [{msg.partition()}]")
 
     def produce(self, data: pd.DataFrame):
-        # for key, value in data.items():
-        #     message = json.dumps({key: value})
-        #     self.producer.produce(
-        #         self.topic, value=message, callback=self.delivery_report
-        #     )
-        # print(data.to_json(orient="records"))
+        # send the data to the Kafka topic
         self.producer.produce(
             self.topic,
             value=data.to_json(orient="records"),
             callback=self.delivery_report,
         )
+        # Ensures all messages in the producer's buffer
+        #  are sent before proceeding
         self.producer.flush()

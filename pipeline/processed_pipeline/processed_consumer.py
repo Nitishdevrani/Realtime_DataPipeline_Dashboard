@@ -34,9 +34,11 @@ class ProcessedConsumer:
 
                 # Process the message
                 data = json.loads(msg.value().decode("utf-8"))
-                print(f"Consumed message: {data}")
+                
+                #print(f"Consumed message: {data}")
+                # add the message to the buffer
                 self.buffer.append(data)
-                print(len(self.buffer))
+                #print(len(self.buffer))
                 # Save in chunks
                 if len(self.buffer) >= self.chunk_size:
                     self.save_to_file()

@@ -81,12 +81,3 @@ class ConsumerClass:
             self.consumer.close()
 
 
-"""
-if __name__ == "__main__":
-    # Define parameters
-    kafka_broker = 'localhost:9092'
-    kafka_topic = "streamer_dreamers_raw_data"
-    group_id = 'data-pipeline-group_2'
-    consumer = ConsumerClassCSV(kafka_broker, kafka_topic, group_id)
-    consumer.consume()
-"""
