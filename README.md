@@ -8,7 +8,7 @@ The automatic replay and kafka producer is in the pipeline folder and the raw da
 Everything else is in the corresponding subfolders. The system follows this architecture:
 ![system architecture](./Architecture.png)
 
-
+![Github Repo](https://github.com/Nitishdevrani/Realtime_DataPipeline_Dashboard)
 ## Setup Guide
 
 ### 1. Download Parquet Files
